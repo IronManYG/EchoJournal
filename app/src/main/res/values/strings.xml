@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">EchoJournal</string>
+    <string name="error_disk_full">Failed to save the item because your disk is full.</string>
+    <string name="error_permission_denied">You don\'t have the necessary permissions to perform this action.</string>
+    <string name="error_file_not_found">The specified file or directory cannot be found.</string>
+    <string name="error_read_write_failure">There was an issue reading or writing data.</string>
+    <string name="error_out_of_memory">The application ran out of available memory.</string>
+    <string name="error_corrupt_data">The data appears to be corrupted and cannot be processed.</string>
+    <string name="error_resource_busy">The resource is currently in use by another process or user.</string>
+    <string name="error_request_timeout">The request timed out.</string>
+    <string name="error_too_many_requests">You\'ve hit your rate limit.</string>
+    <string name="error_no_internet">Couldn\'t reach server, please check your connection.</string>
+    <string name="error_payload_too_large">The file you\'re trying to upload is too large.</string>
+    <string name="error_server_error">Oops, something went wrong, please try again.</string>
+    <string name="error_serialization">Oops, couldn\'t parse data.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
+    <string name="my_library">My Library</string>
+    <string name="latest_docs">Latest Docs</string>
+    <string name="favorite">Favorite</string>
+    <string name="downloads">Downloads</string>
+    <string name="doc_list">Document list</string>
+    <string name="doc_info">Document Info</string>
+    <string name="author_info">Author info</string>
+    <string name="viewer">Viewer</string>
 </resources>
