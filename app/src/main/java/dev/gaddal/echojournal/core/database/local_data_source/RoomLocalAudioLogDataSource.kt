@@ -4,8 +4,10 @@ import android.database.sqlite.SQLiteFullException
 import dev.gaddal.echojournal.core.database.dao.AudioLogDao
 import dev.gaddal.echojournal.core.database.mappers.toAudioLog
 import dev.gaddal.echojournal.core.database.mappers.toAudioLogEntity
+import dev.gaddal.echojournal.core.database.mappers.toAudioLogWithTopics
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLog
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogId
+import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogWithTopics
 import dev.gaddal.echojournal.core.domain.logs.audio_log.LocalAudioLogDataSource
 import dev.gaddal.echojournal.core.domain.util.DataError
 import dev.gaddal.echojournal.core.domain.util.Result
@@ -20,6 +22,11 @@ class RoomLocalAudioLogDataSource(
             .map { audioLogsEntities ->
                 audioLogsEntities.map { it.toAudioLog() }
             }
+    }
+
+    override fun getAudioLogsWithTopics(): Flow<List<AudioLogWithTopics>> {
+        return audioLogDao.getAudioLogsWithTopics()
+            .map { list -> list.map { it.toAudioLogWithTopics() } }
     }
 
     override fun getAudioLogById(id: AudioLogId): Flow<AudioLog?> {

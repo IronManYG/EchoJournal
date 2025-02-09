@@ -22,4 +22,7 @@
     <string name="doc_info">Document Info</string>
     <string name="author_info">Author info</string>
     <string name="viewer">Viewer</string>
+    <string name="go_back">Go back</string>
+    <string name="open_menu">Open menu</string>
+    <string name="settings">Settings</string>
 </resources>

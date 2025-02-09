@@ -8,6 +8,8 @@ interface LocalAudioLogDataSource {
 
     fun getAudioLogs(): Flow<List<AudioLog>>
 
+    fun getAudioLogsWithTopics(): Flow<List<AudioLogWithTopics>>
+
     fun getAudioLogById(id: AudioLogId): Flow<AudioLog?>
 
     suspend fun upsertAudioLog(audioLog: AudioLog): Result<AudioLogId, DataError>

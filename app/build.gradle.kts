@@ -69,6 +69,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
+    // kotlinx-datetime
+    implementation(libs.kotlinx.datetime)
+
     // Koin
     implementation(libs.bundles.koin.compose)
 

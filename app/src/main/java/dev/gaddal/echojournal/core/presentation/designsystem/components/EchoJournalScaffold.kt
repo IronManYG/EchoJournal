@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun EchoJournalScaffold(
     modifier: Modifier = Modifier,
+    withGradient: Boolean = true,
     topAppBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
@@ -25,6 +26,12 @@ fun EchoJournalScaffold(
         containerColor = containerColor,
         modifier = modifier
     ) { padding ->
-        content(padding)
+        if (withGradient) {
+            GradientBackground {
+                content(padding)
+            }
+        } else {
+            content(padding)
+        }
     }
 }

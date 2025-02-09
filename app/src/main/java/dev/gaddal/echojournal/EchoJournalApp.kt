@@ -4,6 +4,7 @@ import android.app.Application
 import dev.gaddal.echojournal.core.data.di.coreDataModule
 import dev.gaddal.echojournal.core.database.di.databaseModule
 import dev.gaddal.echojournal.di.appModule
+import dev.gaddal.echojournal.journal.di.journalPresentationModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
@@ -29,6 +30,7 @@ class EchoJournalApp : Application() {
                 appModule,
                 coreDataModule,
                 databaseModule,
+                journalPresentationModule,
             )
         }
     }

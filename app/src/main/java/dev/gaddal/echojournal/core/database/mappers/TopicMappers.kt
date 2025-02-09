@@ -13,7 +13,6 @@ fun TopicEntity.toTopic(): Topic {
 
 fun Topic.toTopicEntity(): TopicEntity {
     return TopicEntity(
-        id = id,
         name = name,
         colorHex = colorHex
     )

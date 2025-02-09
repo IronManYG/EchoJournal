@@ -37,17 +37,17 @@ val Button = listOf(Primary60, Primary50)
 val ButtonPressed = listOf(Primary60, Primary40)
 
 // Mood
-val Stressed25 = Color(0xFFF8EFEF)
-val Stressed35 = Color(0xFFE9C5C5)
-val Stressed80 = Color(0xFFDE3A3A)
-val Stressed95 = Color(0xFF6B0303)
-val StressedGradient = listOf(Color(0xFFF69193), Color(0xFFED3A3A))
-
 val Sad25 = Color(0xFFEFF4F8)
 val Sad35 = Color(0xFFC5D8E9)
 val Sad80 = Color(0xFF3A8EDE)
 val Sad95 = Color(0xFF004585)
 val SadGradient = listOf(Color(0xFF7BBCFA), Color(0xFF2993F7))
+
+val Stressed25 = Color(0xFFF8EFEF)
+val Stressed35 = Color(0xFFE9C5C5)
+val Stressed80 = Color(0xFFDE3A3A)
+val Stressed95 = Color(0xFF6B0303)
+val StressedGradient = listOf(Color(0xFFF69193), Color(0xFFED3A3A))
 
 val Neutral25 = Color(0xFFEEF7F3)
 val Neutral35 = Color(0xFFB9DDCB)
