@@ -6,8 +6,7 @@ import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogRepository
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogWithTopics
 import dev.gaddal.echojournal.core.domain.logs.audio_log.LocalAudioLogDataSource
 import dev.gaddal.echojournal.core.domain.util.DataError
-import dev.gaddal.echojournal.core.domain.util.EmptyResult
-import dev.gaddal.echojournal.core.domain.util.asEmptyDataResult
+import dev.gaddal.echojournal.core.domain.util.Result
 import kotlinx.coroutines.flow.Flow
 
 class OfflineFirstAudioLogRepository(
@@ -25,8 +24,8 @@ class OfflineFirstAudioLogRepository(
         return localAudioLogDataSource.getAudioLogById(id)
     }
 
-    override suspend fun upsertAudioLog(audioLog: AudioLog): EmptyResult<DataError> {
-        return localAudioLogDataSource.upsertAudioLog(audioLog).asEmptyDataResult()
+    override suspend fun upsertAudioLog(audioLog: AudioLog): Result<AudioLogId, DataError> {
+        return localAudioLogDataSource.upsertAudioLog(audioLog)
     }
 
     override suspend fun deleteAudioLogById(id: AudioLogId) {

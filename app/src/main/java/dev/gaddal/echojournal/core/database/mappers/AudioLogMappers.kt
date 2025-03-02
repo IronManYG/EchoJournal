@@ -22,7 +22,6 @@ fun AudioLogEntity.toAudioLog(): AudioLog {
 
 fun AudioLog.toAudioLogEntity(): AudioLogEntity {
     return AudioLogEntity(
-        id = id,
         title = title,
         mood = mood,
         audioFilePath = audioFilePath,

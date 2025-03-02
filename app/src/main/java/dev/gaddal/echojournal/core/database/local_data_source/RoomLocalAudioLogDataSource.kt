@@ -36,8 +36,8 @@ class RoomLocalAudioLogDataSource(
     override suspend fun upsertAudioLog(audioLog: AudioLog): Result<AudioLogId, DataError> {
         return try {
             val entity = audioLog.toAudioLogEntity()
-            audioLogDao.upsertAudioLog(entity)
-            Result.Success(entity.id)
+            val audioLogId = audioLogDao.upsertAudioLog(entity)
+            Result.Success(audioLogId.toInt())
         } catch (e: SQLiteFullException) {
             Result.Error(DataError.Local.DISK_FULL)
         }

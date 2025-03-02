@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface AudioLogDao {
 
     @Upsert
-    suspend fun upsertAudioLog(audioLog: AudioLogEntity)
+    suspend fun upsertAudioLog(audioLog: AudioLogEntity): Long
 
     @Query("SELECT * FROM audio_logs")
     fun getAudioLogs(): Flow<List<AudioLogEntity>>
