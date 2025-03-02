@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
-import dev.gaddal.echojournal.core.presentation.designsystem.colors.BG
+import dev.gaddal.echojournal.core.presentation.designsystem.colors.BGGradient
 
 @Composable
 fun GradientBackground(
@@ -30,7 +30,7 @@ fun GradientBackground(
                 .fillMaxSize()
                 .background(
                     brush = Brush.linearGradient(
-                        colors = BG,
+                        colors = BGGradient,
                     )
                 )
         )

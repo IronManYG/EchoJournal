@@ -28,3 +28,7 @@ val PeacefulMood: ImageVector
 val ExcitedMood: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.mood_excited)
+
+val AiIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ai)

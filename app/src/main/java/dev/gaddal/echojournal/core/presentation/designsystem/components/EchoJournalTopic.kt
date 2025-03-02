@@ -6,7 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,13 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 
 @Composable
 fun EchoJournalTopic(
-    text: String,
+    topic: Topic,
     mood: Mood? = null,
+    onClearTopicClick: ((Topic) -> Unit)? = null,
     // If mood is null, these become the fallback defaults:
     containerColor: Color = Color(0xFFF2F2F7),
     hatchTagColor: Color = MaterialTheme.colorScheme.outline,
@@ -48,11 +55,25 @@ fun EchoJournalTopic(
             style = MaterialTheme.typography.bodySmall
         )
         Text(
-            text = text,
+            text = topic.name,
             color = finalTextColor,
             fontWeight = FontWeight.W500,
             style = MaterialTheme.typography.bodySmall
         )
+        if (onClearTopicClick != null) {
+            IconButton(
+                onClick = {
+                    onClearTopicClick(topic)
+                },
+                modifier = Modifier.size(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Clear topic",
+                    tint = finalHatchTagColor
+                )
+            }
+        }
     }
 }
 
@@ -65,32 +86,33 @@ fun EchoJournalTopicPreview() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             EchoJournalTopic(
-                text = "Topic"
+                topic = Topic(1, "Kotlin", "#FFFFFF"),
+                onClearTopicClick = { /* Clear topic logic */ }
             )
 
             // Moods
             EchoJournalTopic(
-                text = "Sad",
+                topic = Topic(2, "Sad", "#000000"),
                 mood = Mood.Sad
             )
 
             EchoJournalTopic(
-                text = "Stressed",
+                topic = Topic(2, "Stressed", "#000000"),
                 mood = Mood.Stressed
             )
 
             EchoJournalTopic(
-                text = "Neutral",
+                topic = Topic(2, "Sad", "#000000"),
                 mood = Mood.Neutral
             )
 
             EchoJournalTopic(
-                text = "Peaceful",
+                topic = Topic(2, "Peaceful", "#000000"),
                 mood = Mood.Peaceful
             )
 
             EchoJournalTopic(
-                text = "Excited",
+                topic = Topic(2, "Excited", "#000000"),
                 mood = Mood.Excited
             )
         }

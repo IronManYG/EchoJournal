@@ -31,10 +31,10 @@ val Error95 = Color(0xFFFFEDEC)
 val Error100 = Color(0xFFFFFFFF)
 
 // Gradients
-val BG = listOf(Secondary90.copy(alpha = 0.4f), Secondary95.copy(alpha = 0.4f))
-val BGSaturated = listOf(Secondary90, Secondary95)
-val Button = listOf(Primary60, Primary50)
-val ButtonPressed = listOf(Primary60, Primary40)
+val BGGradient = listOf(Secondary90.copy(alpha = 0.4f), Secondary95.copy(alpha = 0.4f))
+val BGSaturatedGradient = listOf(Secondary90, Secondary95)
+val ButtonGradient = listOf(Primary60, Primary50)
+val ButtonPressedGradient = listOf(Primary60, Primary40)
 
 // Mood
 val Sad25 = Color(0xFFEFF4F8)
