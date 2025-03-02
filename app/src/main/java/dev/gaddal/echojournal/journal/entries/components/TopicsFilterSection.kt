@@ -14,7 +14,6 @@ fun TopicsFilterSection(
     selectedTopics: List<Topic>,
     onClearFilter: () -> Unit,
     onTopicSelected: (Topic) -> Unit,
-    onCreateTopic: (Topic) -> Unit
 ) {
     var isMenuOpen by remember { mutableStateOf(false) }
 
@@ -32,9 +31,6 @@ fun TopicsFilterSection(
         onDismissRequest = { isMenuOpen = false },
         allTopics = allTopics,
         selectedTopics = selectedTopics,
-        onTopicSelected = { onTopicSelected(it) },
-        isNewRecord = true,  // Control whether to Show "Create new topic"
-        newTopicName = "New Topic",
-        onCreateTopic = { onCreateTopic(it) }
+        onTopicClick = { onTopicSelected(it) },
     )
 }

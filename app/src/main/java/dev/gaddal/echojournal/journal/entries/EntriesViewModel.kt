@@ -4,12 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogRepository
-import dev.gaddal.echojournal.core.domain.logs.audio_log_topic.AudioLogTopicRepository
 import dev.gaddal.echojournal.core.domain.logs.filter.FilterAudioLog
 import dev.gaddal.echojournal.core.domain.logs.filter.toFilterParams
 import dev.gaddal.echojournal.core.domain.logs.topic.TopicRepository
-import dev.gaddal.echojournal.core.sample.SampleData.sampleAudioLogsWithTopics
-import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
+import dev.gaddal.echojournal.core.domain.playback.AudioPlaybackTracker
+import dev.gaddal.echojournal.core.domain.record.AudioRecordingTracker
+import dev.gaddal.echojournal.core.presentation.ui.StorageLocation
+import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,15 +19,18 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
+import kotlin.time.Duration
 
 class EntriesViewModel(
     private val audioLogRepository: AudioLogRepository,
     private val topicRepository: TopicRepository,
-    private val audioLogTopicRepository: AudioLogTopicRepository,
     private val entriesFilter: FilterAudioLog,
+    private val audioRecordingTracker: AudioRecordingTracker,
+    private val audioPlaybackTracker: AudioPlaybackTracker,
+    private val storagePathProvider: StoragePathProvider,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(EntriesState())
     val state = _state.asStateFlow()
 
@@ -34,23 +38,25 @@ class EntriesViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
+        // Mirror the tracker's flows into the state
+        observeRecordingTracker()
+        observePlaybackTracker()
+
         // Load audio logs (with topics) from repository.
-        // If the result is empty, default to sample data.
         audioLogRepository.getAudioLogsWithTopics()
             .onEach { audioLogsWithTopics ->
                 _state.update {
-                    it.copy(entriesWithTopics = audioLogsWithTopics.ifEmpty { sampleAudioLogsWithTopics })
+                    it.copy(entriesWithTopics = audioLogsWithTopics)
                 }
                 filterEntries() // Re-filter after loading
             }
             .launchIn(viewModelScope)
 
         // Load topics from repository.
-        // If the result is empty, default to sample data.
         topicRepository.getTopics()
             .onEach { topics ->
                 _state.update {
-                    it.copy(allTopics = topics.ifEmpty { sampleTopics })
+                    it.copy(allTopics = topics)
                 }
                 filterEntries() // Re-filter after loading
             }
@@ -118,9 +124,173 @@ class EntriesViewModel(
                 filterEntries()
             }
 
+            EntriesAction.OnSettingsClick -> {}
+
+            EntriesAction.OnCreateNewEntryTrigger -> {}
+
             is EntriesAction.OnEntryClick -> {}
-            EntriesAction.OnFabClick -> {}
+
+            // 1) Start
+            EntriesAction.OnStartRecordingClick -> {
+                if (!_state.value.hasRecordPermission) return
+                // For example: create a file in the cache directory
+                val file = createTempAudioFile()
+                audioRecordingTracker.startRecording(file, resetTime = true)
+
+                // We don't need to set isRecording, etc.
+                // Because observeTracker() will mirror changes automatically.
+            }
+
+            // 2) Pause
+            EntriesAction.OnPauseRecordingClick -> {
+                if (!_state.value.isRecording) return
+                audioRecordingTracker.pauseRecording()
+            }
+
+            // 3) Resume
+            EntriesAction.OnResumeRecordingClick -> {
+                if (!_state.value.isPaused) return
+                audioRecordingTracker.resumeRecording()
+            }
+
+            // 4) Finish
+            EntriesAction.OnFinishRecordingClick -> {
+                audioRecordingTracker.stopRecording(resetTime = true)
+                // Possibly do something with the final file
+                // e.g. do saving logic, etc.
+                // Possibly emit an event or save the final audio log
+                // Emit an event that the UI can observe
+                // e.g., to navigate, show a toast, etc.
+                // viewModelScope.launch { _events.emit(RecordEvent.RecordingSaved) }
+            }
+
+            EntriesAction.OnCancelRecordingClick -> {
+                audioRecordingTracker.stopRecording(resetTime = true)
+                // Discard or remove the file, etc.
+                // e.g. do deleting logic, etc.
+            }
+
+            // Handle microphone permission results
+            is EntriesAction.SubmitAudioPermissionInfo -> {
+                _state.update {
+                    it.copy(
+                        hasRecordPermission = action.acceptedAudioPermission,
+                        showRecordRationale = action.showAudioRationale
+                    )
+                }
+            }
+
+            EntriesAction.OnDismissRationaleDialog -> {
+                _state.update { it.copy(showRecordRationale = false) }
+            }
+
+            is EntriesAction.PlayAudio -> {
+                val entryFilePath =
+                    state.value.entriesWithTopics.find { it.audioLog.id == action.logId }?.audioLog?.audioFilePath
+
+                if (entryFilePath == null) {
+                    // Let’s assume you look up the correct file from the log, etc.
+                    val path = storagePathProvider.getPath(StorageLocation.CACHE)
+                    val fileName = "my_recording.mp4"
+                    val file = File(path, fileName) // only for demonstration and testing
+                    audioPlaybackTracker.playFile(file)
+                } else {
+                    audioPlaybackTracker.playFile(File(entryFilePath))
+                }
+
+                // Update global state so UI knows *which* entry is playing
+                _state.update { oldState ->
+                    oldState.copy(
+                        nowPlayingLogId = action.logId,
+                        isPlayingAudio = true,
+                        isPausedAudio = false,
+                        // Possibly reset position/duration if you want
+                        audioPosition = Duration.ZERO,
+                        audioDuration = Duration.ZERO
+                    )
+                }
+            }
+
+            EntriesAction.PauseAudio -> {
+                audioPlaybackTracker.pause()
+            }
+
+            EntriesAction.ResumeAudio -> {
+                audioPlaybackTracker.resume()
+            }
+
+            EntriesAction.StopAudio -> {
+                audioPlaybackTracker.stop()
+                _state.update { oldState ->
+                    oldState.copy(
+                        nowPlayingLogId = null,
+                        isPlayingAudio = false,
+                        isPausedAudio = false,
+                        audioPosition = Duration.ZERO,
+                        audioDuration = Duration.ZERO
+                    )
+                }
+            }
+
+            is EntriesAction.SeekTo -> {
+                audioPlaybackTracker.seekTo(action.ms)
+            }
         }
+    }
+
+    private fun observeRecordingTracker() {
+        audioRecordingTracker.isRecording
+            .onEach { isRec ->
+                _state.update { it.copy(isRecording = isRec) }
+            }
+            .launchIn(viewModelScope)
+
+        audioRecordingTracker.isPaused
+            .onEach { paused ->
+                _state.update { it.copy(isPaused = paused) }
+            }
+            .launchIn(viewModelScope)
+
+        audioRecordingTracker.elapsedTime
+            .onEach { dur ->
+                _state.update { it.copy(elapsedTime = dur) }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun observePlaybackTracker() {
+        audioPlaybackTracker.isPlaying
+            .onEach { playing ->
+                _state.update { it.copy(isPlayingAudio = playing) }
+            }
+            .launchIn(viewModelScope)
+
+        audioPlaybackTracker.isPaused
+            .onEach { paused ->
+                _state.update { it.copy(isPausedAudio = paused) }
+            }
+            .launchIn(viewModelScope)
+
+        audioPlaybackTracker.currentPosition
+            .onEach { currentPos ->
+                _state.update { it.copy(audioPosition = currentPos) }
+            }
+            .launchIn(viewModelScope)
+
+        audioPlaybackTracker.duration
+            .onEach { dur ->
+                _state.update { it.copy(audioDuration = dur) }
+            }
+            .launchIn(viewModelScope)
+    }
+
+
+    private fun createTempAudioFile(
+        storageLocation: StorageLocation = StorageLocation.CACHE,
+    ): File {
+        val path = storagePathProvider.getPath(storageLocation)
+        val fileName = "my_recording.mp4"
+        return File(path, fileName)
     }
 
     /**

@@ -9,6 +9,29 @@ sealed interface EntriesAction {
     data class OnTopicSelected(val topic: Topic) : EntriesAction
     data object OnClearMoodFilter : EntriesAction
     data object OnClearTopicFilter : EntriesAction
-    data object OnFabClick : EntriesAction
+    data object OnSettingsClick : EntriesAction
+    data object OnCreateNewEntryTrigger : EntriesAction
     data class OnEntryClick(val id: Int) : EntriesAction
+
+    // Recording actions
+    data object OnStartRecordingClick : EntriesAction
+    data object OnPauseRecordingClick : EntriesAction
+    data object OnResumeRecordingClick : EntriesAction
+    data object OnFinishRecordingClick : EntriesAction
+    data object OnCancelRecordingClick : EntriesAction
+
+    // Permission
+    data class SubmitAudioPermissionInfo(
+        val acceptedAudioPermission: Boolean,
+        val showAudioRationale: Boolean
+    ) : EntriesAction
+
+    data object OnDismissRationaleDialog : EntriesAction
+
+    // PlayBack actions
+    data class PlayAudio(val filePath: String, val logId: Int) : EntriesAction
+    data object PauseAudio : EntriesAction
+    data object ResumeAudio : EntriesAction
+    data object StopAudio : EntriesAction
+    data class SeekTo(val ms: Int) : EntriesAction
 }

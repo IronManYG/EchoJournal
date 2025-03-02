@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
-import dev.gaddal.echojournal.core.presentation.designsystem.colors.Button
+import dev.gaddal.echojournal.core.presentation.designsystem.colors.ButtonGradient
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.Primary90
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.Primary95
 import dev.gaddal.echojournal.core.presentation.designsystem.components.util.applyIf
@@ -66,7 +66,7 @@ fun EchoJournalFAB(
                     )
                     .background(
                         brush = Brush.linearGradient(
-                            colors = Button
+                            colors = ButtonGradient
                         )
                     ),
                 contentAlignment = Alignment.Center,
