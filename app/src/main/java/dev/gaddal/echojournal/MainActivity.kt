@@ -5,8 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.compose.rememberNavController
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
-import dev.gaddal.echojournal.journal.entries.EntriesScreenRoot
+import dev.gaddal.echojournal.navigation.RootNavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,10 +16,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EchoJournalTheme {
-                EntriesScreenRoot(
-                    onFabClick = { },
-                    onEntryClick = { id -> },
-                )
+                val navController = rememberNavController ()
+                RootNavGraph(navController)
             }
         }
     }
