@@ -10,6 +10,7 @@ import kotlinx.datetime.atTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Duration
 
 /**
  * Returns "Today" if [LocalDate] is the current day,
@@ -116,3 +117,16 @@ fun Long.to12HourTimeString(timeZone: TimeZone = TimeZone.currentSystemDefault()
 
     return "%d:%02d %s".format(hour12, minute, amPm)
 }
+
+/**
+ * Formats a [Duration] as a string in the format "mm:ss".
+ *
+ * @return A formatted string representing the duration in minutes and seconds.
+ */
+fun Duration.formatAsMmSs(): String {
+    val totalSec = inWholeSeconds
+    val minutes = totalSec / 60
+    val seconds = totalSec % 60
+    return String.format("%02d:%02d", minutes, seconds) // Todo: improve this by add locale
+}
+

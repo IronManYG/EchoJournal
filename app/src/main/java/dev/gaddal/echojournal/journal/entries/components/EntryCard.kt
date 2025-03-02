@@ -42,6 +42,8 @@ import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJour
 import dev.gaddal.echojournal.core.presentation.designsystem.components.ExpandableText
 import dev.gaddal.echojournal.core.sample.SampleData.sampleAudioLogs
 import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun EntryCard(
@@ -51,7 +53,17 @@ fun EntryCard(
     modifier: Modifier = Modifier,
     showLineAbove: Boolean = false,
     showLineBelow: Boolean = false,
-    gapBetweenEntries: Dp = 0.dp
+    gapBetweenEntries: Dp = 0.dp,
+    // Additional params to control playback
+    isPlaying: Boolean,
+    isPaused: Boolean,
+    currentPosition: Duration,
+    duration: Duration,
+    onPlay: (id: Int) -> Unit,
+    onPause: () -> Unit,
+    onResume: () -> Unit,
+    onStop: () -> Unit,
+    onSeek: (ms: Int) -> Unit
 ) {
     // Convert the string mood to our sealed class
     val mood: Mood = audioLog.mood.toMoodOrDefault()
@@ -130,7 +142,18 @@ fun EntryCard(
                     )
                 }
 
-                AudioPlayer(mood = mood)
+                AudioPlayer(
+                    isPlaying = isPlaying,
+                    isPaused = isPaused,
+                    currentPosition = currentPosition,
+                    duration = duration,
+                    onPlay = { onPlay(audioLog.id) },
+                    onPause = onPause,
+                    onResume = onResume,
+                    onStop = onStop,
+                    onSeek = onSeek,
+                    mood = mood
+                )
 
                 if (!audioLog.description.isNullOrBlank()) {
                     ExpandableText(
@@ -147,7 +170,7 @@ fun EntryCard(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         items(topics) {
-                            EchoJournalTopic(text = it.name)
+                            EchoJournalTopic(topic = it)
                         }
                     }
                 }
@@ -159,10 +182,32 @@ fun EntryCard(
 @Preview(showBackground = true)
 @Composable
 fun EntryCardPreview() {
+    // For randomness
+    val random = remember { kotlin.random.Random(System.currentTimeMillis()) }
+
+    // Helper function that returns a random currentPosition/duration pair
+    fun randomPositionDuration(): Pair<Duration, Duration> {
+        // totalDuration between 1 min (60s) and 5 min (300s)
+        val totalMs = random.nextInt(from = 60_000, until = 300_000)
+        // currentPosition between 0 and totalDuration
+        val currentMs = random.nextInt(until = totalMs)
+        return currentMs.milliseconds to totalMs.milliseconds
+    }
+
     EchoJournalTheme {
+        val (pos, dur) = randomPositionDuration()
         EntryCard(
             audioLog = sampleAudioLogs.first(),
-            topics = sampleTopics
+            topics = sampleTopics,
+            isPlaying = false,
+            isPaused = false,
+            currentPosition = pos,
+            duration = dur,
+            onPlay = {},
+            onPause = {},
+            onResume = {},
+            onStop = {},
+            onSeek = {}
         )
     }
 }

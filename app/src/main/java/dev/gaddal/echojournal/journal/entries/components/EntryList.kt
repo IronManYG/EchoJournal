@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,11 +19,23 @@ import dev.gaddal.echojournal.core.extensions.formatDisplay
 import dev.gaddal.echojournal.core.extensions.toLocalDate
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 import dev.gaddal.echojournal.core.sample.SampleData.sampleAudioLogsWithTopics
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun EntryList(
     modifier: Modifier = Modifier,
     entries: List<AudioLogWithTopics>,
+    nowPlayingLogId: Int?,
+    isPlaying: Boolean,
+    isPaused: Boolean,
+    currentPosition: Duration,
+    duration: Duration,
+    onPlay: (id: Int) -> Unit,
+    onPause: () -> Unit,
+    onResume: () -> Unit,
+    onStop: () -> Unit,
+    onSeek: (ms: Int) -> Unit
 ) {
     // 1) Group logs by their creation date (descending)
     val groupedLogs = entries.groupBy { it.audioLog.toLocalDate() }
@@ -62,7 +75,16 @@ fun EntryList(
                     showLineAbove = showLineAbove,
                     showLineBelow = showLineBelow,
                     gapBetweenEntries = gapBetweenEntries,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    isPlaying = if (item.audioLog.id == nowPlayingLogId) isPlaying else false,
+                    isPaused = if (item.audioLog.id == nowPlayingLogId) isPaused else false,
+                    currentPosition = if (item.audioLog.id == nowPlayingLogId) currentPosition else Duration.ZERO,
+                    duration = if (item.audioLog.durationMs == null) duration else item.audioLog.durationMs.milliseconds,
+                    onPlay = { id -> onPlay(id) },
+                    onPause = onPause,
+                    onResume = onResume,
+                    onStop = onStop,
+                    onSeek = { ms -> onSeek(ms) },
                 )
             }
         }
@@ -72,8 +94,33 @@ fun EntryList(
 @Preview(showBackground = true)
 @Composable
 fun EntryListPreview() {
+    // For randomness
+    val random = remember { kotlin.random.Random(System.currentTimeMillis()) }
+
+    // Helper function that returns a random currentPosition/duration pair
+    fun randomPositionDuration(): Pair<Duration, Duration> {
+        // totalDuration between 1 min (60s) and 5 min (300s)
+        val totalMs = random.nextInt(from = 60_000, until = 300_000)
+        // currentPosition between 0 and totalDuration
+        val currentMs = random.nextInt(until = totalMs)
+        return currentMs.milliseconds to totalMs.milliseconds
+    }
+
     EchoJournalTheme {
-        EntryList(entries = sampleAudioLogsWithTopics)
+        val (pos, dur) = randomPositionDuration()
+        EntryList(
+            entries = sampleAudioLogsWithTopics,
+            nowPlayingLogId = null,
+            isPlaying = false,
+            isPaused = false,
+            currentPosition = pos,
+            duration = dur,
+            onPlay = {},
+            onPause = {},
+            onResume = {},
+            onStop = {},
+            onSeek = {}
+        )
     }
 }
 
