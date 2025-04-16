@@ -18,8 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.mood.Mood
 
 @Composable
@@ -49,13 +51,13 @@ fun MoodsDropdownMenu(
                 leadingIcon = {
                     Image(
                         painter = painterResource(id = mood.iconRes),
-                        contentDescription = mood::class.simpleName,
+                        contentDescription = mood.title.asString(),
                         modifier = Modifier.size(24.dp)
                     )
                 },
                 text = {
                     Text(
-                        text = mood::class.simpleName ?: "",
+                        text = mood.title.asString(),
                         color = MaterialTheme.colorScheme.secondary,
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium
@@ -69,7 +71,7 @@ fun MoodsDropdownMenu(
                     if (isSelected) {
                         Icon(
                             imageVector = Icons.Default.Check,
-                            contentDescription = "Selected",
+                            contentDescription = stringResource(R.string.selected),
                             modifier = Modifier.size(20.dp),
                             tint = MaterialTheme.colorScheme.primary
                         )

@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 
 @Composable
@@ -38,7 +40,7 @@ fun TopicDropdownMenuItem(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Tag,
-                contentDescription = "Tag",
+                contentDescription = stringResource(R.string.tag),
                 modifier = Modifier.width(18.dp),
                 tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
             )
@@ -58,7 +60,7 @@ fun TopicDropdownMenuItem(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Selected",
+                    contentDescription = stringResource(R.string.selected),
                     modifier = Modifier.size(20.dp),
                     tint = MaterialTheme.colorScheme.primary
                 )

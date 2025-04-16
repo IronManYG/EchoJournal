@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -22,11 +23,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withLink
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 import dev.gaddal.echojournal.core.presentation.designsystem.InterFontFamily
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 
 const val DEFAULT_MINIMUM_TEXT_LINE = 3
 
@@ -54,14 +56,14 @@ fun ExpandableText(
     fontStyle: FontStyle? = null,
     text: String,
     collapsedMaxLine: Int = DEFAULT_MINIMUM_TEXT_LINE,
-    showMoreText: String = "Show More",
+    showMoreText: String = stringResource(R.string.show_more),
     showMoreStyle: SpanStyle = SpanStyle(
         color = MaterialTheme.colorScheme.primary,
         fontFamily = InterFontFamily,
         fontWeight = FontWeight.W500,
         fontSize = 14.sp,
     ),
-    showLessText: String = "Show Less",
+    showLessText: String = stringResource(R.string.show_less),
     showLessStyle: SpanStyle = showMoreStyle,
     textAlign: TextAlign? = null,
     fontSize: TextUnit = TextUnit.Unspecified,
@@ -144,14 +146,11 @@ fun ExpandableText(
     }
 }
 
-@Preview(showBackground = true)
+@LocalesPreview
 @Composable
 fun ExpandableTextPreview() {
     EchoJournalTheme {
-        val description = "Lorem ipsum dolor sit amet, " +
-                "consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore " +
-                "magna aliqua. " +
-                "Proin in nisl vitae justo viverra bibendum vitae vel nulla. "
+        val description = stringResource(id = R.string.demo_text)
 
         ExpandableText(
             style = MaterialTheme.typography.bodyMedium,

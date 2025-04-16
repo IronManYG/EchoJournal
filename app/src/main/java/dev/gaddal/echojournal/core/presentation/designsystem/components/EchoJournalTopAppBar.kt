@@ -190,7 +190,7 @@ fun EchoJournalTopAppBar(
 private fun EchoJournalTopAppBarPreview() {
     EchoJournalTheme {
         EchoJournalTopAppBar(
-            title = "Echo Journal",
+            title = stringResource(R.string.app_name),
             modifier = Modifier.fillMaxWidth(),
             showBackButton = false,
             showSettingsButton = true,

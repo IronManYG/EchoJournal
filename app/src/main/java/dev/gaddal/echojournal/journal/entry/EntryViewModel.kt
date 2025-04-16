@@ -11,6 +11,7 @@ import dev.gaddal.echojournal.core.domain.logs.audio_log_topic.AudioLogTopic
 import dev.gaddal.echojournal.core.domain.logs.audio_log_topic.AudioLogTopicRepository
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.logs.topic.TopicRepository
+import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.domain.playback.AudioPlaybackTracker
 import dev.gaddal.echojournal.core.domain.util.DataError
 import dev.gaddal.echojournal.core.domain.util.Result
@@ -123,7 +124,14 @@ class EntryViewModel(
                 val audioLog = AudioLog(
                     id = -1,
                     title = _state.value.title.text.toString(),
-                    mood = _state.value.mood?.title!!,
+                    mood = when (_state.value.mood) {
+                        Mood.Sad -> "Sad"
+                        Mood.Stressed -> "Stressed"
+                        Mood.Neutral -> "Neutral"
+                        Mood.Peaceful -> "Peaceful"
+                        Mood.Excited -> "Excited"
+                        null -> "" // Handle null case
+                    },
                     audioFilePath = filePath,
                     createdAt = System.currentTimeMillis(),
                     updatedAt = System.currentTimeMillis(),

@@ -1,28 +1,77 @@
 <resources>
     <string name="app_name">EchoJournal</string>
-    <string name="error_disk_full">Failed to save the item because your disk is full.</string>
-    <string name="error_permission_denied">You don\'t have the necessary permissions to perform this action.</string>
-    <string name="error_file_not_found">The specified file or directory cannot be found.</string>
-    <string name="error_read_write_failure">There was an issue reading or writing data.</string>
-    <string name="error_out_of_memory">The application ran out of available memory.</string>
-    <string name="error_corrupt_data">The data appears to be corrupted and cannot be processed.</string>
-    <string name="error_resource_busy">The resource is currently in use by another process or user.</string>
-    <string name="error_request_timeout">The request timed out.</string>
-    <string name="error_too_many_requests">You\'ve hit your rate limit.</string>
-    <string name="error_no_internet">Couldn\'t reach server, please check your connection.</string>
-    <string name="error_payload_too_large">The file you\'re trying to upload is too large.</string>
-    <string name="error_server_error">Oops, something went wrong, please try again.</string>
-    <string name="error_serialization">Oops, couldn\'t parse data.</string>
-    <string name="error_unknown">An unknown error occurred.</string>
-    <string name="my_library">My Library</string>
-    <string name="latest_docs">Latest Docs</string>
-    <string name="favorite">Favorite</string>
-    <string name="downloads">Downloads</string>
-    <string name="doc_list">Document list</string>
-    <string name="doc_info">Document Info</string>
-    <string name="author_info">Author info</string>
+    <string name="error_disk_full" translatable="false">Failed to save the item because your disk is full.</string>
+    <string name="error_permission_denied" translatable="false">You don\'t have the necessary permissions to perform this action.</string>
+    <string name="error_file_not_found" translatable="false">The specified file or directory cannot be found.</string>
+    <string name="error_read_write_failure" translatable="false">There was an issue reading or writing data.</string>
+    <string name="error_out_of_memory" translatable="false">The application ran out of available memory.</string>
+    <string name="error_corrupt_data" translatable="false">The data appears to be corrupted and cannot be processed.</string>
+    <string name="error_resource_busy" translatable="false">The resource is currently in use by another process or user.</string>
+    <string name="error_request_timeout" translatable="false">The request timed out.</string>
+    <string name="error_too_many_requests" translatable="false">You\'ve hit your rate limit.</string>
+    <string name="error_no_internet" translatable="false">Couldn\'t reach server, please check your connection.</string>
+    <string name="error_payload_too_large" translatable="false">The file you\'re trying to upload is too large.</string>
+    <string name="error_server_error" translatable="false">Oops, something went wrong, please try again.</string>
+    <string name="error_serialization" translatable="false">Oops, couldn\'t parse data.</string>
+    <string name="error_unknown" translatable="false">An unknown error occurred.</string>
     <string name="viewer">Viewer</string>
     <string name="go_back">Go back</string>
     <string name="open_menu">Open menu</string>
     <string name="settings">Settings</string>
+    <string name="sad">Sad</string>
+    <string name="stressed">Stressed</string>
+    <string name="neutral">Neutral</string>
+    <string name="peaceful">Peaceful</string>
+    <string name="excited">Excited</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="date_format">%1$d/%2$d/%3$d</string>
+    <string name="time_24_hour_format">%02d:%02d</string>
+    <string name="time_12_hour_format_am">%1$d:%02d AM</string>
+    <string name="time_12_hour_format_pm">%1$d:%02d PM</string>
+    <string name="duration_format">%02d:%02d</string>
+    <string name="duration_format_with_hours">%02d:%02d:%02d</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
+    <string name="all_moods">All Moods</string>
+    <string name="all_topics">All Topics</string>
+    <string name="all_items">All Items</string>
+    <string name="single_mood_format">%1$s</string>
+    <string name="two_moods_format">%1$s, %2$s</string>
+    <string name="multiple_moods_format">%1$s, %2$s +%3$d</string>
+    <string name="single_topic_format">%1$s</string>
+    <string name="two_topics_format">%1$s, %2$s</string>
+    <string name="multiple_topics_format">%1$s, %2$s +%3$d</string>
+    <string name="hatch">#</string>
+    <string name="clear_topic">Clear topic</string>
+    <string name="show_more">Show More</string>
+    <string name="show_less">Show Less</string>
+    <string name="demo_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin in nisl vitae justo viverra bibendum vitae vel nulla.</string>
+    <string name="recording_paused">Recording paused</string>
+    <string name="recording_in_progress">Recording your memories…</string>
+    <string name="cancel_recording">Cancel</string>
+    <string name="pause_recording">Pause</string>
+    <string name="finish_recording">Finish</string>
+    <string name="microphone_permission_required_title">Microphone Permission Required</string>
+    <string name="microphone_permission_rationale">We need microphone access to record audio. Without it, we can\'t capture your memories.</string>
+    <string name="allow">Allow</string>
+    <string name="no_thanks">No thanks</string>
+    <string name="audio_duration_separator">/</string>
+    <string name="no_entries">No Entries</string>
+    <string name="start_recording">Start recording your first Echo</string>
+    <string name="selected">Selected</string>
+    <string name="tag">Tag</string>
+    <string name="your_echo_journal">Your EchoJournal</string>
+    <string name="create_topic_template">Create \"%1$s\"</string>
+    <string name="add_new_topic">Add new topic</string>
+    <string name="mood_question">How are you doing?</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="topic_hint">Topic</string>
+    <string name="new_entry">New Entry</string>
+    <string name="add_title_hint">Add Title…</string>
+    <string name="transcription">Transcription</string>
+    <string name="description">Description</string>
+    <string name="add_description_hint">Add Description…</string>
+    <string name="save">Save</string>
 </resources>

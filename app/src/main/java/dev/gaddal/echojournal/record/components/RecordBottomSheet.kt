@@ -34,13 +34,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R.string
 import dev.gaddal.echojournal.core.domain.util.formatted
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.Secondary95
 import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJournalFAB
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 import dev.gaddal.echojournal.journal.entries.EntriesAction
 import dev.gaddal.echojournal.journal.entries.EntriesState
 import dev.gaddal.echojournal.record.util.findActivity
@@ -122,7 +124,9 @@ fun RecordBottomSheet(
         ) {
             // Header
             Text(
-                text = if (state.isPaused ) "Recording paused" else "Recording your memories...",
+                text = if (state.isPaused) stringResource(string.recording_paused) else stringResource(
+                    string.recording_in_progress
+                ),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium,
@@ -131,7 +135,7 @@ fun RecordBottomSheet(
 
             // Show the elapsed time in HH:MM:SS format
             Text(
-                text = state.elapsedTime.formatted(),
+                text = state.elapsedTime.formatted().asString(),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodySmall,
@@ -159,7 +163,7 @@ fun RecordBottomSheet(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Cancel",
+                            contentDescription = stringResource(string.cancel_recording),
                             tint = MaterialTheme.colorScheme.onErrorContainer
                         )
                     }
@@ -217,7 +221,9 @@ fun RecordBottomSheet(
                     ) {
                         Icon(
                             imageVector = if (!state.isPaused) Icons.Default.Pause else Icons.Default.Check,
-                            contentDescription = if (!state.isPaused) "Pause" else "Finish",
+                            contentDescription = if (!state.isPaused) stringResource(string.pause_recording) else stringResource(
+                                string.finish_recording
+                            ),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -233,35 +239,26 @@ fun RecordBottomSheet(
                 // Typically you might not let them just “dismiss,” but it’s up to you
                 onAction(EntriesAction.OnDismissRationaleDialog)
             },
-            title = { Text("Microphone Permission Required") },
-            text = {
-                Text(
-                    "We need microphone access to record audio. " +
-                            "Without it, we can’t capture your memories."
-                )
-            },
+            title = { Text(stringResource(string.microphone_permission_required_title)) },
+            text = { Text(stringResource(string.microphone_permission_rationale)) },
             confirmButton = {
                 Button(onClick = {
                     // Re-request after user sees rationale
                     onAction(EntriesAction.OnDismissRationaleDialog)
                     requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-                }) {
-                    Text("Allow")
-                }
+                }) { Text(stringResource(string.allow)) }
             },
             dismissButton = {
                 Button(onClick = {
                     onAction(EntriesAction.OnDismissRationaleDialog)
-                }) {
-                    Text("No thanks")
-                }
+                }) { Text(stringResource(string.no_thanks)) }
             }
         )
     }
 }
 
 
-@Preview
+@LocalesPreview
 @Composable
 fun RecordBottomSheetPreview() {
     EchoJournalTheme {

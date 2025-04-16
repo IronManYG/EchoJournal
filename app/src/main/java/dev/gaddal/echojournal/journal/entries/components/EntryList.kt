@@ -12,13 +12,13 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogWithTopics
 import dev.gaddal.echojournal.core.extensions.formatDisplay
 import dev.gaddal.echojournal.core.extensions.toLocalDate
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
-import dev.gaddal.echojournal.core.sample.SampleData.sampleAudioLogsWithTopics
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
+import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleLogsWithTopics
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -53,7 +53,7 @@ fun EntryList(
         sortedGroups.forEachIndexed { groupIndex, (date, dayLogs) ->
             stickyHeader {
                 // e.g., "Today", "Yesterday", or date string
-                val label = date.formatDisplay()
+                val label = date.formatDisplay().asString()
                 if (groupIndex > 0) {
                     Spacer(modifier = Modifier.height(gapBetweenEntries))
                 }
@@ -91,7 +91,7 @@ fun EntryList(
     }
 }
 
-@Preview(showBackground = true)
+@LocalesPreview
 @Composable
 fun EntryListPreview() {
     // For randomness
@@ -109,7 +109,7 @@ fun EntryListPreview() {
     EchoJournalTheme {
         val (pos, dur) = randomPositionDuration()
         EntryList(
-            entries = sampleAudioLogsWithTopics,
+            entries = getLocalizedSampleLogsWithTopics(),
             nowPlayingLogId = null,
             isPlaying = false,
             isPaused = false,

@@ -1,6 +1,8 @@
 package dev.gaddal.echojournal.core.extensions
 
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLog
+import dev.gaddal.echojournal.core.presentation.ui.UiText
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
@@ -13,19 +15,25 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration
 
 /**
- * Returns "Today" if [LocalDate] is the current day,
+ * Returns a UiText.StringResource representing "Today" if [LocalDate] is the current day,
  * "Yesterday" if [LocalDate] is one day before the current day,
- * otherwise returns the string representation of the date.
+ * otherwise returns a formatted date string resource.
  */
-fun LocalDate.formatDisplay(): String {
+fun LocalDate.formatDisplay(): UiText {
     val nowInstant = Clock.System.now()
     val currentDate = nowInstant.toLocalDateTime(TimeZone.currentSystemDefault()).date
     val yesterday = currentDate.minus(1, DateTimeUnit.DAY)
 
     return when (this) {
-        currentDate -> "Today"
-        yesterday -> "Yesterday"
-        else -> this.toString() // Or a custom format, like DateTimeFormatter.ISO_LOCAL_DATE
+        currentDate -> UiText.StringResource(R.string.today)
+        yesterday -> UiText.StringResource(R.string.yesterday)
+        else -> {
+            // Pass date components separately to allow different formatting in different locales
+            UiText.StringResource(
+                R.string.date_format,
+                arrayOf(this.dayOfMonth, this.monthNumber, this.year)
+            )
+        }
     }
 }
 
@@ -89,11 +97,11 @@ fun LocalDate.toStartOfDayTimestamp(timeZone: TimeZone = TimeZone.currentSystemD
  * @param timeZone The time zone used to convert the epoch millisecond to local time.
  * @return A formatted string in HH:mm (24-hour) format.
  */
-fun Long.to24HourTimeString(timeZone: TimeZone = TimeZone.currentSystemDefault()): String {
+fun Long.to24HourTimeString(timeZone: TimeZone = TimeZone.currentSystemDefault()): UiText {
     val localDateTime = Instant.fromEpochMilliseconds(this).toLocalDateTime(timeZone)
     val hour = localDateTime.hour
     val minute = localDateTime.minute
-    return "%02d:%02d".format(hour, minute)
+    return UiText.StringResource(R.string.time_24_hour_format, arrayOf(hour, minute))
 }
 
 /**
@@ -102,20 +110,21 @@ fun Long.to24HourTimeString(timeZone: TimeZone = TimeZone.currentSystemDefault()
  * @param timeZone The time zone used to convert the epoch millisecond to local time.
  * @return A formatted string in h:mm AM/PM format.
  */
-fun Long.to12HourTimeString(timeZone: TimeZone = TimeZone.currentSystemDefault()): String {
+fun Long.to12HourTimeString(timeZone: TimeZone = TimeZone.currentSystemDefault()): UiText {
     val localDateTime = Instant.fromEpochMilliseconds(this).toLocalDateTime(timeZone)
     val hour = localDateTime.hour
     val minute = localDateTime.minute
-    val amPm = if (hour < 12) "AM" else "PM"
 
-    // Adjust hour for 12-hour clock display.
+    val isAm = hour < 12
+    val formatResId = if (isAm) R.string.time_12_hour_format_am else R.string.time_12_hour_format_pm
+
     val hour12 = when {
         hour == 0 -> 12
         hour > 12 -> hour - 12
         else -> hour
     }
 
-    return "%d:%02d %s".format(hour12, minute, amPm)
+    return UiText.StringResource(formatResId, arrayOf(hour12, minute))
 }
 
 /**
@@ -123,10 +132,15 @@ fun Long.to12HourTimeString(timeZone: TimeZone = TimeZone.currentSystemDefault()
  *
  * @return A formatted string representing the duration in minutes and seconds.
  */
-fun Duration.formatAsMmSs(): String {
+fun Duration.formatAsMmSs(): UiText {
     val totalSec = inWholeSeconds
-    val minutes = totalSec / 60
+    val hours = totalSec / 3600
+    val minutes = (totalSec % 3600) / 60
     val seconds = totalSec % 60
-    return String.format("%02d:%02d", minutes, seconds) // Todo: improve this by add locale
-}
 
+    return if (hours > 0) {
+        UiText.StringResource(R.string.duration_format_with_hours, arrayOf(hours, minutes, seconds))
+    } else {
+        UiText.StringResource(R.string.duration_format, arrayOf(minutes, seconds))
+    }
+}

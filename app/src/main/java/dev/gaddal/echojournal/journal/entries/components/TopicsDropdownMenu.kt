@@ -17,13 +17,13 @@ import dev.gaddal.echojournal.core.domain.logs.topic.Topic
  */
 @Composable
 fun TopicsDropdownMenu(
+    modifier: Modifier = Modifier,
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     properties: PopupProperties = PopupProperties(),
     allTopics: List<Topic>,
     selectedTopics: List<Topic>,
     onTopicClick: (Topic) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     DropdownMenu(
         expanded = expanded,

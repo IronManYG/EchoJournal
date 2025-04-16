@@ -1,8 +1,11 @@
 package dev.gaddal.echojournal.core.sample
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLog
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogWithTopics
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
+import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
 
 /**
  * An object holding sample or mock data for demonstration or testing.
@@ -214,6 +217,105 @@ object SampleData {
     )
 
     /**
+     * Arabic sample logs with similar structure
+     */
+    val arabicSampleAudioLogs = listOf(
+        AudioLog(
+            id = 101,
+            title = "تأمل الصباح",
+            mood = "neutral",
+            audioFilePath = "/path/to/arabic_audio1.mp3",
+            createdAt = createdToday,
+            updatedAt = null,
+            description = """
+                هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربي،
+                حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
+            """.trimIndent(),
+            transcription = null,
+            durationMs = null,
+            archived = false
+        ),
+        AudioLog(
+            id = 102,
+            title = "فكرة سريعة",
+            mood = "sad",
+            audioFilePath = "/path/to/arabic_audio2.mp3",
+            createdAt = created1DayAgo,
+            updatedAt = null,
+            description = "تأمل قصير من الأمس.",
+            transcription = null,
+            durationMs = null,
+            archived = false
+        ),
+        AudioLog(
+            id = 103,
+            title = "ملخص اليوم",
+            mood = "stressed",
+            audioFilePath = "/path/to/arabic_audio3.mp3",
+            createdAt = created2DaysAgo,
+            updatedAt = null,
+            description = "ملخص موجز من يومين مضت.",
+            transcription = null,
+            durationMs = null,
+            archived = false
+        ),
+        AudioLog(
+            id = 104,
+            title = "فكرة سريعة",
+            mood = "excited",
+            audioFilePath = "/path/to/arabic_audio4.mp3",
+            createdAt = created3DaysAgo,
+            updatedAt = null,
+            description = """
+                نص متوسط الطول يصف التأملات أو الأفكار التي تم التقاطها قبل حوالي 3 أيام.
+            """.trimIndent(),
+            transcription = null,
+            durationMs = null,
+            archived = false
+        ),
+        AudioLog(
+            id = 105,
+            title = "تأمل الصباح",
+            mood = "peaceful",
+            audioFilePath = "/path/to/arabic_audio5.mp3",
+            createdAt = created5DaysAgo,
+            updatedAt = null,
+            description = "",
+            transcription = null,
+            durationMs = null,
+            archived = false
+        ),
+        AudioLog(
+            id = 106,
+            title = "مراجعة 10 أيام",
+            mood = "neutral",
+            audioFilePath = "/path/to/arabic_audio6.mp3",
+            createdAt = created10DaysAgo,
+            updatedAt = null,
+            description = """
+                تأملات من حوالي 10 أيام في الماضي. يصف هذا السجل التغييرات أو الأحداث خلال الأسبوع والنصف الماضيين.
+            """.trimIndent(),
+            transcription = null,
+            durationMs = null,
+            archived = false
+        ),
+        AudioLog(
+            id = 107,
+            title = "مراجعة أربعة أشهر",
+            mood = "stressed",
+            audioFilePath = "/path/to/arabic_audio7.mp3",
+            createdAt = created4MonthsAgo,
+            updatedAt = null,
+            description = """
+                تأمل لفترة أطول، يصف الأحداث أو التقدم أو النكسات على مدى الأشهر القليلة الماضية.
+            """.trimIndent(),
+            transcription = null,
+            durationMs = null,
+            archived = false
+        ),
+    )
+
+    /**
      * A list of [Topic] instances showing a few basic topics
      * that might be associated with an AudioLog.
      */
@@ -262,6 +364,52 @@ object SampleData {
     )
 
     /**
+     * Arabic topics
+     */
+    val arabicSampleTopics = listOf(
+        Topic(
+            id = 101,
+            name = "العمل",
+            colorHex = null
+        ),
+        Topic(
+            id = 102,
+            name = "العائلة",
+            colorHex = null
+        ),
+        Topic(
+            id = 103,
+            name = "الحب",
+            colorHex = null
+        ),
+        Topic(
+            id = 104,
+            name = "الألغاز",
+            colorHex = null
+        ),
+        Topic(
+            id = 105,
+            name = "الصحة",
+            colorHex = null
+        ),
+        Topic(
+            id = 106,
+            name = "السفر",
+            colorHex = null
+        ),
+        Topic(
+            id = 107,
+            name = "الطعام",
+            colorHex = null
+        ),
+        Topic(
+            id = 108,
+            name = "الهوايات",
+            colorHex = null
+        )
+    )
+
+    /**
      * Returns a list of [AudioLogWithTopics] by pairing each [AudioLog] with
      * a random subset of topics from [sampleTopics].
      *
@@ -281,4 +429,82 @@ object SampleData {
                     .take((1..sampleTopics.size).random())
             )
         }
+
+    /**
+     * Arabic version of audio logs with topics
+     */
+    val arabicSampleAudioLogsWithTopics: List<AudioLogWithTopics>
+        get() = arabicSampleAudioLogs.map { audioLog ->
+            AudioLogWithTopics(
+                audioLog = audioLog,
+                topics = arabicSampleTopics.shuffled()
+                    .take((1..arabicSampleTopics.size).random())
+            )
+        }
+
+    /**
+     * Returns either English or Arabic sample data based on the provided locale
+     * @param isArabic True to get Arabic data, false for English data
+     */
+    fun getLocalizedSampleLogs(isArabic: Boolean): List<AudioLog> {
+        return if (isArabic) arabicSampleAudioLogs else sampleAudioLogs
+    }
+
+    /**
+     * Returns either English or Arabic sample topics based on the provided locale
+     * @param isArabic True to get Arabic topics, false for English topics
+     */
+    fun getLocalizedSampleTopics(isArabic: Boolean): List<Topic> {
+        return if (isArabic) arabicSampleTopics else sampleTopics
+    }
+
+    /**
+     * Returns either English or Arabic sample logs with topics based on the provided locale
+     * @param isArabic True to get Arabic data, false for English data
+     */
+    fun getLocalizedSampleLogsWithTopics(isArabic: Boolean): List<AudioLogWithTopics> {
+        return if (isArabic) arabicSampleAudioLogsWithTopics else sampleAudioLogsWithTopics
+    }
+
+    /**
+     * Returns sample data based on the current locale in a Composable context
+     *
+     * @param overrideLocale Optionally override the automatic locale detection
+     */
+    @Composable
+    fun getLocalizedSampleLogs(overrideLocale: Boolean? = null): List<AudioLog> {
+        val isArabic = overrideLocale ?: isArabicLocale()
+        return SampleData.getLocalizedSampleLogs(isArabic)
+    }
+
+    /**
+     * Returns sample topics based on the current locale in a Composable context
+     *
+     * @param overrideLocale Optionally override the automatic locale detection
+     */
+    @Composable
+    fun getLocalizedSampleTopics(overrideLocale: Boolean? = null): List<Topic> {
+        val isArabic = overrideLocale ?: isArabicLocale()
+        return SampleData.getLocalizedSampleTopics(isArabic)
+    }
+
+    /**
+     * Returns sample logs with topics based on the current locale in a Composable context
+     *
+     * @param overrideLocale Optionally override the automatic locale detection
+     */
+    @Composable
+    fun getLocalizedSampleLogsWithTopics(overrideLocale: Boolean? = null): List<AudioLogWithTopics> {
+        val isArabic = overrideLocale ?: isArabicLocale()
+        return SampleData.getLocalizedSampleLogsWithTopics(isArabic)
+    }
+
+    /**
+     * Helper function to detect if the current locale is Arabic
+     */
+    @Composable
+    private fun isArabicLocale(): Boolean {
+        val configuration = LocalConfiguration.current
+        return configuration.locales[0].language == "ar"
+    }
 }

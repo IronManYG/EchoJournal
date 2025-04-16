@@ -10,8 +10,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R
+import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
+import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleTopics
 
 @Composable
 fun CreatableTopicItem(
@@ -23,9 +28,7 @@ fun CreatableTopicItem(
     DropdownMenuItem(
         text = {
             Text(
-                text = """
-                            Create `$searchQuery`
-                        """.trimIndent(),
+                text = stringResource(id = R.string.create_topic_template, searchQuery),
                 color = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium
@@ -36,11 +39,38 @@ fun CreatableTopicItem(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Add new topic",
+                contentDescription = stringResource(id = R.string.add_new_topic),
                 modifier = Modifier.size(20.dp),
                 tint = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
             )
         },
         enabled = enabled,
     )
+}
+
+
+@LocalesPreview
+@Composable
+fun CreatableTopicItemPreview() {
+    EchoJournalTheme {
+        val searchQuery = getLocalizedSampleTopics().random().name
+        CreatableTopicItem(
+            searchQuery = searchQuery,
+            onCreateClick = { },
+            enabled = true
+        )
+    }
+}
+
+@LocalesPreview
+@Composable
+fun CreatableTopicItemDisabledPreview() {
+    EchoJournalTheme {
+        val searchQuery = getLocalizedSampleTopics().random().name
+        CreatableTopicItem(
+            searchQuery = searchQuery,
+            onCreateClick = { },
+            enabled = false
+        )
+    }
 }

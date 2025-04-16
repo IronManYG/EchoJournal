@@ -33,15 +33,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.ButtonGradient
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.ButtonPressedGradient
 import dev.gaddal.echojournal.core.presentation.designsystem.components.GradientButton
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 import dev.gaddal.echojournal.journal.entry.EntryAction
 import dev.gaddal.echojournal.journal.entry.EntryState
 
@@ -68,7 +70,7 @@ fun MoodBottomSheet(
         ) {
             // Header
             Text(
-                text = "How are you doing?",
+                text = stringResource(id = R.string.mood_question),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium,
@@ -97,11 +99,11 @@ fun MoodBottomSheet(
                                 chosenMood == mood -> ImageVector.vectorResource(id = mood.iconRes)
                                 else -> ImageVector.vectorResource(id = mood.iconResActiveOff)
                             },
-                            contentDescription = mood.title,
+                            contentDescription = mood.title.asString(),
                             modifier = Modifier.size(40.dp)
                         )
                         Text(
-                            text = mood.title,
+                            text = mood.title.asString(),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.bodySmall,
                         )
@@ -127,7 +129,7 @@ fun MoodBottomSheet(
                     )
                 ) {
                     Text(
-                        text = "Cancel",
+                        text = stringResource(id = R.string.cancel),
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelLarge,
@@ -162,7 +164,7 @@ fun MoodBottomSheet(
                         modifier = Modifier.width(6.dp)
                     )
                     Text(
-                        text = "Confirm",
+                        text = stringResource(id = R.string.confirm),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelLarge,
                     )
@@ -173,9 +175,9 @@ fun MoodBottomSheet(
     }
 }
 
-@Preview
+@LocalesPreview
 @Composable
-fun MoodBottomSheetPreview(modifier: Modifier = Modifier) {
+fun MoodBottomSheetPreview() {
     EchoJournalTheme {
         MoodBottomSheet(
             showBottomSheet = true,
