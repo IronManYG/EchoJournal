@@ -2,15 +2,15 @@
 
 Note: Each actionable task is enumerated and prefixed with a checkbox placeholder. Execute roughly in order for best impact.
 
-- [ ] 1. Establish a baseline Gradle build health check pipeline (locally): verify :app:build, :app:lintDebug, and :app:testDebugUnitTest all pass; document commands in README’s contributor section.
-- [ ] 2. Add a simple CONTRIBUTING section (or link) to README referencing .\gradlew.bat usage, Java toolchain, and test commands defined in .junie/guidelines.md.
+- [x] 1. Establish a baseline Gradle build health check pipeline (locally): verify :app:build, :app:lintDebug, and :app:testDebugUnitTest all pass; document commands in README’s contributor section.
+- [x] 2. Add a simple CONTRIBUTING section (or link) to README referencing .\gradlew.bat usage, Java toolchain, and test commands defined in .junie/guidelines.md.
 - [ ] 3. Introduce a consistent Kotlin code style/lints: wire ktlint or detekt via Gradle and a pre-commit hook; add tasks to CI (if CI is added later).
-- [ ] 4. Create a libs.versions.toml or centralize dependency versions (if version catalog already used, ensure all versions are centralized) to ease upgrades and maintain consistency with Kotlin 2.0.20 and Compose BoM 2025.02.00.
+- [x] 4. Create a libs.versions.toml or centralize dependency versions (if version catalog already used, ensure all versions are centralized) to ease upgrades and maintain consistency with Kotlin 2.0.20 and Compose BoM 2025.02.00.
 
 Data layer (Room) and persistence
-- [ ] 5. Add @Index annotations to Room join table AudioLogTopicEntity for columns audioLogId and topicId to avoid full table scans and align with KSP/Room guidance.
-- [ ] 6. Ensure foreign keys in AudioLogTopicEntity specify onDelete = CASCADE where appropriate so orphan rows are not left behind when AudioLog or Topic is deleted.
-- [ ] 7. Verify that all frequently queried fields (e.g., AudioLogEntity.createdAt, archived) have indices when used in WHERE/ORDER BY clauses; add @Index where beneficial.
+- [x] 5. Add @Index annotations to Room join table AudioLogTopicEntity for columns audioLogId and topicId to avoid full table scans and align with KSP/Room guidance.
+- [x] 6. Ensure foreign keys in AudioLogTopicEntity specify onDelete = CASCADE where appropriate so orphan rows are not left behind when AudioLog or Topic is deleted.
+- [x] 7. Verify that all frequently queried fields (e.g., AudioLogEntity.createdAt, archived) have indices when used in WHERE/ORDER BY clauses; add @Index where beneficial.
 - [ ] 8. Confirm Room schema JSONs are up-to-date under app/schemas and add a migration test scaffold; create a task to regenerate schema after entity/index changes.
 - [ ] 9. Add DAO query coverage tests (pure JVM with in-memory Room if feasible or Robolectric if needed later) for getAudioLogsWithTopics() and topic retrieval.
 - [ ] 10. Add repository tests for OfflineFirstAudioLogRepository and OfflineFirstTopicRepository using fakes/in-memory DB to validate mapping and filtering behavior.
