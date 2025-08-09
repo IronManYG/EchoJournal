@@ -8,10 +8,14 @@ import dev.gaddal.echojournal.core.domain.logs.filter.FilterAudioLog
 import dev.gaddal.echojournal.core.domain.logs.filter.FilterAudioLogParams
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
+import timber.log.Timber
 
 class FilterAudioLogImpl : FilterAudioLog {
 
     override fun execute(params: FilterAudioLogParams): List<AudioLogWithTopics> {
+        Timber.tag("FilterAudioLog").d(
+            "execute: moods=${'$'}{params.selectedMoods.size} topics=${'$'}{params.selectedTopicIds.size} query='${'$'}{params.query}' range=[${'$'}{params.fromDateMillis}, ${'$'}{params.toDateMillis}] sort=${'$'}{params.sortOrder} total=${'$'}{params.currentLogs.size}"
+        )
         val filteredList = params.currentLogs.filter { item ->
             val audioLog = item.audioLog
 
@@ -44,7 +48,9 @@ class FilterAudioLogImpl : FilterAudioLog {
         }
 
         // Now apply the chosen sorting
-        return filteredList.sortedWith(getSortComparator(params.sortOrder))
+        val result = filteredList.sortedWith(getSortComparator(params.sortOrder))
+        Timber.tag("FilterAudioLog").d("result size=${'$'}{result.size}")
+        return result
     }
 
     // --- Filter Checks ---

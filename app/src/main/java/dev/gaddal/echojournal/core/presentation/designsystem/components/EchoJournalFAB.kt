@@ -27,6 +27,7 @@ import dev.gaddal.echojournal.journal.entries.components.BreathingCircle
 fun EchoJournalFAB(
     modifier: Modifier = Modifier,
     icon: ImageVector,
+    contentDescription: String? = null,
     isLargeVariant: Boolean = false,
     rippleEnabled: Boolean = false,
     onClick: () -> Unit
@@ -73,7 +74,7 @@ fun EchoJournalFAB(
             ) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = null,
+                    contentDescription = contentDescription,
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }

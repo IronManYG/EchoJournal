@@ -70,7 +70,7 @@ Navigation
 - [ ] 21. Add navigation tests (unit, where possible) asserting that actions from EntriesViewModel or callbacks in EntriesScreenRoot trigger the expected routes.
 
 UI/Compose & design system
-- [ ] 22. Add accessibility checks: content descriptions for interactive elements, minimum touch targets, and color contrast validations in design components.
+- [x] 22. Add accessibility checks: content descriptions for interactive elements, minimum touch targets, and color contrast validations in design components.
 - [ ] 23. Expand Compose previews for EntryCard, EntryList, and the recording bottom sheet across different states (empty, loading, recording, playing) to aid design reviews.
 - [ ] 24. Introduce UI state placeholders for loading/empty/error in EntriesScreen and Entry screen; show appropriate UI instead of silently updating lists.
 - [ ] 25. Extract duplicate gradient/color usages into the design system if found; confirm dynamic theming readiness or plan for light/dark theme toggle.
@@ -95,8 +95,8 @@ Testing
 - [ ] 38. Keep Android-dependent tests in androidTest only; consider Robolectric only if necessary (not configured by default).
 
 Logging/observability
-- [ ] 39. Ensure Timber is initialized in Application; standardize log tags and levels; replace println with Timber in production code if any.
-- [ ] 40. Add debug-only logging around recording/playback start/stop/pause/resume and filter computations to help diagnose issues.
+- [x] 39. Ensure Timber is initialized in Application; standardize log tags and levels; replace println with Timber in production code if any.
+- [x] 40. Add debug-only logging around recording/playback start/stop/pause/resume and filter computations to help diagnose issues.
 
 Performance and stability
 - [ ] 41. Audit flows for unnecessary recomputation: ensure filterEntries() is called only when relevant state changes; consider distinctUntilChanged on repositories.

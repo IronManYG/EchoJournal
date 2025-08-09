@@ -171,6 +171,7 @@ fun RecordBottomSheet(
                 EchoJournalFAB(
                     modifier = Modifier.weight(1f),
                     icon = if (state.isPaused) Icons.Default.Mic else Icons.Default.Check,
+                    contentDescription = if (!state.isRecording && !state.isPaused) "Start recording" else if (state.isPaused) "Resume recording" else "Finish and create entry",
                     isLargeVariant = true,
                     rippleEnabled = true,
                     onClick = {

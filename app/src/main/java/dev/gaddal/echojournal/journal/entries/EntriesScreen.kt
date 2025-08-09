@@ -93,6 +93,7 @@ fun EntriesScreen(
                 modifier = Modifier
                     .padding(16.dp),
                 icon = Icons.Default.Add,
+                contentDescription = "Add new entry",
                 rippleEnabled = false,
                 isLargeVariant = false,
                 onClick = {

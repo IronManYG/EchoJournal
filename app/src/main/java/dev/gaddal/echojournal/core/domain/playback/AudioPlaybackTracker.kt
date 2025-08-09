@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import timber.log.Timber
 
 class AudioPlaybackTracker(
     private val audioPlayer: AudioPlayer,
@@ -29,11 +30,13 @@ class AudioPlaybackTracker(
     private var progressJob: Job? = null
 
     fun playFile(file: File) {
+        Timber.tag("AudioPlaybackTracker").d("playFile: ${file.absolutePath}")
         // Stop current playback (if any), so we don't overlap
         stop()
 
         // 1) Set up a completion callback so we know when the track ends
         audioPlayer.setOnPlaybackCompleteListener {
+            Timber.tag("AudioPlaybackTracker").d("onPlaybackComplete")
             // This runs *only* when MediaPlayer has finished playing
             stop() // resets _isPlaying, etc.
         }
@@ -45,6 +48,7 @@ class AudioPlaybackTracker(
 
             // At this point, duration is guaranteed valid:
             _duration.value = audioPlayer.duration.milliseconds
+            Timber.tag("AudioPlaybackTracker").d("onPrepared: duration=${'$'}{_duration.value}")
 
             // Now launch the progress polling
             startPolling()
@@ -54,6 +58,7 @@ class AudioPlaybackTracker(
     }
 
     private fun startPolling() {
+        Timber.tag("AudioPlaybackTracker").d("startPolling")
         // Start polling the player's current position
         progressJob = applicationScope.launch {
             while (_isPlaying.value && !_isPaused.value) {
@@ -66,6 +71,7 @@ class AudioPlaybackTracker(
 
     fun pause() {
         if (!_isPlaying.value || _isPaused.value) return
+        Timber.tag("AudioPlaybackTracker").d("pause")
         audioPlayer.pause()
         _isPaused.value = true
         progressJob?.cancel() // Stop polling
@@ -73,6 +79,7 @@ class AudioPlaybackTracker(
 
     fun resume() {
         if (!_isPlaying.value || !_isPaused.value) return
+        Timber.tag("AudioPlaybackTracker").d("resume")
         audioPlayer.resume()
         _isPaused.value = false
 
@@ -87,12 +94,14 @@ class AudioPlaybackTracker(
     }
 
     fun seekTo(positionMs: Int) {
+        Timber.tag("AudioPlaybackTracker").d("seekTo: ${positionMs}ms")
         audioPlayer.seekTo(positionMs)
         _currentPosition.value = positionMs.milliseconds
     }
 
     fun stop() {
         if (!_isPlaying.value) return
+        Timber.tag("AudioPlaybackTracker").d("stop")
         audioPlayer.stop() // releases mediaPlayer
         _isPlaying.value = false
         _isPaused.value = false
