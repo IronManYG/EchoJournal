@@ -16,15 +16,14 @@ import dev.gaddal.echojournal.core.domain.util.DataError
 import dev.gaddal.echojournal.core.domain.util.Result
 import dev.gaddal.echojournal.core.presentation.ui.StorageLocation
 import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
+import dev.gaddal.echojournal.core.presentation.ui.events.UiEventChannel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,8 +43,8 @@ class EntryViewModel(
     private val _state = MutableStateFlow(EntryState())
     val state = _state.asStateFlow()
 
-    private val eventChannel = Channel<EntryEvent>()
-    val events = eventChannel.receiveAsFlow()
+    private val uiEvents = UiEventChannel.buffered<EntryEvent>()
+    val events = uiEvents.flow
 
     init {
         observePlaybackTracker()
@@ -171,7 +170,7 @@ class EntryViewModel(
                                         // - Stop and report error
                                     }
                                 }
-                                eventChannel.send(EntryEvent.SaveEntrySuccess)
+                                uiEvents.emit(EntryEvent.SaveEntrySuccess)
 
                             } catch (topicUpsertException: Exception) { // More specific catch
                                 Timber.tag("EntryViewModel").e(

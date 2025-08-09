@@ -12,15 +12,14 @@ import dev.gaddal.echojournal.core.domain.record.AudioRecordingTracker
 import dev.gaddal.echojournal.core.domain.record.FileNameProvider
 import dev.gaddal.echojournal.core.presentation.ui.StorageLocation
 import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
-import kotlinx.coroutines.channels.Channel
-import timber.log.Timber
+import dev.gaddal.echojournal.core.presentation.ui.events.UiEventChannel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import kotlin.time.Duration
 
@@ -37,8 +36,8 @@ class EntriesViewModel(
     private val _state = MutableStateFlow(EntriesState())
     val state = _state.asStateFlow()
 
-    private val eventChannel = Channel<EntriesEvent>()
-    val events = eventChannel.receiveAsFlow()
+    private val uiEvents = UiEventChannel.buffered<EntriesEvent>()
+    val events = uiEvents.flow
 
     init {
         // Mirror the tracker's flows into the state
@@ -158,7 +157,8 @@ class EntriesViewModel(
 
                 // Mutual exclusivity: stop playback if currently playing
                 if (_state.value.isPlayingAudio) {
-                    Timber.tag("EntriesViewModel").d("Auto-stopping playback before starting recording")
+                    Timber.tag("EntriesViewModel")
+                        .d("Auto-stopping playback before starting recording")
                     audioPlaybackTracker.stop()
                     _state.update { oldState ->
                         oldState.copy(
@@ -180,17 +180,20 @@ class EntriesViewModel(
             // 2) Pause
             EntriesAction.OnPauseRecordingClick -> {
                 if (!_state.value.isRecording) return
+                Timber.tag("EntriesViewModel").d("Pausing recording")
                 audioRecordingTracker.pauseRecording()
             }
 
             // 3) Resume
             EntriesAction.OnResumeRecordingClick -> {
                 if (!_state.value.isPaused) return
+                Timber.tag("EntriesViewModel").d("Resuming recording")
                 audioRecordingTracker.resumeRecording()
             }
 
             // 4) Finish
             EntriesAction.OnFinishRecordingClick -> {
+                Timber.tag("EntriesViewModel").d("Finishing recording")
                 audioRecordingTracker.stopRecording(resetTime = true)
                 // Possibly do something with the final file
                 // e.g. do saving logic, etc.
@@ -201,6 +204,7 @@ class EntriesViewModel(
             }
 
             EntriesAction.OnCancelRecordingClick -> {
+                Timber.tag("EntriesViewModel").d("Cancelling recording")
                 audioRecordingTracker.stopRecording(resetTime = true)
                 // Discard or remove the file, etc.
                 // e.g. do deleting logic, etc.
@@ -223,7 +227,8 @@ class EntriesViewModel(
             is EntriesAction.PlayAudio -> {
                 // Mutual exclusivity: stop recording if currently recording or paused
                 if (_state.value.isRecording || _state.value.isPaused) {
-                    Timber.tag("EntriesViewModel").d("Auto-stopping recording before starting playback")
+                    Timber.tag("EntriesViewModel")
+                        .d("Auto-stopping recording before starting playback")
                     audioRecordingTracker.stopRecording(resetTime = true)
                 }
 
@@ -238,6 +243,7 @@ class EntriesViewModel(
                     Timber.tag("EntriesViewModel").d("Playing fallback file: $file")
                     audioPlaybackTracker.playFile(file)
                 } else {
+                    Timber.tag("EntriesViewModel").d("Playing file: ${entryFilePath}")
                     audioPlaybackTracker.playFile(File(entryFilePath))
                 }
 
@@ -255,6 +261,7 @@ class EntriesViewModel(
             }
 
             EntriesAction.PauseAudio -> {
+                Timber.tag("EntriesViewModel").d("Pausing playback")
                 audioPlaybackTracker.pause()
             }
 
@@ -342,9 +349,14 @@ class EntriesViewModel(
      * and updates the [EntriesState.filterEntriesWithTopics].
      */
     private fun filterEntries() {
-        val filtered = entriesFilter.execute(_state.value.toFilterParams())
+        val params = _state.value.toFilterParams()
+        Timber.tag("EntriesViewModel").d(
+            "Filtering: query='${'$'}{params.query}', moods=${'$'}{params.selectedMoods.size}, topics=${'$'}{params.selectedTopicIds.size}, date=[${'$'}{params.fromDateMillis}..${'$'}{params.toDateMillis}], sort=${'$'}{params.sortOrder}, current=${'$'}{params.currentLogs.size}"
+        )
+        val filtered = entriesFilter.execute(params)
         _state.update {
             it.copy(filterEntriesWithTopics = filtered)
         }
+        Timber.tag("EntriesViewModel").d("Filtering complete: result=${'$'}{filtered.size}")
     }
 }
