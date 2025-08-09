@@ -10,8 +10,10 @@ import dev.gaddal.echojournal.core.domain.logs.topic.TopicRepository
 import dev.gaddal.echojournal.core.domain.playback.AudioPlaybackTracker
 import dev.gaddal.echojournal.core.domain.record.AudioRecordingTracker
 import dev.gaddal.echojournal.core.domain.record.FileNameProvider
+import dev.gaddal.echojournal.core.domain.util.Result
 import dev.gaddal.echojournal.core.presentation.ui.StorageLocation
 import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
+import dev.gaddal.echojournal.core.presentation.ui.asUiText
 import dev.gaddal.echojournal.core.presentation.ui.events.UiEventChannel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -69,22 +71,31 @@ class EntriesViewModel(
         when (action) {
             is EntriesAction.OnCreateTopicClick -> {
                 viewModelScope.launch {
-                    topicRepository.upsertTopic(action.topic)
+                    when (val result = topicRepository.upsertTopic(action.topic)) {
+                        is Result.Success -> {
+                            _state.update {
+                                it.copy(
+                                    // Add it to the master list
+                                    // In a real app, you'd store it in a DB or something
+                                    // Then also add it to selected so that user sees it
+                                    // For demonstration only:
+                                    // allTopics = allTopics + newTopic // If you keep it in a var
+                                    selectedTopics = it.selectedTopics.toMutableList()
+                                        .apply { add(action.topic) },
+                                    allTopics = it.allTopics.toMutableList()
+                                        .apply { add(action.topic) },
+                                )
+                            }
+                            filterEntries()
+                        }
+
+                        is Result.Error -> {
+                            uiEvents.emit(
+                                EntriesEvent.Error(result.error.asUiText())
+                            )
+                        }
+                    }
                 }
-                _state.update {
-                    it.copy(
-                        // Add it to the master list
-                        // In a real app, you'd store it in a DB or something
-                        // Then also add it to selected so that user sees it
-                        // For demonstration only:
-                        // allTopics = allTopics + newTopic // If you keep it in a var
-                        selectedTopics = it.selectedTopics.toMutableList()
-                            .apply { add(action.topic) },
-                        allTopics = it.allTopics.toMutableList()
-                            .apply { add(action.topic) },
-                    )
-                }
-                filterEntries()
             }
 
             is EntriesAction.OnMoodSelected -> {
