@@ -4,14 +4,19 @@ Note: Each actionable task is enumerated and prefixed with a checkbox placeholde
 
 - [x] 1. Establish a baseline Gradle build health check pipeline (locally): verify :app:build, :app:lintDebug, and :app:testDebugUnitTest all pass; document commands in README’s contributor section.
 - [x] 2. Add a simple CONTRIBUTING section (or link) to README referencing .\gradlew.bat usage, Java toolchain, and test commands defined in .junie/guidelines.md.
-- [ ] 3. Introduce a consistent Kotlin code style/lints: wire ktlint or detekt via Gradle and a pre-commit hook; add tasks to CI (if CI is added later).
+- [x] 
+    3. Introduce a consistent Kotlin code style/lints: wire ktlint or detekt(preferred) via Gradle
+       and a pre-commit hook; add tasks to CI (if CI is added later).
 - [x] 4. Create a libs.versions.toml or centralize dependency versions (if version catalog already used, ensure all versions are centralized) to ease upgrades and maintain consistency with Kotlin 2.0.20 and Compose BoM 2025.02.00.
 
 Data layer (Room) and persistence
 - [x] 5. Add @Index annotations to Room join table AudioLogTopicEntity for columns audioLogId and topicId to avoid full table scans and align with KSP/Room guidance.
 - [x] 6. Ensure foreign keys in AudioLogTopicEntity specify onDelete = CASCADE where appropriate so orphan rows are not left behind when AudioLog or Topic is deleted.
 - [x] 7. Verify that all frequently queried fields (e.g., AudioLogEntity.createdAt, archived) have indices when used in WHERE/ORDER BY clauses; add @Index where beneficial.
-- [ ] 8. Confirm Room schema JSONs are up-to-date under app/schemas and add a migration test scaffold; create a task to regenerate schema after entity/index changes.
+- [x] 
+    8. Confirm Room schema JSONs are up-to-date under app/schemas and add a migration test scaffold;
+       rely on the Room plugin task :app:copyRoomSchemas (optional alias :app:regenerateRoomSchemas
+       dependsOn copyRoomSchemas).
 - [ ] 9. Add DAO query coverage tests (pure JVM with in-memory Room if feasible or Robolectric if needed later) for getAudioLogsWithTopics() and topic retrieval.
 - [ ] 10. Add repository tests for OfflineFirstAudioLogRepository and OfflineFirstTopicRepository using fakes/in-memory DB to validate mapping and filtering behavior.
 
@@ -21,7 +26,9 @@ Domain and architecture
     11. Review and document MVI conventions for feature folders (journal, record, settings): ensure
         State is immutable, Actions are sealed, and side-effects are funneled via ViewModel.
 - [x] 12. Extract filtering parameters (query, date range, sort) into UI state where relevant and ensure EntriesState -> FilterAudioLogParams mapping is comprehensive (currently query/date unset).
-- [ ] 13. Ensure error handling paths exist in repositories (Result<DataError>): propagate errors to ViewModel as UI Events; add a minimal EntriesEvent sealed type and observer in UI.
+- [x] 
+    13. Ensure error handling paths exist in repositories (Result<DataError>): propagate errors to
+        ViewModel as UI Events; add a minimal EntriesEvent sealed type and observer in UI.
 - [x] 
     14. Introduce a one-shot UI event channel abstraction (already Channel-based) with a thin
         wrapper to avoid event re-delivery after configuration changes.
@@ -74,7 +81,10 @@ Performance and stability
 Build/CI and release hygiene
 - [ ] 44. Add a minimal CI workflow (GitHub Actions or other) to run :app:build, :app:lintDebug, and :app:testDebugUnitTest on PRs; use Gradle cache and Java toolchain matrix if needed.
 - [ ] 45. Introduce static analysis in CI (ktlint/detekt) and report annotations.
-- [ ] 46. Add Gradle task to copy Room schemas on build (if not already wired) and ensure they are exported for migration testing.
+- [x] 
+    46. Confirm Room plugin task :app:copyRoomSchemas is used to export schemas; avoid custom
+        KSP-wired tasks. Document commands and (optional) :app:regenerateRoomSchemas alias that
+        depends on copyRoomSchemas; use in CI if desired (not wired to build).
 - [ ] 47. Add Proguard/R8 rules if minify is planned later; ensure Timber and Room keep rules are adequate for release builds.
 
 Documentation & developer experience

@@ -102,3 +102,17 @@ dependencies {
     // Coroutines
      implementation(libs.kotlinx.coroutines.core)
 }
+
+// Ktlint configuration and Room schema helper tasks
+ktlint {
+    android.set(true)
+    outputToConsole.set(true)
+    ignoreFailures.set(false)
+}
+
+tasks.register("regenerateRoomSchemas") {
+    group = "verification"
+    description = "Regenerate Room schemas using the Room plugin task."
+    dependsOn("copyRoomSchemas")
+}
+

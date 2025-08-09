@@ -111,3 +111,12 @@ Appendix – Useful Commands (Windows)
 - Lint: .\gradlew.bat :app:lintDebug
 - Assemble APK (debug): .\gradlew.bat :app:assembleDebug
 - Print available tasks: .\gradlew.bat :app:tasks --all
+
+Update – Room schemas (2025-08-09)
+
+- Regenerate/export Room schemas:
+  - .\gradlew.bat :app:copyRoomSchemas
+- Optional convenience alias (wired in app/build.gradle.kts to depend on copyRoomSchemas):
+  - .\gradlew.bat :app:regenerateRoomSchemas
+- Notes:
+  - Prefer the plugin-provided copyRoomSchemas task; avoid wiring custom tasks directly to KSP.

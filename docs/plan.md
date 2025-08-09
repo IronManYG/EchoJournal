@@ -46,7 +46,8 @@ EchoJournal aims to deliver an audio journaling app with a clean MVI-ish archite
   - Add @Index on AudioLogTopicEntity(audioLogId, topicId). [Task 5]
   - Ensure FK onDelete = CASCADE for AudioLogTopicEntity, as appropriate. [Task 6]
   - Add indices for frequently filtered/sorted fields (e.g., createdAt, archived). [Task 7]
-  - Ensure Gradle task copies/export schemas; scaffold a migration test. [Task 8]
+  - Ensure Room plugin task :app:copyRoomSchemas is used to copy/export schemas; optional alias :
+    app:regenerateRoomSchemas depends on copyRoomSchemas; scaffold a migration test. [Task 8]
   - Add DAO and repository tests using in-memory Room where feasible. [Tasks 9–10]
 - Rationale ➜ Correct indexing and FK semantics deliver performance and data integrity. Schema discipline enables safe evolution.
 
