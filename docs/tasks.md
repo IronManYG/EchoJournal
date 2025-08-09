@@ -40,11 +40,11 @@ UI/Compose & design system
 - [ ] 26. Ensure no Compose code references Android framework classes in unit tests; factor such dependencies behind interfaces.
 
 Audio recording/playback robustness
-- [ ] 27. Specify and document the audio file naming strategy (avoid hard-coded "my_recording.mp4"); inject a FileNameProvider with timestamp/UUID.
+- [x] 27. Specify and document the audio file naming strategy (avoid hard-coded "my_recording.mp4"); inject a FileNameProvider with timestamp/UUID.
 - [ ] 28. Validate storage paths via StoragePathProvider; add checks for available space and permissions preflight before starting a recording.
 - [ ] 29. Handle tracker errors and interruptions (phone call, focus loss): define ViewModel event(s) and state for error dialogs or snackbars.
 - [ ] 30. Persist last known playback position per log (optional) and restore when reopening the app.
-- [ ] 31. Ensure mutual exclusivity between recording and playback (auto-stop playback when recording starts and vice versa) to avoid audio focus conflicts.
+- [x] 31. Ensure mutual exclusivity between recording and playback (auto-stop playback when recording starts and vice versa) to avoid audio focus conflicts.
 
 Filtering and list behavior
 - [ ] 32. Implement search query and date range filters end-to-end (state -> FilterAudioLogParams -> FilterAudioLogImpl -> UI). Add sort order toggle (date asc/desc, duration, mood).

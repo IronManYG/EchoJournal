@@ -9,9 +9,11 @@ import dev.gaddal.echojournal.core.domain.logs.filter.toFilterParams
 import dev.gaddal.echojournal.core.domain.logs.topic.TopicRepository
 import dev.gaddal.echojournal.core.domain.playback.AudioPlaybackTracker
 import dev.gaddal.echojournal.core.domain.record.AudioRecordingTracker
+import dev.gaddal.echojournal.core.domain.record.FileNameProvider
 import dev.gaddal.echojournal.core.presentation.ui.StorageLocation
 import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
 import kotlinx.coroutines.channels.Channel
+import timber.log.Timber
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -28,6 +30,7 @@ class EntriesViewModel(
     private val entriesFilter: FilterAudioLog,
     private val audioRecordingTracker: AudioRecordingTracker,
     private val audioPlaybackTracker: AudioPlaybackTracker,
+    private val fileNameProvider: FileNameProvider,
     private val storagePathProvider: StoragePathProvider,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -152,12 +155,26 @@ class EntriesViewModel(
             // 1) Start
             EntriesAction.OnStartRecordingClick -> {
                 if (!_state.value.hasRecordPermission) return
-                // For example: create a file in the cache directory
+
+                // Mutual exclusivity: stop playback if currently playing
+                if (_state.value.isPlayingAudio) {
+                    Timber.tag("EntriesViewModel").d("Auto-stopping playback before starting recording")
+                    audioPlaybackTracker.stop()
+                    _state.update { oldState ->
+                        oldState.copy(
+                            nowPlayingLogId = null,
+                            isPlayingAudio = false,
+                            isPausedAudio = false,
+                            audioPosition = Duration.ZERO,
+                            audioDuration = Duration.ZERO
+                        )
+                    }
+                }
+
+                // Create a file in the cache directory using FileNameProvider
                 val file = createTempAudioFile()
                 audioRecordingTracker.startRecording(file, resetTime = true)
-
-                // We don't need to set isRecording, etc.
-                // Because observeTracker() will mirror changes automatically.
+                Timber.tag("EntriesViewModel").d("Started recording to $file")
             }
 
             // 2) Pause
@@ -204,14 +221,21 @@ class EntriesViewModel(
             }
 
             is EntriesAction.PlayAudio -> {
+                // Mutual exclusivity: stop recording if currently recording or paused
+                if (_state.value.isRecording || _state.value.isPaused) {
+                    Timber.tag("EntriesViewModel").d("Auto-stopping recording before starting playback")
+                    audioRecordingTracker.stopRecording(resetTime = true)
+                }
+
                 val entryFilePath =
                     state.value.entriesWithTopics.find { it.audioLog.id == action.logId }?.audioLog?.audioFilePath
 
                 if (entryFilePath == null) {
-                    // Let’s assume you look up the correct file from the log, etc.
+                    // Fallback demo file path using FileNameProvider (no hard-coded name)
                     val path = storagePathProvider.getPath(StorageLocation.CACHE)
-                    val fileName = "my_recording.mp4"
-                    val file = File(path, fileName) // only for demonstration and testing
+                    val fileName = fileNameProvider.newAudioFileName()
+                    val file = File(path, fileName)
+                    Timber.tag("EntriesViewModel").d("Playing fallback file: $file")
                     audioPlaybackTracker.playFile(file)
                 } else {
                     audioPlaybackTracker.playFile(File(entryFilePath))
@@ -308,7 +332,8 @@ class EntriesViewModel(
         storageLocation: StorageLocation = StorageLocation.CACHE,
     ): File {
         val path = storagePathProvider.getPath(storageLocation)
-        val fileName = "my_recording.mp4"
+        val fileName = fileNameProvider.newAudioFileName()
+        Timber.tag("EntriesViewModel").d("Generated audio file name: $fileName at $path")
         return File(path, fileName)
     }
 

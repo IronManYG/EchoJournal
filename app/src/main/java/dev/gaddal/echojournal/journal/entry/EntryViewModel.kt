@@ -50,10 +50,19 @@ class EntryViewModel(
     init {
         observePlaybackTracker()
 
-        _state.update {
-            it.copy(
-                audioDuration = getAudioDurationInMs(getTempAudioFile()).milliseconds,
-            )
+        run {
+            val temp = getTempAudioFile()
+            val durationMs = if (temp.exists()) {
+                getAudioDurationInMs(temp)
+            } else {
+                Timber.tag("EntryViewModel").w("Temp audio file not found at ${temp.absolutePath}")
+                0L
+            }
+            _state.update {
+                it.copy(
+                    audioDuration = durationMs.milliseconds,
+                )
+            }
         }
 
         // Load topics from repository.
@@ -232,8 +241,12 @@ class EntryViewModel(
 
 
     private fun handlePlayAudio() {
-        val entryFilePath = getTempAudioFile().absolutePath
-        audioPlaybackTracker.playFile(File(entryFilePath))
+        val temp = getTempAudioFile()
+        if (!temp.exists()) {
+            Timber.tag("EntryViewModel").w("Attempted to play temp audio, but file missing at ${temp.absolutePath}")
+            return
+        }
+        audioPlaybackTracker.playFile(temp)
 
         // Update global state so UI knows *which* entry is playing
         _state.update { oldState ->
@@ -376,8 +389,23 @@ class EntryViewModel(
 
     private fun getTempAudioFile(): File {
         val path = storagePathProvider.getPath(StorageLocation.CACHE)
-        val fileName = "my_recording.mp4"
-        return File(path, fileName)
+        val cacheDir = File(path)
+
+        // Find the most recent MP4 file in cache (aligns with EntriesViewModel dynamic naming)
+        val latest = cacheDir.listFiles()
+            ?.asSequence()
+            ?.filter { it.isFile && it.extension.equals("mp4", ignoreCase = true) }
+            ?.maxByOrNull { it.lastModified() }
+
+        if (latest != null) {
+            Timber.tag("EntryViewModel").d("Resolved temp audio file: ${latest.absolutePath}")
+            return latest
+        }
+
+        // Fallback to the old hard-coded name if present
+        val fallback = File(path, "my_recording.mp4")
+        Timber.tag("EntryViewModel").w("No dynamic temp audio found. Falling back to: ${fallback.absolutePath}")
+        return fallback
     }
 
     private fun deleteFileByPath(filePath: String?): Boolean {
@@ -393,12 +421,21 @@ class EntryViewModel(
     }
 
     private fun getAudioDurationInMs(audioFile: File): Long {
+        if (!audioFile.exists()) {
+            Timber.tag("EntryViewModel").w("getAudioDurationInMs: file does not exist at ${audioFile.absolutePath}")
+            return 0L
+        }
         val retriever = MediaMetadataRetriever()
         return try {
             retriever.setDataSource(audioFile.absolutePath)
-            val durationString =
-                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            val durationString = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             durationString?.toLongOrNull() ?: 0L
+        } catch (e: IllegalArgumentException) {
+            Timber.tag("EntryViewModel").e(e, "Failed to retrieve duration for ${audioFile.absolutePath}")
+            0L
+        } catch (e: RuntimeException) {
+            Timber.tag("EntryViewModel").e(e, "Unexpected error retrieving duration for ${audioFile.absolutePath}")
+            0L
         } finally {
             retriever.release()
         }
