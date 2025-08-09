@@ -17,7 +17,7 @@ Data layer (Room) and persistence
 
 Domain and architecture
 - [ ] 11. Review and document MVI conventions for feature folders (journal, record, settings): ensure State is immutable, Actions are sealed, and side-effects are funneled via ViewModel.
-- [ ] 12. Extract filtering parameters (query, date range, sort) into UI state where relevant and ensure EntriesState -> FilterAudioLogParams mapping is comprehensive (currently query/date unset).
+- [x] 12. Extract filtering parameters (query, date range, sort) into UI state where relevant and ensure EntriesState -> FilterAudioLogParams mapping is comprehensive (currently query/date unset).
 - [ ] 13. Ensure error handling paths exist in repositories (Result<DataError>): propagate errors to ViewModel as UI Events; add a minimal EntriesEvent sealed type and observer in UI.
 - [ ] 14. Introduce a one-shot UI event channel abstraction (already Channel-based) with a thin wrapper to avoid event re-delivery after configuration changes.
 - [ ] 15. Verify that no business logic leaks into Composables; keep UI logic in Composables and data/state/side-effects in ViewModels and use cases.

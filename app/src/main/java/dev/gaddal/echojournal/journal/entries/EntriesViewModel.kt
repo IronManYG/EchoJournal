@@ -124,6 +124,25 @@ class EntriesViewModel(
                 filterEntries()
             }
 
+            is EntriesAction.OnQueryChanged -> {
+                _state.update { it.copy(query = action.query) }
+                filterEntries()
+            }
+
+            is EntriesAction.OnDateRangeChanged -> {
+                val from = action.fromDateMillis
+                val to = action.toDateMillis
+                val normFrom = if (from != null && to != null && from > to) to else from
+                val normTo = if (from != null && to != null && from > to) from else to
+                _state.update { it.copy(fromDateMillis = normFrom, toDateMillis = normTo) }
+                filterEntries()
+            }
+
+            is EntriesAction.OnSortOrderChanged -> {
+                _state.update { it.copy(sortOrder = action.sortOrder) }
+                filterEntries()
+            }
+
             EntriesAction.OnSettingsClick -> {}
 
             EntriesAction.OnCreateNewEntryTrigger -> {}

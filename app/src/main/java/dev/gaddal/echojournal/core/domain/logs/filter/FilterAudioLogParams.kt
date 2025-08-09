@@ -24,9 +24,9 @@ fun EntriesState.toFilterParams(): FilterAudioLogParams {
         currentLogs = entriesWithTopics,
         selectedMoods = selectedMoods,
         selectedTopicIds = selectedTopics.map { it.id },
-        query = "",
-        fromDateMillis = null,
-        toDateMillis = null,
-        sortOrder = AudioLogSort.DateAscending
+        query = query,
+        fromDateMillis = fromDateMillis,
+        toDateMillis = toDateMillis,
+        sortOrder = sortOrder
     )
 }

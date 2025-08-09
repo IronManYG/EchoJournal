@@ -1,17 +1,24 @@
 package dev.gaddal.echojournal.journal.entries
 
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogWithTopics
+import dev.gaddal.echojournal.core.domain.logs.filter.AudioLogSort
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import kotlin.time.Duration
 
-data class EntriesState(
+ data class EntriesState(
     val entriesWithTopics: List<AudioLogWithTopics> = emptyList(),
     val filterEntriesWithTopics: List<AudioLogWithTopics> = emptyList(),
     val selectedMoods: List<Mood> = emptyList(),
     val selectedTopics: List<Topic> = emptyList(),
     val allMoods: List<Mood> = Mood.all,
     val allTopics: List<Topic> = emptyList(),
+
+    // Filter params in UI state
+    val query: String = "",
+    val fromDateMillis: Long? = null,
+    val toDateMillis: Long? = null,
+    val sortOrder: AudioLogSort = AudioLogSort.DateAscending,
 
     // Permission flags
     val hasRecordPermission: Boolean = false,
