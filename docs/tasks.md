@@ -7,6 +7,29 @@ Note: Each actionable task is enumerated and prefixed with a checkbox placeholde
 - [x] 
     3. Introduce a consistent Kotlin code style/lints: wire ktlint or detekt(preferred) via Gradle
        and a pre-commit hook; add tasks to CI (if CI is added later).
+
+### Static analysis – Detekt
+
+The project uses Detekt with the detekt-formatting ruleset (ktlint-backed) and auto-correct enabled.
+
+Common commands (Windows PowerShell/CMD):
+
+- Analyze with auto-correct:
+    - .\gradlew.bat detekt
+    - Or explicitly: .\gradlew.bat detekt --auto-correct
+- Create/update baseline (grandfather existing issues):
+    - .\gradlew.bat detektBaseline
+- Generate a full default config (for reference/diff):
+    - .\gradlew.bat detektGenerateConfig
+
+Notes:
+
+- Detekt is applied to all modules via the root build.gradle.kts.
+- Formatting fixes are applied automatically due to auto-correct being true in Gradle.
+- Reports are generated under build\reports\detekt\ (HTML, XML, SARIF, MD, per-module defaults).
+- Config is at config\detekt\detekt.yml and builds upon Detekt's default config.
+- The ktlint Gradle plugin remains for now; Detekt uses ktlint via detekt-formatting. Consider
+  removing ktlint if you prefer a single-tool setup.
 - [x] 4. Create a libs.versions.toml or centralize dependency versions (if version catalog already used, ensure all versions are centralized) to ease upgrades and maintain consistency with Kotlin 2.0.20 and Compose BoM 2025.02.00.
 
 Data layer (Room) and persistence
