@@ -20,6 +20,7 @@ kotlinx-serialization = "1.6.3"
 navigationCommonKtx = "2.8.6"
 kotlinx-datetime = "0.6.1"
 detekt = "1.23.8"
+composeRules = "0.4.13"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

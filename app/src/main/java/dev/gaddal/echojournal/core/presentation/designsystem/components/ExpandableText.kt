@@ -149,9 +149,9 @@ fun ExpandableText(
 fun ExpandableTextPreview() {
     EchoJournalTheme {
         val description = "Lorem ipsum dolor sit amet, " +
-                "consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore " +
-                "magna aliqua. " +
-                "Proin in nisl vitae justo viverra bibendum vitae vel nulla. "
+            "consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore " +
+            "magna aliqua. " +
+            "Proin in nisl vitae justo viverra bibendum vitae vel nulla. "
 
         ExpandableText(
             style = MaterialTheme.typography.bodyMedium,

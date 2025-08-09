@@ -30,6 +30,8 @@ Notes:
 - Config is at config\detekt\detekt.yml and builds upon Detekt's default config.
 - The ktlint Gradle plugin has been removed. The project uses a single tool: Detekt with the
   detekt-formatting ruleset (ktlint-backed).
+- Compose-specific rules are enabled via io.nlopez.compose.rules:detekt (version pinned in Gradle).
+- Generic FunctionNaming is disabled (naming.FunctionNaming.active=false) in favor of Compose naming checks.
 - [x] 4. Create a libs.versions.toml or centralize dependency versions (if version catalog already used, ensure all versions are centralized) to ease upgrades and maintain consistency with Kotlin 2.0.20 and Compose BoM 2025.02.00.
 
 Data layer (Room) and persistence

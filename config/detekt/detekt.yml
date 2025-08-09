@@ -31,3 +31,13 @@ formatting:
     active: true
   SpacingBetweenDeclarationsWithComments:
     active: true
+
+
+# Compose ruleset (from io.nlopez.compose.rules)
+Compose:
+  active: true
+
+# Disable generic function naming in favor of Compose-specific naming checks
+naming:
+  FunctionNaming:
+    active: false

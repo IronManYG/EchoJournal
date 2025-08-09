@@ -217,4 +217,6 @@ Notes
 - Reports are written per module under build\reports\detekt\ (e.g., app\build\reports\detekt\).
 - The project config is at config\detekt\detekt.yml and builds upon Detekt’s defaults.
 - The detekt-formatting ruleset is applied, so formatting fixes are applied automatically.
+- Compose-specific rules are enabled via io.nlopez.compose.rules:detekt:0.4.13 to catch common Compose pitfalls.
+- Generic FunctionNaming is disabled (naming.FunctionNaming.active=false) in favor of Compose naming checks.
 - See docs\tasks.md for more tips and troubleshooting.

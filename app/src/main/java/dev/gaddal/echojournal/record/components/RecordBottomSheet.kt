@@ -65,9 +65,9 @@ fun RecordBottomSheet(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { granted ->
             val showRationale = (
-                    !granted && activity != null &&
-                            activity.shouldShowRecordAudioPermissionRationale()
-                    )
+                !granted && activity != null &&
+                    activity.shouldShowRecordAudioPermissionRationale()
+                )
             onAction(
                 EntriesAction.SubmitAudioPermissionInfo(
                     acceptedAudioPermission = granted,
@@ -239,7 +239,7 @@ fun RecordBottomSheet(
             text = {
                 Text(
                     "We need microphone access to record audio. " +
-                            "Without it, we can’t capture your memories."
+                        "Without it, we can’t capture your memories."
                 )
             },
             confirmButton = {

@@ -19,9 +19,12 @@ subprojects {
     plugins.apply("io.gitlab.arturbosch.detekt")
 
     dependencies {
-        val detektVersion = "1.23.8"
+        val detektVersion = rootProject.libs.versions.detekt.get()
         // Enable ktlint-backed formatting rules inside Detekt
         add("detektPlugins", "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+        // Jetpack Compose specific ruleset
+        val composeRulesVersion = rootProject.libs.versions.composeRules.get()
+        add("detektPlugins", "io.nlopez.compose.rules:detekt:$composeRulesVersion")
     }
 
     // Configure Detekt
