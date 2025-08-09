@@ -19,6 +19,6 @@ class DefaultFileNameProvider : FileNameProvider {
     override fun newAudioFileName(): String {
         val ts = dateFormat.format(Date())
         val uuid = UUID.randomUUID().toString().substring(0, 8)
-        return "ej_${ts}_${uuid}.mp4"
+        return "ej_${ts}_$uuid.mp4"
     }
 }

@@ -57,7 +57,6 @@ private fun GradientBackgroundPreview() {
         GradientBackground(
             modifier = Modifier.fillMaxSize()
         ) {
-
         }
     }
 }

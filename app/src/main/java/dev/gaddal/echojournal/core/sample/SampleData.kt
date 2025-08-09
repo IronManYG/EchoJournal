@@ -3,6 +3,7 @@ package dev.gaddal.echojournal.core.sample
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLog
 import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogWithTopics
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
+import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
 
 /**
  * An object holding sample or mock data for demonstration or testing.
@@ -14,7 +15,7 @@ object SampleData {
     // For readability, let's define day & month approximations in milliseconds.
     private const val ONE_DAY_MS = 24L * 60L * 60L * 1000L
     private const val DAYS_PER_MONTH = 30L
-    private const val FOUR_MONTHS_DAYS = 4 * DAYS_PER_MONTH    // ~120 days
+    private const val FOUR_MONTHS_DAYS = 4 * DAYS_PER_MONTH // ~120 days
 
     // Current time for reference.
     private val now = System.currentTimeMillis()
@@ -38,7 +39,7 @@ object SampleData {
             title = "Morning Reflection",
             mood = "neutral",
             audioFilePath = "/path/to/audio1.mp3",
-            createdAt = createdToday,   // "Today"
+            createdAt = createdToday, // "Today"
             updatedAt = null,
             description = """
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.

@@ -15,7 +15,9 @@ class AndroidAudioRecorder(
     override fun start(outputFile: File, desiredQuality: RecordingQuality) {
         val newRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MediaRecorder(context)
-        } else MediaRecorder()
+        } else {
+            MediaRecorder()
+        }
 
         newRecorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)

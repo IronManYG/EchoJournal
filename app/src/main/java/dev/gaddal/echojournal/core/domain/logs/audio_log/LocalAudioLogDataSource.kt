@@ -15,7 +15,6 @@ interface LocalAudioLogDataSource {
     suspend fun upsertAudioLog(audioLog: AudioLog): Result<AudioLogId, DataError>
 
     suspend fun deleteAudioLogById(id: AudioLogId)
-
 }
 
 typealias AudioLogId = Int

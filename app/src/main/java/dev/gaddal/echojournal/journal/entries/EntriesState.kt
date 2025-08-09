@@ -6,7 +6,7 @@ import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import kotlin.time.Duration
 
- data class EntriesState(
+data class EntriesState(
     val entriesWithTopics: List<AudioLogWithTopics> = emptyList(),
     val filterEntriesWithTopics: List<AudioLogWithTopics> = emptyList(),
     val selectedMoods: List<Mood> = emptyList(),
@@ -26,8 +26,8 @@ import kotlin.time.Duration
 
     // Recording flags
     val elapsedTime: Duration = Duration.ZERO,
-    val isRecording: Boolean = false,   // true if actually collecting time
-    val isPaused: Boolean = false,      // true if user explicitly paused
+    val isRecording: Boolean = false, // true if actually collecting time
+    val isPaused: Boolean = false, // true if user explicitly paused
 
     // Playback flags (global audio player)
     val isPlayingAudio: Boolean = false,

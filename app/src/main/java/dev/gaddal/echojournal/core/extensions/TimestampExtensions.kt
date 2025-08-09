@@ -29,7 +29,6 @@ fun LocalDate.formatDisplay(): String {
     }
 }
 
-
 /**
  * Returns a [LocalDate] object by converting this epoch millisecond [Long].
  * This uses the system's default time zone unless otherwise specified.
@@ -129,4 +128,3 @@ fun Duration.formatAsMmSs(): String {
     val seconds = totalSec % 60
     return String.format("%02d:%02d", minutes, seconds) // Todo: improve this by add locale
 }
-

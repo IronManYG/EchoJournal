@@ -254,7 +254,7 @@ class EntriesViewModel(
                     Timber.tag("EntriesViewModel").d("Playing fallback file: $file")
                     audioPlaybackTracker.playFile(file)
                 } else {
-                    Timber.tag("EntriesViewModel").d("Playing file: ${entryFilePath}")
+                    Timber.tag("EntriesViewModel").d("Playing file: $entryFilePath")
                     audioPlaybackTracker.playFile(File(entryFilePath))
                 }
 
@@ -344,7 +344,6 @@ class EntriesViewModel(
             }
             .launchIn(viewModelScope)
     }
-
 
     private fun createTempAudioFile(
         storageLocation: StorageLocation = StorageLocation.CACHE,

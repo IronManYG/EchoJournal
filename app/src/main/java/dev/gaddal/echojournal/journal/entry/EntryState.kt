@@ -12,7 +12,7 @@ data class EntryState(
     val topic: Topic? = null,
     val allTopics: List<Topic> = emptyList(),
     val filteredTopics: List<Topic> = emptyList(),
-    val selectedTopics : List<Topic> = emptyList(),
+    val selectedTopics: List<Topic> = emptyList(),
     val topicQuery: TextFieldState = TextFieldState(),
     val description: TextFieldState = TextFieldState(),
     val transcription: String = "",

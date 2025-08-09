@@ -171,7 +171,6 @@ class EntryViewModel(
                                     }
                                 }
                                 uiEvents.emit(EntryEvent.SaveEntrySuccess)
-
                             } catch (topicUpsertException: Exception) { // More specific catch
                                 Timber.tag("EntryViewModel").e(
                                     topicUpsertException,
@@ -182,7 +181,6 @@ class EntryViewModel(
 //                                            eventChannel.send(EntryEvent.SaveEntryError("Error saving topics.")) // Send error event to UI
 //                                        }
                             }
-
                         }
 
                         is Result.Error -> {
@@ -209,7 +207,6 @@ class EntryViewModel(
                         }
                     }
                 }
-
             } catch (generalException: Exception) { // More specific catch for general exceptions
                 Timber.tag("EntryViewModel")
                     .e(
@@ -221,7 +218,6 @@ class EntryViewModel(
 //                        withContext(Dispatchers.Main) {
 //                            eventChannel.send(EntryEvent.SaveEntryError("General error during save.")) // Send error event to UI
 //                        }
-
             } finally {
                 // Ensure cleanup even if exceptions occur *before* repository call (less critical here, but good practice)
                 // Consider if you REALLY need cleanup here - files should be deleted in specific error cases already.
@@ -237,7 +233,6 @@ class EntryViewModel(
             )
         }
     }
-
 
     private fun handlePlayAudio() {
         val temp = getTempAudioFile()
@@ -439,5 +434,4 @@ class EntryViewModel(
             retriever.release()
         }
     }
-
 }

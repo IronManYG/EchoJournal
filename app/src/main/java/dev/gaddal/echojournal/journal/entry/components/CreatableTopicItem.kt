@@ -25,7 +25,7 @@ fun CreatableTopicItem(
             Text(
                 text = """
                             Create `$searchQuery`
-                        """.trimIndent(),
+                """.trimIndent(),
                 color = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium

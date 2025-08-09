@@ -40,14 +40,13 @@ class AndroidAudioPlayer : AudioPlayer {
     override fun playFile(file: File) {
         stop() // Stop/cleanup any existing playback first
 
-
         isPrepared = false
         mediaPlayer = MediaPlayer().apply {
             setDataSource(file.absolutePath)
             setOnPreparedListener {
                 isPrepared = true
                 // Now it's safe to query currentPosition/duration
-                start()               // actually begin playback
+                start() // actually begin playback
                 onPrepared?.invoke() // optional: let others know we're ready
             }
             setOnCompletionListener {

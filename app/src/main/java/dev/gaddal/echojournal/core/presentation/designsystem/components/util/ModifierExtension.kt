@@ -6,7 +6,9 @@ inline fun Modifier.applyIf(
     condition: Boolean,
     modifier: Modifier.() -> Modifier
 ): Modifier {
-    return if(condition) {
+    return if (condition) {
         this.then(modifier())
-    } else this
+    } else {
+        this
+    }
 }

@@ -32,8 +32,11 @@ fun TopicDropdownMenuItem(
             .padding(horizontal = 4.dp, vertical = 2.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(
-                color = if (isSelected) MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.05f)
-                else Color.Unspecified
+                color = if (isSelected) {
+                    MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.05f)
+                } else {
+                    Color.Unspecified
+                }
             ),
         leadingIcon = {
             Icon(

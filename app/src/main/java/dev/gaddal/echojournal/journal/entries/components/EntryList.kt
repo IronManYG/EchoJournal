@@ -40,8 +40,8 @@ fun EntryList(
     // 1) Group logs by their creation date (descending)
     val groupedLogs = entries.groupBy { it.audioLog.toLocalDate() }
     val sortedGroups = groupedLogs
-        .toSortedMap(compareByDescending { it })  // sort by date descending
-        .toList()                                 // => List<Pair<LocalDate, List<AudioLogWithTopics>>>
+        .toSortedMap(compareByDescending { it }) // sort by date descending
+        .toList() // => List<Pair<LocalDate, List<AudioLogWithTopics>>>
 
     // 2) Define your desired spacing between items
     val gapBetweenEntries = 16.dp
@@ -123,5 +123,3 @@ fun EntryListPreview() {
         )
     }
 }
-
-

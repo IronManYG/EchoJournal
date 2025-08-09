@@ -36,7 +36,7 @@ fun TopicsDropdownMenu(
     ) {
         allTopics.forEach { topic ->
             val isSelected = topic in selectedTopics
-             TopicDropdownMenuItem(
+            TopicDropdownMenuItem(
                 topic = topic,
                 isSelected = isSelected,
                 onTopicSelected = {

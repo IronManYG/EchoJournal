@@ -11,10 +11,10 @@ data class FilterAudioLogParams(
     val currentLogs: List<AudioLogWithTopics>,
 
     val selectedMoods: List<Mood> = emptyList(),
-    val selectedTopicIds: List<Int> = emptyList(),  // which topic IDs are chosen
-    val query: String = "",                        // free-text search
-    val fromDateMillis: Long? = null,              // optional date range start
-    val toDateMillis: Long? = null,                // optional date range end
+    val selectedTopicIds: List<Int> = emptyList(), // which topic IDs are chosen
+    val query: String = "", // free-text search
+    val fromDateMillis: Long? = null, // optional date range start
+    val toDateMillis: Long? = null, // optional date range end
 
     val sortOrder: AudioLogSort = AudioLogSort.DateAscending
 )

@@ -127,7 +127,6 @@ fun SolidColorIconExample() {
     )
 }
 
-
 @Preview
 @Composable
 fun HorizontalGradientIconExample() {

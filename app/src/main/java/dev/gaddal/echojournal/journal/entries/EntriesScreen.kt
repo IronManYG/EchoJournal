@@ -40,7 +40,6 @@ fun EntriesScreenRoot(
     onEntryClick: (id: Int) -> Unit,
     viewModel: EntriesViewModel = koinViewModel(),
 ) {
-
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     ObserveAsEvents(viewModel.events) { event ->
@@ -155,8 +154,8 @@ fun EntriesScreen(
         RecordBottomSheet(
             showBottomSheet = showBottomSheet,
             onDismiss = { showBottomSheet = false },
-            onAction = onAction,  // the same callback your VM uses
-            state = state         // pass state from VM
+            onAction = onAction, // the same callback your VM uses
+            state = state // pass state from VM
         )
     }
 }

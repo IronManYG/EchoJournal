@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EchoJournalTheme {
-                val navController = rememberNavController ()
+                val navController = rememberNavController()
                 RootNavGraph(navController)
             }
         }

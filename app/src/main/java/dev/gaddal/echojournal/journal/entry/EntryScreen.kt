@@ -71,13 +71,11 @@ import dev.gaddal.echojournal.journal.entry.components.MoodBottomSheet
 import dev.gaddal.echojournal.journal.entry.components.TopicSearcherEntry
 import org.koin.androidx.compose.koinViewModel
 
-
 @Composable
 fun EntryScreenRoot(
     onBackClick: () -> Unit,
     viewModel: EntryViewModel = koinViewModel(),
 ) {
-
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     ObserveAsEvents(viewModel.events) { event ->
@@ -405,10 +403,9 @@ fun EntryScreen(
         MoodBottomSheet(
             showBottomSheet = showBottomSheet,
             onDismiss = { showBottomSheet = false },
-            onAction = onAction,  // the same callback your VM uses
-            state = state         // pass state from VM
+            onAction = onAction, // the same callback your VM uses
+            state = state // pass state from VM
         )
-
     }
 }
 
@@ -420,11 +417,12 @@ fun EntryScreenPreview(modifier: Modifier = Modifier) {
             state = EntryState(
                 mood = Mood.Peaceful,
                 title = rememberTextFieldState(initialText = "My Entry"),
-                description = rememberTextFieldState(initialText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tit amet, consecterur adipiscing"),
+                description = rememberTextFieldState(
+                    initialText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tit amet, consecterur adipiscing"
+                ),
                 transcription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tit amet, consecterur adipiscing"
             ),
             onAction = {}
         )
     }
 }
-

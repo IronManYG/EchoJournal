@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
 
-
 private fun Context.hasPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(
         this,

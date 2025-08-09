@@ -30,7 +30,6 @@ import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
 
-
 @Composable
 fun EchoJournalChip(
     moods: List<Mood>? = null,
@@ -39,8 +38,8 @@ fun EchoJournalChip(
     enabled: Boolean = true,
     selected: Boolean = false,
     onClearFilter: (() -> Unit)? = null,
-    isDropdownOpen: Boolean = false,             // <--- externally controlled
-    onChipClick: () -> Unit = {},                // <--- callback to open/close from outside
+    isDropdownOpen: Boolean = false, // <--- externally controlled
+    onChipClick: () -> Unit = {}, // <--- callback to open/close from outside
 ) {
     // Determine if moods or topics are in play
     val hasMoods = !moods.isNullOrEmpty()
@@ -54,16 +53,22 @@ fun EchoJournalChip(
             // Fallback when no moods/topics are selected.
             // Could also differentiate between "All Moods" / "All Topics"
             // if you know which type it is meant to represent.
-            if (moods != null) "All Moods"
-            else if (topics != null) "All Topics"
-            else "All Items"
+            if (moods != null) {
+                "All Moods"
+            } else if (topics != null) {
+                "All Topics"
+            } else {
+                "All Items"
+            }
         }
     }
 
     // Leading icon(s) if moods are present. For topics, typically no icon needed.
     val leadingIcon: @Composable (() -> Unit)? = if (hasMoods) {
         { MoodsLeadingIcon(moods!!) }
-    } else null
+    } else {
+        null
+    }
 
     // If we have an active filter (moods/topics selected), show a trailing X to clear
     val activeFilter = hasMoods || hasTopics
@@ -80,7 +85,9 @@ fun EchoJournalChip(
                 )
             }
         }
-    } else null
+    } else {
+        null
+    }
 
     ElevatedAssistChip(
         onClick = {
@@ -102,13 +109,13 @@ fun EchoJournalChip(
         colors = AssistChipDefaults.assistChipColors(
             containerColor = when {
                 !selected && !activeFilter -> Color.Transparent
-                else ->  MaterialTheme.colorScheme.surface
+                else -> MaterialTheme.colorScheme.surface
             },
         ),
         elevation = when {
-            !selected && !activeFilter ->  AssistChipDefaults.assistChipElevation()
-            selected ->  AssistChipDefaults.assistChipElevation()
-            else ->  AssistChipDefaults.elevatedAssistChipElevation(elevation = 6.dp)
+            !selected && !activeFilter -> AssistChipDefaults.assistChipElevation()
+            selected -> AssistChipDefaults.assistChipElevation()
+            else -> AssistChipDefaults.elevatedAssistChipElevation(elevation = 6.dp)
         },
         border = AssistChipDefaults.assistChipBorder(
             enabled = enabled,
@@ -194,7 +201,6 @@ private fun MoodsLeadingIcon(moods: List<Mood>) {
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

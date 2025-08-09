@@ -30,4 +30,3 @@ val journalPresentationModule = module {
     viewModelOf(::EntriesViewModel)
     viewModelOf(::EntryViewModel)
 }
-

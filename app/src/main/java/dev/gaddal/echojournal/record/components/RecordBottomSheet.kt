@@ -64,8 +64,10 @@ fun RecordBottomSheet(
     val requestAudioPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { granted ->
-            val showRationale = (!granted && activity != null &&
-                    activity.shouldShowRecordAudioPermissionRationale())
+            val showRationale = (
+                    !granted && activity != null &&
+                            activity.shouldShowRecordAudioPermissionRationale()
+                    )
             onAction(
                 EntriesAction.SubmitAudioPermissionInfo(
                     acceptedAudioPermission = granted,
@@ -122,7 +124,7 @@ fun RecordBottomSheet(
         ) {
             // Header
             Text(
-                text = if (state.isPaused ) "Recording paused" else "Recording your memories...",
+                text = if (state.isPaused) "Recording paused" else "Recording your memories...",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineMedium,
@@ -259,7 +261,6 @@ fun RecordBottomSheet(
         )
     }
 }
-
 
 @Preview
 @Composable

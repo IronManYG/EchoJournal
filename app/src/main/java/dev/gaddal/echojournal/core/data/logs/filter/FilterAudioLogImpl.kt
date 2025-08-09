@@ -89,7 +89,7 @@ class FilterAudioLogImpl : FilterAudioLog {
     ): Boolean {
         // If user didn't choose a range, skip
         val from = fromDateMillis ?: Long.MIN_VALUE
-        val to   = toDateMillis   ?: Long.MAX_VALUE
+        val to = toDateMillis ?: Long.MAX_VALUE
         return (createdAt in from..to)
     }
 
@@ -107,4 +107,3 @@ class FilterAudioLogImpl : FilterAudioLog {
         }
     }
 }
-

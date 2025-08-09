@@ -10,7 +10,6 @@ import java.io.File
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-
 class AudioPlaybackTracker(
     private val audioPlayer: AudioPlayer,
     private val applicationScope: CoroutineScope
@@ -44,7 +43,6 @@ class AudioPlaybackTracker(
             _isPlaying.value = true
             _isPaused.value = false
 
-
             // At this point, duration is guaranteed valid:
             _duration.value = audioPlayer.duration.milliseconds
 
@@ -54,7 +52,6 @@ class AudioPlaybackTracker(
 
         audioPlayer.playFile(file)
     }
-
 
     private fun startPolling() {
         // Start polling the player's current position
