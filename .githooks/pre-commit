@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# EchoJournal ktlint pre-commit hook
+# To enable: git config core.hooksPath .githooks
+
+if [ -f "./gradlew.bat" ]; then
+  ./gradlew.bat :app:ktlintCheck
+  code=$?
+else
+  ./gradlew :app:ktlintCheck
+  code=$?
+fi
+
+if [ $code -ne 0 ]; then
+  echo "ktlintCheck failed. Commit aborted."
+  exit $code
+fi
+exit 0
