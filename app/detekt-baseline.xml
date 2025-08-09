@@ -1,0 +1,638 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+    <ManuallySuppressedIssues />
+    <CurrentIssues>
+        <ID>ComplexCondition:RecordBottomSheet.kt$showBottomSheet &amp;&amp;
+            state.hasRecordPermission &amp;&amp; !state.isRecording &amp;&amp; !state.isPaused
+        </ID>
+        <ID>CyclomaticComplexMethod:DataErrorToText.kt$fun DataError.asUiText(): UiText</ID>
+        <ID>CyclomaticComplexMethod:EchoJournalChip.kt$@Composable fun EchoJournalChip( moods: List&lt;Mood&gt;?
+            = null, topics: List&lt;Topic&gt;? = null, modifier: Modifier = Modifier, enabled:
+            Boolean = true, selected: Boolean = false, onClearFilter: (() -&gt; Unit)? = null,
+            isDropdownOpen: Boolean = false, // &lt;--- externally controlled onChipClick: () -&gt;
+            Unit = {}, // &lt;--- callback to open/close from outside )
+        </ID>
+        <ID>CyclomaticComplexMethod:EntriesViewModel.kt$EntriesViewModel$fun onAction(action:
+            EntriesAction)
+        </ID>
+        <ID>CyclomaticComplexMethod:EntryViewModel.kt$EntryViewModel$fun onAction(action:
+            EntryAction)
+        </ID>
+        <ID>CyclomaticComplexMethod:RecordBottomSheet.kt$@Composable fun RecordBottomSheet(
+            showBottomSheet: Boolean, onDismiss: () -&gt; Unit, onAction: (EntriesAction) -&gt;
+            Unit, state: EntriesState, // from ViewModel modifier: Modifier = Modifier )
+        </ID>
+        <ID>FunctionNaming:AudioPlayer.kt$@Composable fun AudioPlayer( modifier: Modifier =
+            Modifier, isPlaying: Boolean, isPaused: Boolean, currentPosition: Duration, duration:
+            Duration, onPlay: () -&gt; Unit, onPause: () -&gt; Unit, onResume: () -&gt; Unit,
+            onStop: () -&gt; Unit, onSeek: (Int) -&gt; Unit, // ms mood: Mood? = null, // If mood is
+            null, these become the fallback defaults: containerColor: Color =
+            MaterialTheme.colorScheme.inverseOnSurface, iconTint: Color =
+            MaterialTheme.colorScheme.primary, progressColor: Color =
+            MaterialTheme.colorScheme.primary, progressTrackColor: Color =
+            MaterialTheme.colorScheme.inversePrimary, textColor: Color =
+            MaterialTheme.colorScheme.onSurface )
+        </ID>
+        <ID>FunctionNaming:AudioPlayer.kt$@Preview(showBackground = true) @Composable fun
+            AudioPlayerPreview()
+        </ID>
+        <ID>FunctionNaming:BreathingCircle.kt$@Composable fun BreathingCircle( modifier: Modifier =
+            Modifier, color: Color = Color.Blue.copy(alpha = 0.5f), circleSize: Dp = 128.dp,
+            initialScale: Float = 0.9f, targetScale: Float = 1.1f, durationMillis: Int = 1000,
+            repeatMode: RepeatMode = RepeatMode.Reverse, easing: Easing = LinearOutSlowInEasing,
+            isAnimated: Boolean = true, brush: Brush? = null )
+        </ID>
+        <ID>FunctionNaming:BreathingCircle.kt$@Preview(showBackground = true) @Composable fun
+            BreathingCirclePreview(modifier: Modifier = Modifier)
+        </ID>
+        <ID>FunctionNaming:CreatableTopicDropdown.kt$@Composable fun CreatableTopicDropdown(
+            expanded: Boolean, allTopics: List&lt;Topic&gt;, selectedTopics: List&lt;Topic&gt;,
+            onTopicClick: (Topic) -&gt; Unit, searchQuery: String, onCreateClick: () -&gt; Unit,
+            modifier: Modifier = Modifier, startOffset: IntOffset = IntOffset.Zero )
+        </ID>
+        <ID>FunctionNaming:CreatableTopicItem.kt$@Composable fun CreatableTopicItem( searchQuery:
+            String, onCreateClick: () -&gt; Unit, modifier: Modifier = Modifier, enabled: Boolean =
+            true )
+        </ID>
+        <ID>FunctionNaming:DateHeader.kt$@Composable fun DateHeader( label: String, modifier:
+            Modifier = Modifier )
+        </ID>
+        <ID>FunctionNaming:DateHeader.kt$@Preview(showBackground = true) @Composable fun
+            DateHeaderPreview()
+        </ID>
+        <ID>FunctionNaming:EchoJournalChip.kt$@Composable fun EchoJournalChip( moods: List&lt;Mood&gt;?
+            = null, topics: List&lt;Topic&gt;? = null, modifier: Modifier = Modifier, enabled:
+            Boolean = true, selected: Boolean = false, onClearFilter: (() -&gt; Unit)? = null,
+            isDropdownOpen: Boolean = false, // &lt;--- externally controlled onChipClick: () -&gt;
+            Unit = {}, // &lt;--- callback to open/close from outside )
+        </ID>
+        <ID>FunctionNaming:EchoJournalChip.kt$@Composable private fun MoodsLeadingIcon(moods: List&lt;Mood&gt;)</ID>
+        <ID>FunctionNaming:EchoJournalChip.kt$@Preview(showBackground = true) @Composable fun
+            EchoJournalChipPreview()
+        </ID>
+        <ID>FunctionNaming:EchoJournalFAB.kt$@Composable fun EchoJournalFAB( modifier: Modifier =
+            Modifier, icon: ImageVector, isLargeVariant: Boolean = false, rippleEnabled: Boolean =
+            false, onClick: () -&gt; Unit )
+        </ID>
+        <ID>FunctionNaming:EchoJournalFAB.kt$@Preview(showBackground = true) @Composable fun
+            EchoJournalFABPreview()
+        </ID>
+        <ID>FunctionNaming:EchoJournalScaffold.kt$@Composable fun EchoJournalScaffold( modifier:
+            Modifier = Modifier, withGradient: Boolean = true, topAppBar: @Composable () -&gt; Unit
+            = {}, bottomBar: @Composable () -&gt; Unit = {}, floatingActionButton: @Composable () -&gt;
+            Unit = {}, containerColor: Color = MaterialTheme.colorScheme.background, content:
+            @Composable (PaddingValues) -&gt; Unit )
+        </ID>
+        <ID>FunctionNaming:EchoJournalTopAppBar.kt$@Composable fun EchoJournalTopAppBar( title:
+            String, modifier: Modifier = Modifier, showBackButton: Boolean, showSettingsButton:
+            Boolean, menuItems: List&lt;DropDownItem&gt; = emptyList(), onMenuItemClick: (Int) -&gt;
+            Unit = {}, onBackClick: () -&gt; Unit = {}, onSettingsClick: () -&gt; Unit = {},
+            scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
+            startContent: (@Composable () -&gt; Unit)? = null, isTitleCentered: Boolean = false,
+            titleTextStyle: TextStyle = MaterialTheme.typography.headlineLarge, )
+        </ID>
+        <ID>FunctionNaming:EchoJournalTopAppBar.kt$@Preview(showBackground = true) @Composable
+            private fun EchoJournalTopAppBarPreview()
+        </ID>
+        <ID>FunctionNaming:EchoJournalTopic.kt$@Composable fun EchoJournalTopic( topic: Topic, mood:
+            Mood? = null, onClearTopicClick: ((Topic) -&gt; Unit)? = null, // If mood is null, these
+            become the fallback defaults: containerColor: Color = Color(0xFFF2F2F7), hatchTagColor:
+            Color = MaterialTheme.colorScheme.outline, textColor: Color =
+            MaterialTheme.colorScheme.onSurfaceVariant )
+        </ID>
+        <ID>FunctionNaming:EchoJournalTopic.kt$@Preview(showBackground = true) @Composable fun
+            EchoJournalTopicPreview()
+        </ID>
+        <ID>FunctionNaming:EmptyList.kt$@Composable fun EmptyList( modifier: Modifier = Modifier )
+        </ID>
+        <ID>FunctionNaming:EmptyList.kt$@Preview(showBackground = true) @Composable fun
+            EmptyListPreview()
+        </ID>
+        <ID>FunctionNaming:EntriesScreen.kt$@Composable fun EntriesScreen( state: EntriesState,
+            onAction: (EntriesAction) -&gt; Unit, )
+        </ID>
+        <ID>FunctionNaming:EntriesScreen.kt$@Composable fun EntriesScreenRoot( onSettingsClick: () -&gt;
+            Unit, onCreateNewEntryTrigger: () -&gt; Unit, onEntryClick: (id: Int) -&gt; Unit,
+            viewModel: EntriesViewModel = koinViewModel(), )
+        </ID>
+        <ID>FunctionNaming:EntriesScreen.kt$@Preview @Composable fun EntriesScreenPreview()</ID>
+        <ID>FunctionNaming:EntryCard.kt$@Composable fun EntryCard( audioLog: AudioLog, as24Hour:
+            Boolean = false, topics: List&lt;Topic&gt; = listOf(), modifier: Modifier = Modifier,
+            showLineAbove: Boolean = false, showLineBelow: Boolean = false, gapBetweenEntries: Dp =
+            0.dp, // Additional params to control playback isPlaying: Boolean, isPaused: Boolean,
+            currentPosition: Duration, duration: Duration, onPlay: (id: Int) -&gt; Unit, onPause: ()
+            -&gt; Unit, onResume: () -&gt; Unit, onStop: () -&gt; Unit, onSeek: (ms: Int) -&gt; Unit
+            )
+        </ID>
+        <ID>FunctionNaming:EntryCard.kt$@Preview(showBackground = true) @Composable fun
+            EntryCardPreview()
+        </ID>
+        <ID>FunctionNaming:EntryList.kt$@Composable fun EntryList( modifier: Modifier = Modifier,
+            entries: List&lt;AudioLogWithTopics&gt;, nowPlayingLogId: Int?, isPlaying: Boolean,
+            isPaused: Boolean, currentPosition: Duration, duration: Duration, onPlay: (id: Int) -&gt;
+            Unit, onPause: () -&gt; Unit, onResume: () -&gt; Unit, onStop: () -&gt; Unit, onSeek:
+            (ms: Int) -&gt; Unit )
+        </ID>
+        <ID>FunctionNaming:EntryList.kt$@Preview(showBackground = true) @Composable fun
+            EntryListPreview()
+        </ID>
+        <ID>FunctionNaming:EntryScreen.kt$@Composable fun EntryScreen( state: EntryState, onAction:
+            (EntryAction) -&gt; Unit, )
+        </ID>
+        <ID>FunctionNaming:EntryScreen.kt$@Composable fun EntryScreenRoot( onBackClick: () -&gt;
+            Unit, viewModel: EntryViewModel = koinViewModel(), )
+        </ID>
+        <ID>FunctionNaming:EntryScreen.kt$@Preview @Composable fun EntryScreenPreview(modifier:
+            Modifier = Modifier)
+        </ID>
+        <ID>FunctionNaming:ExpandableText.kt$@Composable fun ExpandableText( modifier: Modifier =
+            Modifier, style: TextStyle = LocalTextStyle.current, fontStyle: FontStyle? = null, text:
+            String, collapsedMaxLine: Int = DEFAULT_MINIMUM_TEXT_LINE, showMoreText: String = "Show
+            More", showMoreStyle: SpanStyle = SpanStyle( color = MaterialTheme.colorScheme.primary,
+            fontFamily = InterFontFamily, fontWeight = FontWeight.W500, fontSize = 14.sp, ),
+            showLessText: String = "Show Less", showLessStyle: SpanStyle = showMoreStyle, textAlign:
+            TextAlign? = null, fontSize: TextUnit = TextUnit.Unspecified, )
+        </ID>
+        <ID>FunctionNaming:ExpandableText.kt$@Preview(showBackground = true) @Composable fun
+            ExpandableTextPreview()
+        </ID>
+        <ID>FunctionNaming:GradientBackground.kt$@Composable fun GradientBackground( modifier:
+            Modifier = Modifier, hasToolbar: Boolean = true, content: @Composable ColumnScope.() -&gt;
+            Unit )
+        </ID>
+        <ID>FunctionNaming:GradientBackground.kt$@Preview @Composable private fun
+            GradientBackgroundPreview()
+        </ID>
+        <ID>FunctionNaming:GradientButton.kt$@Composable fun GradientButton( onClick: () -&gt; Unit,
+            modifier: Modifier = Modifier, enabled: Boolean = true, shape: Shape =
+            ButtonDefaults.shape, enabledBrush: Brush = Brush.linearGradient( listOf(
+            MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.primary ) ),
+            pressedBrush: Brush = Brush.linearGradient( listOf( MaterialTheme.colorScheme.primary,
+            MaterialTheme.colorScheme.primaryContainer ) ), disabledBrush: Brush =
+            Brush.linearGradient( listOf(Color.LightGray, Color.LightGray) ), enabledContentColor:
+            Color = MaterialTheme.colorScheme.onPrimary, pressedContentColor: Color =
+            MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f), disabledContentColor: Color =
+            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f), elevation: Dp = 0.dp, border:
+            BorderStroke? = null, contentPadding: PaddingValues = PaddingValues( horizontal = 16.dp,
+            vertical = 8.dp ), interactionSource: MutableInteractionSource = remember {
+            MutableInteractionSource() }, content: @Composable RowScope.() -&gt; Unit )
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Composable fun GradientTintedIcon( imageVector:
+            ImageVector, contentDescription: String?, modifier: Modifier = Modifier, gradientBrush:
+            Brush? = null, gradientType: GradientType? = null, colors: List&lt;Color&gt; =
+            listOf(Color.Red, Color.Yellow), // Default gradient colors solidColor: Color? = null,
+            // Parameter for solid color tint blendMode: BlendMode = BlendMode.SrcAtop, // Default
+            blendMode isWithinScaffold: Boolean = false // **NEW: isWithinScaffold parameter** )
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun
+            CustomBrushGradientIconExample()
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun
+            CustomColorsGradientIconExample()
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun
+            HorizontalGradientIconExample()
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun
+            LinearGradientIconExample()
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun
+            RadialGradientIconExample()
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun SolidColorIconExample()
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun
+            SweepGradientIconExample()
+        </ID>
+        <ID>FunctionNaming:GradientTintedIcon.kt$@Preview @Composable fun
+            VerticalGradientIconExample()
+        </ID>
+        <ID>FunctionNaming:MoodBottomSheet.kt$@Composable fun MoodBottomSheet( showBottomSheet:
+            Boolean, onDismiss: () -&gt; Unit, onAction: (EntryAction) -&gt; Unit, state:
+            EntryState, // from ViewModel modifier: Modifier = Modifier )
+        </ID>
+        <ID>FunctionNaming:MoodBottomSheet.kt$@Preview @Composable fun
+            MoodBottomSheetPreview(modifier: Modifier = Modifier)
+        </ID>
+        <ID>FunctionNaming:MoodsDropdownMenu.kt$@Composable fun MoodsDropdownMenu( expanded:
+            Boolean, onDismissRequest: () -&gt; Unit, allMoods: List&lt;Mood&gt;, selectedMoods:
+            List&lt;Mood&gt;, onMoodSelected: (Mood) -&gt; Unit )
+        </ID>
+        <ID>FunctionNaming:MoodsFilterSection.kt$@Composable fun MoodsFilterSection( allMoods: List&lt;Mood&gt;,
+            selectedMoods: List&lt;Mood&gt;, onMoodSelected: (Mood) -&gt; Unit, onClearFilter: () -&gt;
+            Unit )
+        </ID>
+        <ID>FunctionNaming:ObserveAsEvents.kt$@Composable fun &lt;T&gt; ObserveAsEvents( flow: Flow&lt;T&gt;,
+            key1: Any? = null, key2: Any? = null, onEvent: (T) -&gt; Unit )
+        </ID>
+        <ID>FunctionNaming:RecordBottomSheet.kt$@Composable fun RecordBottomSheet( showBottomSheet:
+            Boolean, onDismiss: () -&gt; Unit, onAction: (EntriesAction) -&gt; Unit, state:
+            EntriesState, // from ViewModel modifier: Modifier = Modifier )
+        </ID>
+        <ID>FunctionNaming:RecordBottomSheet.kt$@Preview @Composable fun
+            RecordBottomSheetPreview()
+        </ID>
+        <ID>FunctionNaming:RootNavGraph.kt$@Composable fun RootNavGraph( navController:
+            NavHostController, )
+        </ID>
+        <ID>FunctionNaming:Theme.kt$@Composable fun EchoJournalTheme( content: @Composable () -&gt;
+            Unit )
+        </ID>
+        <ID>FunctionNaming:TopicDropdownMenuItem.kt$@Composable fun TopicDropdownMenuItem( topic:
+            Topic, isSelected: Boolean, onTopicSelected: (Topic) -&gt; Unit, modifier: Modifier =
+            Modifier )
+        </ID>
+        <ID>FunctionNaming:TopicSearcherEntry.kt$@Composable fun TopicSearcherEntry( state:
+            EntryState, onAction: (EntryAction) -&gt; Unit, allTopics: List&lt;Topic&gt;,
+            selectedTopics: List&lt;Topic&gt;, onTopicClick: (Topic) -&gt; Unit, onCreateClick: () -&gt;
+            Unit, onClearTopicClick: (Topic) -&gt; Unit, )
+        </ID>
+        <ID>FunctionNaming:TopicSearcherEntry.kt$@Preview(showBackground = true) @Composable fun
+            TopicSearcherEntryPreview()
+        </ID>
+        <ID>FunctionNaming:TopicsDropdownMenu.kt$@Composable fun TopicsDropdownMenu( expanded:
+            Boolean, onDismissRequest: () -&gt; Unit, properties: PopupProperties =
+            PopupProperties(), allTopics: List&lt;Topic&gt;, selectedTopics: List&lt;Topic&gt;,
+            onTopicClick: (Topic) -&gt; Unit, modifier: Modifier = Modifier, )
+        </ID>
+        <ID>FunctionNaming:TopicsFilterSection.kt$@Composable fun TopicsFilterSection( allTopics:
+            List&lt;Topic&gt;, selectedTopics: List&lt;Topic&gt;, onClearFilter: () -&gt; Unit,
+            onTopicSelected: (Topic) -&gt; Unit, )
+        </ID>
+        <ID>ImplicitDefaultLocale:Timer.kt$String.format("%02d", (totalSeconds % 3600) / 60)</ID>
+        <ID>ImplicitDefaultLocale:Timer.kt$String.format("%02d", (totalSeconds % 60))</ID>
+        <ID>ImplicitDefaultLocale:Timer.kt$String.format("%02d", totalSeconds / (60 * 60))</ID>
+        <ID>ImplicitDefaultLocale:TimestampExtensions.kt$String.format("%02d:%02d", minutes,
+            seconds)
+        </ID>
+        <ID>LongMethod:AudioPlayer.kt$@Composable fun AudioPlayer( modifier: Modifier = Modifier,
+            isPlaying: Boolean, isPaused: Boolean, currentPosition: Duration, duration: Duration,
+            onPlay: () -&gt; Unit, onPause: () -&gt; Unit, onResume: () -&gt; Unit, onStop: () -&gt;
+            Unit, onSeek: (Int) -&gt; Unit, // ms mood: Mood? = null, // If mood is null, these
+            become the fallback defaults: containerColor: Color =
+            MaterialTheme.colorScheme.inverseOnSurface, iconTint: Color =
+            MaterialTheme.colorScheme.primary, progressColor: Color =
+            MaterialTheme.colorScheme.primary, progressTrackColor: Color =
+            MaterialTheme.colorScheme.inversePrimary, textColor: Color =
+            MaterialTheme.colorScheme.onSurface )
+        </ID>
+        <ID>LongMethod:AudioPlayer.kt$@Preview(showBackground = true) @Composable fun
+            AudioPlayerPreview()
+        </ID>
+        <ID>LongMethod:EchoJournalChip.kt$@Composable fun EchoJournalChip( moods: List&lt;Mood&gt;?
+            = null, topics: List&lt;Topic&gt;? = null, modifier: Modifier = Modifier, enabled:
+            Boolean = true, selected: Boolean = false, onClearFilter: (() -&gt; Unit)? = null,
+            isDropdownOpen: Boolean = false, // &lt;--- externally controlled onChipClick: () -&gt;
+            Unit = {}, // &lt;--- callback to open/close from outside )
+        </ID>
+        <ID>LongMethod:EchoJournalTopAppBar.kt$@Composable fun EchoJournalTopAppBar( title: String,
+            modifier: Modifier = Modifier, showBackButton: Boolean, showSettingsButton: Boolean,
+            menuItems: List&lt;DropDownItem&gt; = emptyList(), onMenuItemClick: (Int) -&gt; Unit =
+            {}, onBackClick: () -&gt; Unit = {}, onSettingsClick: () -&gt; Unit = {},
+            scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
+            startContent: (@Composable () -&gt; Unit)? = null, isTitleCentered: Boolean = false,
+            titleTextStyle: TextStyle = MaterialTheme.typography.headlineLarge, )
+        </ID>
+        <ID>LongMethod:EntriesScreen.kt$@Composable fun EntriesScreen( state: EntriesState,
+            onAction: (EntriesAction) -&gt; Unit, )
+        </ID>
+        <ID>LongMethod:EntriesViewModel.kt$EntriesViewModel$fun onAction(action: EntriesAction)</ID>
+        <ID>LongMethod:EntryCard.kt$@Composable fun EntryCard( audioLog: AudioLog, as24Hour: Boolean
+            = false, topics: List&lt;Topic&gt; = listOf(), modifier: Modifier = Modifier,
+            showLineAbove: Boolean = false, showLineBelow: Boolean = false, gapBetweenEntries: Dp =
+            0.dp, // Additional params to control playback isPlaying: Boolean, isPaused: Boolean,
+            currentPosition: Duration, duration: Duration, onPlay: (id: Int) -&gt; Unit, onPause: ()
+            -&gt; Unit, onResume: () -&gt; Unit, onStop: () -&gt; Unit, onSeek: (ms: Int) -&gt; Unit
+            )
+        </ID>
+        <ID>LongMethod:EntryScreen.kt$@Composable fun EntryScreen( state: EntryState, onAction:
+            (EntryAction) -&gt; Unit, )
+        </ID>
+        <ID>LongMethod:EntryViewModel.kt$EntryViewModel$private fun handleSaveNewEntryClick()</ID>
+        <ID>LongMethod:MoodBottomSheet.kt$@Composable fun MoodBottomSheet( showBottomSheet: Boolean,
+            onDismiss: () -&gt; Unit, onAction: (EntryAction) -&gt; Unit, state: EntryState, // from
+            ViewModel modifier: Modifier = Modifier )
+        </ID>
+        <ID>LongMethod:RecordBottomSheet.kt$@Composable fun RecordBottomSheet( showBottomSheet:
+            Boolean, onDismiss: () -&gt; Unit, onAction: (EntriesAction) -&gt; Unit, state:
+            EntriesState, // from ViewModel modifier: Modifier = Modifier )
+        </ID>
+        <ID>LongMethod:TopicSearcherEntry.kt$@Composable fun TopicSearcherEntry( state: EntryState,
+            onAction: (EntryAction) -&gt; Unit, allTopics: List&lt;Topic&gt;, selectedTopics: List&lt;Topic&gt;,
+            onTopicClick: (Topic) -&gt; Unit, onCreateClick: () -&gt; Unit, onClearTopicClick:
+            (Topic) -&gt; Unit, )
+        </ID>
+        <ID>LongParameterList:AudioPlayer.kt$( modifier: Modifier = Modifier, isPlaying: Boolean,
+            isPaused: Boolean, currentPosition: Duration, duration: Duration, onPlay: () -&gt; Unit,
+            onPause: () -&gt; Unit, onResume: () -&gt; Unit, onStop: () -&gt; Unit, onSeek: (Int) -&gt;
+            Unit, // ms mood: Mood? = null, // If mood is null, these become the fallback defaults:
+            containerColor: Color = MaterialTheme.colorScheme.inverseOnSurface, iconTint: Color =
+            MaterialTheme.colorScheme.primary, progressColor: Color =
+            MaterialTheme.colorScheme.primary, progressTrackColor: Color =
+            MaterialTheme.colorScheme.inversePrimary, textColor: Color =
+            MaterialTheme.colorScheme.onSurface )
+        </ID>
+        <ID>LongParameterList:BreathingCircle.kt$( modifier: Modifier = Modifier, color: Color =
+            Color.Blue.copy(alpha = 0.5f), circleSize: Dp = 128.dp, initialScale: Float = 0.9f,
+            targetScale: Float = 1.1f, durationMillis: Int = 1000, repeatMode: RepeatMode =
+            RepeatMode.Reverse, easing: Easing = LinearOutSlowInEasing, isAnimated: Boolean = true,
+            brush: Brush? = null )
+        </ID>
+        <ID>LongParameterList:CreatableTopicDropdown.kt$( expanded: Boolean, allTopics: List&lt;Topic&gt;,
+            selectedTopics: List&lt;Topic&gt;, onTopicClick: (Topic) -&gt; Unit, searchQuery:
+            String, onCreateClick: () -&gt; Unit, modifier: Modifier = Modifier, startOffset:
+            IntOffset = IntOffset.Zero )
+        </ID>
+        <ID>LongParameterList:EchoJournalChip.kt$( moods: List&lt;Mood&gt;? = null, topics: List&lt;Topic&gt;?
+            = null, modifier: Modifier = Modifier, enabled: Boolean = true, selected: Boolean =
+            false, onClearFilter: (() -&gt; Unit)? = null, isDropdownOpen: Boolean = false, // &lt;---
+            externally controlled onChipClick: () -&gt; Unit = {}, // &lt;--- callback to open/close
+            from outside )
+        </ID>
+        <ID>LongParameterList:EchoJournalScaffold.kt$( modifier: Modifier = Modifier, withGradient:
+            Boolean = true, topAppBar: @Composable () -&gt; Unit = {}, bottomBar: @Composable () -&gt;
+            Unit = {}, floatingActionButton: @Composable () -&gt; Unit = {}, containerColor: Color =
+            MaterialTheme.colorScheme.background, content: @Composable (PaddingValues) -&gt; Unit )
+        </ID>
+        <ID>LongParameterList:EchoJournalTopAppBar.kt$( title: String, modifier: Modifier =
+            Modifier, showBackButton: Boolean, showSettingsButton: Boolean, menuItems: List&lt;DropDownItem&gt;
+            = emptyList(), onMenuItemClick: (Int) -&gt; Unit = {}, onBackClick: () -&gt; Unit = {},
+            onSettingsClick: () -&gt; Unit = {}, scrollBehavior: TopAppBarScrollBehavior =
+            TopAppBarDefaults.enterAlwaysScrollBehavior(), startContent: (@Composable () -&gt;
+            Unit)? = null, isTitleCentered: Boolean = false, titleTextStyle: TextStyle =
+            MaterialTheme.typography.headlineLarge, )
+        </ID>
+        <ID>LongParameterList:EchoJournalTopic.kt$( topic: Topic, mood: Mood? = null,
+            onClearTopicClick: ((Topic) -&gt; Unit)? = null, // If mood is null, these become the
+            fallback defaults: containerColor: Color = Color(0xFFF2F2F7), hatchTagColor: Color =
+            MaterialTheme.colorScheme.outline, textColor: Color =
+            MaterialTheme.colorScheme.onSurfaceVariant )
+        </ID>
+        <ID>LongParameterList:EntriesViewModel.kt$EntriesViewModel$( private val audioLogRepository:
+            AudioLogRepository, private val topicRepository: TopicRepository, private val
+            entriesFilter: FilterAudioLog, private val audioRecordingTracker: AudioRecordingTracker,
+            private val audioPlaybackTracker: AudioPlaybackTracker, private val fileNameProvider:
+            FileNameProvider, private val storagePathProvider: StoragePathProvider, private val
+            savedStateHandle: SavedStateHandle, )
+        </ID>
+        <ID>LongParameterList:EntryCard.kt$( audioLog: AudioLog, as24Hour: Boolean = false, topics:
+            List&lt;Topic&gt; = listOf(), modifier: Modifier = Modifier, showLineAbove: Boolean =
+            false, showLineBelow: Boolean = false, gapBetweenEntries: Dp = 0.dp, // Additional
+            params to control playback isPlaying: Boolean, isPaused: Boolean, currentPosition:
+            Duration, duration: Duration, onPlay: (id: Int) -&gt; Unit, onPause: () -&gt; Unit,
+            onResume: () -&gt; Unit, onStop: () -&gt; Unit, onSeek: (ms: Int) -&gt; Unit )
+        </ID>
+        <ID>LongParameterList:EntryList.kt$( modifier: Modifier = Modifier, entries: List&lt;AudioLogWithTopics&gt;,
+            nowPlayingLogId: Int?, isPlaying: Boolean, isPaused: Boolean, currentPosition: Duration,
+            duration: Duration, onPlay: (id: Int) -&gt; Unit, onPause: () -&gt; Unit, onResume: () -&gt;
+            Unit, onStop: () -&gt; Unit, onSeek: (ms: Int) -&gt; Unit )
+        </ID>
+        <ID>LongParameterList:ExpandableText.kt$( modifier: Modifier = Modifier, style: TextStyle =
+            LocalTextStyle.current, fontStyle: FontStyle? = null, text: String, collapsedMaxLine:
+            Int = DEFAULT_MINIMUM_TEXT_LINE, showMoreText: String = "Show More", showMoreStyle:
+            SpanStyle = SpanStyle( color = MaterialTheme.colorScheme.primary, fontFamily =
+            InterFontFamily, fontWeight = FontWeight.W500, fontSize = 14.sp, ), showLessText: String
+            = "Show Less", showLessStyle: SpanStyle = showMoreStyle, textAlign: TextAlign? = null,
+            fontSize: TextUnit = TextUnit.Unspecified, )
+        </ID>
+        <ID>LongParameterList:GradientButton.kt$( onClick: () -&gt; Unit, modifier: Modifier =
+            Modifier, enabled: Boolean = true, shape: Shape = ButtonDefaults.shape, enabledBrush:
+            Brush = Brush.linearGradient( listOf( MaterialTheme.colorScheme.primaryContainer,
+            MaterialTheme.colorScheme.primary ) ), pressedBrush: Brush = Brush.linearGradient(
+            listOf( MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primaryContainer )
+            ), disabledBrush: Brush = Brush.linearGradient( listOf(Color.LightGray, Color.LightGray)
+            ), enabledContentColor: Color = MaterialTheme.colorScheme.onPrimary,
+            pressedContentColor: Color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+            disabledContentColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
+            elevation: Dp = 0.dp, border: BorderStroke? = null, contentPadding: PaddingValues =
+            PaddingValues( horizontal = 16.dp, vertical = 8.dp ), interactionSource:
+            MutableInteractionSource = remember { MutableInteractionSource() }, content: @Composable
+            RowScope.() -&gt; Unit )
+        </ID>
+        <ID>LongParameterList:GradientTintedIcon.kt$( imageVector: ImageVector, contentDescription:
+            String?, modifier: Modifier = Modifier, gradientBrush: Brush? = null, gradientType:
+            GradientType? = null, colors: List&lt;Color&gt; = listOf(Color.Red, Color.Yellow), //
+            Default gradient colors solidColor: Color? = null, // Parameter for solid color tint
+            blendMode: BlendMode = BlendMode.SrcAtop, // Default blendMode isWithinScaffold: Boolean
+            = false // **NEW: isWithinScaffold parameter** )
+        </ID>
+        <ID>LongParameterList:Mood.kt$Mood$( val title: String, val containerColor: Color, val
+            iconTint: Color, val progressColor: Color, val progressTrackColor: Color, val textColor:
+            Color, val tagTextColor: Color, val hatchTagColor: Color, val gradientColors: List&lt;Color&gt;,
+            @DrawableRes val iconRes: Int, @DrawableRes val iconResActiveOff: Int, )
+        </ID>
+        <ID>LongParameterList:TopicSearcherEntry.kt$( state: EntryState, onAction: (EntryAction) -&gt;
+            Unit, allTopics: List&lt;Topic&gt;, selectedTopics: List&lt;Topic&gt;, onTopicClick:
+            (Topic) -&gt; Unit, onCreateClick: () -&gt; Unit, onClearTopicClick: (Topic) -&gt; Unit,
+            )
+        </ID>
+        <ID>LongParameterList:TopicsDropdownMenu.kt$( expanded: Boolean, onDismissRequest: () -&gt;
+            Unit, properties: PopupProperties = PopupProperties(), allTopics: List&lt;Topic&gt;,
+            selectedTopics: List&lt;Topic&gt;, onTopicClick: (Topic) -&gt; Unit, modifier: Modifier
+            = Modifier, )
+        </ID>
+        <ID>MagicNumber:AudioPlaybackTracker.kt$AudioPlaybackTracker$200</ID>
+        <ID>MagicNumber:Color.kt$0xFF001945</ID>
+        <ID>MagicNumber:Color.kt$0xFF004585</ID>
+        <ID>MagicNumber:Color.kt$0xFF004CB4</ID>
+        <ID>MagicNumber:Color.kt$0xFF0057CC</ID>
+        <ID>MagicNumber:Color.kt$0xFF0A5F33</ID>
+        <ID>MagicNumber:Color.kt$0xFF191A20</ID>
+        <ID>MagicNumber:Color.kt$0xFF1F70F5</ID>
+        <ID>MagicNumber:Color.kt$0xFF2993F7</ID>
+        <ID>MagicNumber:Color.kt$0xFF3A8EDE</ID>
+        <ID>MagicNumber:Color.kt$0xFF3B4663</ID>
+        <ID>MagicNumber:Color.kt$0xFF40434F</ID>
+        <ID>MagicNumber:Color.kt$0xFF41B278</ID>
+        <ID>MagicNumber:Color.kt$0xFF578CFF</ID>
+        <ID>MagicNumber:Color.kt$0xFF680014</ID>
+        <ID>MagicNumber:Color.kt$0xFF6B0303</ID>
+        <ID>MagicNumber:Color.kt$0xFF6B7796</ID>
+        <ID>MagicNumber:Color.kt$0xFF6C044D</ID>
+        <ID>MagicNumber:Color.kt$0xFF6C7085</ID>
+        <ID>MagicNumber:Color.kt$0xFF71EBAC</ID>
+        <ID>MagicNumber:Color.kt$0xFF723602</ID>
+        <ID>MagicNumber:Color.kt$0xFF7BBCFA</ID>
+        <ID>MagicNumber:Color.kt$0xFF9FABCD</ID>
+        <ID>MagicNumber:Color.kt$0xFFB9DDCB</ID>
+        <ID>MagicNumber:Color.kt$0xFFBAC6E9</ID>
+        <ID>MagicNumber:Color.kt$0xFFBE3294</ID>
+        <ID>MagicNumber:Color.kt$0xFFC1C3CE</ID>
+        <ID>MagicNumber:Color.kt$0xFFC4F3DB</ID>
+        <ID>MagicNumber:Color.kt$0xFFC5D8E9</ID>
+        <ID>MagicNumber:Color.kt$0xFFD9E2FF</ID>
+        <ID>MagicNumber:Color.kt$0xFFDB6C0B</ID>
+        <ID>MagicNumber:Color.kt$0xFFDDD2C8</ID>
+        <ID>MagicNumber:Color.kt$0xFFDE3A3A</ID>
+        <ID>MagicNumber:Color.kt$0xFFE0E1E7</ID>
+        <ID>MagicNumber:Color.kt$0xFFE1CEDB</ID>
+        <ID>MagicNumber:Color.kt$0xFFE9C5C5</ID>
+        <ID>MagicNumber:Color.kt$0xFFED3A3A</ID>
+        <ID>MagicNumber:Color.kt$0xFFEEF0FF</ID>
+        <ID>MagicNumber:Color.kt$0xFFEEF7F3</ID>
+        <ID>MagicNumber:Color.kt$0xFFEFF4F8</ID>
+        <ID>MagicNumber:Color.kt$0xFFF5CB6F</ID>
+        <ID>MagicNumber:Color.kt$0xFFF5F3EF</ID>
+        <ID>MagicNumber:Color.kt$0xFFF69193</ID>
+        <ID>MagicNumber:Color.kt$0xFFF6B01A</ID>
+        <ID>MagicNumber:Color.kt$0xFFF6F2F5</ID>
+        <ID>MagicNumber:Color.kt$0xFFF8EFEF</ID>
+        <ID>MagicNumber:Color.kt$0xFFF991E0</ID>
+        <ID>MagicNumber:Color.kt$0xFFFCCDEE</ID>
+        <ID>MagicNumber:Color.kt$0xFFFCFDFE</ID>
+        <ID>MagicNumber:Color.kt$0xFFFFEDEC</ID>
+        <ID>MagicNumber:Color.kt$0xFFFFFFFF</ID>
+        <ID>MagicNumber:ColorScheme.kt$0xFF475D92</ID>
+        <ID>MagicNumber:ColorScheme.kt$0xFFE1E2EC</ID>
+        <ID>MagicNumber:EchoJournalChip.kt$4</ID>
+        <ID>MagicNumber:EchoJournalTopic.kt$0xFFF2F2F7</ID>
+        <ID>MagicNumber:EntryScreen.kt$0xFFE1E2EC</ID>
+        <ID>MagicNumber:EntryViewModel.kt$EntryViewModel$200</ID>
+        <ID>MagicNumber:ExpandableText.kt$3</ID>
+        <ID>MagicNumber:FileNameProvider.kt$DefaultFileNameProvider$8</ID>
+        <ID>MagicNumber:GradientTintedIcon.kt$0xFF0D47A1</ID>
+        <ID>MagicNumber:GradientTintedIcon.kt$0xFF64B5F6</ID>
+        <ID>MagicNumber:GradientTintedIcon.kt$0xFF9C27B0</ID>
+        <ID>MagicNumber:GradientTintedIcon.kt$0xFFE040FB</ID>
+        <ID>MagicNumber:GradientTintedIcon.kt$50f</ID>
+        <ID>MagicNumber:MoodBottomSheet.kt$0xFFE1E2EC</ID>
+        <ID>MagicNumber:MoodsDropdownMenu.kt$0.9f</ID>
+        <ID>MagicNumber:SampleData.kt$SampleData$10</ID>
+        <ID>MagicNumber:SampleData.kt$SampleData$3</ID>
+        <ID>MagicNumber:SampleData.kt$SampleData$5</ID>
+        <ID>MagicNumber:Timer.kt$3600</ID>
+        <ID>MagicNumber:Timer.kt$60</ID>
+        <ID>MagicNumber:Timer.kt$Timer$200L</ID>
+        <ID>MagicNumber:TimestampExtensions.kt$12</ID>
+        <ID>MagicNumber:TimestampExtensions.kt$60</ID>
+        <ID>MagicNumber:TopicSearcherEntry.kt$3</ID>
+        <ID>MagicNumber:TopicSearcherEntry.kt$8</ID>
+        <ID>MagicNumber:TopicsDropdownMenu.kt$0.9f</ID>
+        <ID>MatchingDeclarationName:GradientTintedIcon.kt$GradientType</ID>
+        <ID>MaximumLineLength:EntriesViewModel.kt$EntriesViewModel$</ID>
+        <ID>MaximumLineLength:EntryScreen.kt$</ID>
+        <ID>MaximumLineLength:EntryViewModel.kt$EntryViewModel$</ID>
+        <ID>PackageName:AudioLog.kt$package dev.gaddal.echojournal.core.domain.logs.audio_log</ID>
+        <ID>PackageName:AudioLogRepository.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log
+        </ID>
+        <ID>PackageName:AudioLogTopic.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log_topic
+        </ID>
+        <ID>PackageName:AudioLogTopicRepository.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log_topic
+        </ID>
+        <ID>PackageName:AudioLogWithTopics.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log
+        </ID>
+        <ID>PackageName:LocalAudioLogDataSource.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log
+        </ID>
+        <ID>PackageName:LocalAudioLogTopicDataSource.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log_topic
+        </ID>
+        <ID>PackageName:OfflineFirstAudioLogRepository.kt$package
+            dev.gaddal.echojournal.core.data.logs.audio_log
+        </ID>
+        <ID>PackageName:OfflineFirstAudioLogTopicRepository.kt$package
+            dev.gaddal.echojournal.core.data.logs.audio_log_topic
+        </ID>
+        <ID>PackageName:RoomLocalAudioLogDataSource.kt$package
+            dev.gaddal.echojournal.core.database.local_data_source
+        </ID>
+        <ID>PackageName:RoomLocalAudioLogTopicDataSource.kt$package
+            dev.gaddal.echojournal.core.database.local_data_source
+        </ID>
+        <ID>PackageName:RoomLocalTopicDataSource.kt$package
+            dev.gaddal.echojournal.core.database.local_data_source
+        </ID>
+        <ID>PackageNaming:AudioLog.kt$package dev.gaddal.echojournal.core.domain.logs.audio_log</ID>
+        <ID>PackageNaming:AudioLogRepository.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log
+        </ID>
+        <ID>PackageNaming:AudioLogTopic.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log_topic
+        </ID>
+        <ID>PackageNaming:AudioLogTopicRepository.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log_topic
+        </ID>
+        <ID>PackageNaming:AudioLogWithTopics.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log
+        </ID>
+        <ID>PackageNaming:LocalAudioLogDataSource.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log
+        </ID>
+        <ID>PackageNaming:LocalAudioLogTopicDataSource.kt$package
+            dev.gaddal.echojournal.core.domain.logs.audio_log_topic
+        </ID>
+        <ID>PackageNaming:OfflineFirstAudioLogRepository.kt$package
+            dev.gaddal.echojournal.core.data.logs.audio_log
+        </ID>
+        <ID>PackageNaming:OfflineFirstAudioLogTopicRepository.kt$package
+            dev.gaddal.echojournal.core.data.logs.audio_log_topic
+        </ID>
+        <ID>PackageNaming:RoomLocalAudioLogDataSource.kt$package
+            dev.gaddal.echojournal.core.database.local_data_source
+        </ID>
+        <ID>PackageNaming:RoomLocalAudioLogTopicDataSource.kt$package
+            dev.gaddal.echojournal.core.database.local_data_source
+        </ID>
+        <ID>PackageNaming:RoomLocalTopicDataSource.kt$package
+            dev.gaddal.echojournal.core.database.local_data_source
+        </ID>
+        <ID>PrintStackTrace:AndroidAudioRecorder.kt$AndroidAudioRecorder$e</ID>
+        <ID>ReturnCount:EntriesViewModel.kt$EntriesViewModel$fun onAction(action: EntriesAction)
+        </ID>
+        <ID>SpreadOperator:UiText.kt$UiText$(id = id, *args)</ID>
+        <ID>SpreadOperator:UiText.kt$UiText$(id, *args)</ID>
+        <ID>SwallowedException:AndroidAudioPlayer.kt$AndroidAudioPlayer$e: IllegalStateException
+        </ID>
+        <ID>SwallowedException:RoomLocalAudioLogDataSource.kt$RoomLocalAudioLogDataSource$e:
+            SQLiteFullException
+        </ID>
+        <ID>
+            SwallowedException:RoomLocalAudioLogTopicDataSource.kt$RoomLocalAudioLogTopicDataSource$e:
+            SQLiteFullException
+        </ID>
+        <ID>SwallowedException:RoomLocalTopicDataSource.kt$RoomLocalTopicDataSource$e:
+            SQLiteFullException
+        </ID>
+        <ID>TooGenericExceptionCaught:AndroidAudioRecorder.kt$AndroidAudioRecorder$e2: Exception
+        </ID>
+        <ID>TooGenericExceptionCaught:AndroidAudioRecorder.kt$AndroidAudioRecorder$e3: Exception
+        </ID>
+        <ID>TooGenericExceptionCaught:AndroidAudioRecorder.kt$AndroidAudioRecorder$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:EntryViewModel.kt$EntryViewModel$e: RuntimeException</ID>
+        <ID>TooGenericExceptionCaught:EntryViewModel.kt$EntryViewModel$generalException: Exception
+        </ID>
+        <ID>TooGenericExceptionCaught:EntryViewModel.kt$EntryViewModel$topicUpsertException:
+            Exception
+        </ID>
+        <ID>TooManyFunctions:EntryViewModel.kt$EntryViewModel : ViewModel</ID>
+        <ID>UnusedParameter:AudioPlayer.kt$onSeek: (Int) -&gt; Unit</ID>
+        <ID>UnusedParameter:AudioPlayer.kt$onStop: () -&gt; Unit</ID>
+        <ID>UnusedParameter:EchoJournalChip.kt$isDropdownOpen: Boolean = false</ID>
+        <ID>UnusedParameter:EntryScreen.kt$modifier: Modifier = Modifier</ID>
+        <ID>UnusedParameter:EntryViewModel.kt$EntryViewModel$action:
+            EntryAction.OnTopicFieldFocusChange
+        </ID>
+        <ID>UnusedParameter:MoodBottomSheet.kt$modifier: Modifier = Modifier</ID>
+        <ID>UnusedPrivateMember:EchoJournalTopAppBar.kt$@Preview(showBackground = true) @Composable
+            private fun EchoJournalTopAppBarPreview()
+        </ID>
+        <ID>UnusedPrivateMember:GradientBackground.kt$@Preview @Composable private fun
+            GradientBackgroundPreview()
+        </ID>
+        <ID>UnusedPrivateProperty:EntriesViewModel.kt$EntriesViewModel$private val savedStateHandle:
+            SavedStateHandle
+        </ID>
+        <ID>UnusedPrivateProperty:EntryViewModel.kt$EntryViewModel$private val savedStateHandle:
+            SavedStateHandle
+        </ID>
+        <ID>UnusedPrivateProperty:JournalNavGraph.kt$val newEntry = backStackEntry.toRoute&lt;JournalScreen.NewEntry&gt;()</ID>
+        <ID>UnusedPrivateProperty:RecordBottomSheet.kt$val scope = rememberCoroutineScope()</ID>
+        <ID>UseCheckOrError:StoragePathProvider.kt$StoragePathProvider$throw
+            IllegalStateException("Neither external nor internal storage is available")
+        </ID>
+    </CurrentIssues>
+</SmellBaseline>

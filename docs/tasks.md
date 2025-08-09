@@ -28,8 +28,8 @@ Notes:
 - Formatting fixes are applied automatically due to auto-correct being true in Gradle.
 - Reports are generated under build\reports\detekt\ (HTML, XML, SARIF, MD, per-module defaults).
 - Config is at config\detekt\detekt.yml and builds upon Detekt's default config.
-- The ktlint Gradle plugin remains for now; Detekt uses ktlint via detekt-formatting. Consider
-  removing ktlint if you prefer a single-tool setup.
+- The ktlint Gradle plugin has been removed. The project uses a single tool: Detekt with the
+  detekt-formatting ruleset (ktlint-backed).
 - [x] 4. Create a libs.versions.toml or centralize dependency versions (if version catalog already used, ensure all versions are centralized) to ease upgrades and maintain consistency with Kotlin 2.0.20 and Compose BoM 2025.02.00.
 
 Data layer (Room) and persistence
@@ -103,7 +103,8 @@ Performance and stability
 
 Build/CI and release hygiene
 - [ ] 44. Add a minimal CI workflow (GitHub Actions or other) to run :app:build, :app:lintDebug, and :app:testDebugUnitTest on PRs; use Gradle cache and Java toolchain matrix if needed.
-- [ ] 45. Introduce static analysis in CI (ktlint/detekt) and report annotations.
+- [ ] 
+    45. Introduce static analysis in CI (Detekt) and report annotations.
 - [x] 
     46. Confirm Room plugin task :app:copyRoomSchemas is used to export schemas; avoid custom
         KSP-wired tasks. Document commands and (optional) :app:regenerateRoomSchemas alias that

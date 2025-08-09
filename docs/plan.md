@@ -32,7 +32,7 @@ EchoJournal aims to deliver an audio journaling app with a clean MVI-ish archite
 - Action
   - Establish build health commands in README (assemble, lint, unit tests). [Tasks 1–2]
   - Introduce version catalog (libs.versions.toml) or ensure centralization of all versions. [Task 4]
-  - Add ktlint/detekt plugin integration and (later) CI wiring. [Task 3]
+  - Add Detekt plugin integration and (later) CI wiring. [Task 3]
 - Rationale ➜ Standardized build and style tooling reduce friction, enforce consistency, and ease upgrades.
 
 ## 2) Data & Persistence (Room)
@@ -154,7 +154,7 @@ EchoJournal aims to deliver an audio journaling app with a clean MVI-ish archite
 - Issues ➜ Missing CI and static analysis; schema export task; R8/keep rules. [Tasks 44–47]
 - Actions
   - Add minimal CI (GitHub Actions) running build, lint, and unit tests with Gradle cache. [Task 44]
-  - Wire static analysis in CI (ktlint/detekt). [Task 45]
+  - Wire static analysis in CI (Detekt). [Task 45]
   - Verify schema export/copy task in Gradle; ensure JSONs committed. [Task 46]
   - Review Proguard/R8 rules for Timber/Room to avoid stripping critical classes. [Task 47]
 - Rationale ➜ Automation prevents regressions and ensures consistent quality on PRs.

@@ -196,4 +196,25 @@ Run these before opening a PR to ensure baseline build health:
 Notes
 - JVM unit tests do not require the Android SDK. If a test references `android.*`, move it to `androidTest` or use fakes/abstractions.
 
+## Static analysis – Detekt
 
+How to lint and auto-format Kotlin code with Detekt (ktlint-backed formatting is enabled):
+
+- All modules (auto-correct enabled by Gradle):
+  - .\gradlew.bat detekt
+- Just the app module:
+  - .\gradlew.bat :app:detekt
+- Force-enable auto-correct from CLI (equivalent to Gradle’s autoCorrect = true):
+  - .\gradlew.bat detekt --auto-correct
+- Create/update a baseline (to grandfather current issues):
+  - .\gradlew.bat detektBaseline
+- Generate a full default config (for reference/diff):
+  - .\gradlew.bat detektGenerateConfig
+
+Notes
+
+- Detekt runs as part of check: .\gradlew.bat check (root) or .\gradlew.bat :app:check (module).
+- Reports are written per module under build\reports\detekt\ (e.g., app\build\reports\detekt\).
+- The project config is at config\detekt\detekt.yml and builds upon Detekt’s defaults.
+- The detekt-formatting ruleset is applied, so formatting fixes are applied automatically.
+- See docs\tasks.md for more tips and troubleshooting.

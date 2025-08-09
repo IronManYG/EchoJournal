@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.room) apply false
 
     // Kotlin code style/linting
-    alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.detekt) apply false
 }
 
@@ -32,6 +31,8 @@ subprojects {
         buildUponDefaultConfig = true
         allRules = false
         parallel = true
+        // Use a per-module baseline to grandfather existing issues
+        baseline = file("$projectDir/detekt-baseline.xml")
         autoCorrect = true
     }
 

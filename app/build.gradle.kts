@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.room)
-    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -103,12 +102,7 @@ dependencies {
      implementation(libs.kotlinx.coroutines.core)
 }
 
-// Ktlint configuration and Room schema helper tasks
-ktlint {
-    android.set(true)
-    outputToConsole.set(true)
-    ignoreFailures.set(false)
-}
+// Room schema helper tasks
 
 tasks.register("regenerateRoomSchemas") {
     group = "verification"
