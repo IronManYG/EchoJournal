@@ -34,7 +34,6 @@ import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 import dev.gaddal.echojournal.core.presentation.ui.UiText
 import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
 
-
 @Composable
 fun EchoJournalChip(
     modifier: Modifier = Modifier,
@@ -43,8 +42,8 @@ fun EchoJournalChip(
     enabled: Boolean = true,
     selected: Boolean = false,
     onClearFilter: (() -> Unit)? = null,
-    isDropdownOpen: Boolean = false,             // <--- externally controlled
-    onChipClick: () -> Unit = {},                // <--- callback to open/close from outside
+    isDropdownOpen: Boolean = false, // <--- externally controlled
+    onChipClick: () -> Unit = {}, // <--- callback to open/close from outside
 ) {
     // Determine if moods or topics are in play
     val hasMoods = !moods.isNullOrEmpty()
@@ -58,14 +57,22 @@ fun EchoJournalChip(
             // Fallback when no moods/topics are selected.
             // Could also differentiate between "All Moods" / "All Topics"
             // if you know which type it is meant to represent.
-            if (moods != null) stringResource(R.string.all_moods)
-            else if (topics != null) stringResource(R.string.all_topics)
-            else stringResource(R.string.all_items)
+            if (moods != null) {
+                stringResource(R.string.all_moods)
+            } else if (topics != null) {
+                stringResource(R.string.all_topics)
+            } else {
+                stringResource(R.string.all_items)
+            }
         }
     }
 
     // Leading icon(s) if moods are present. For topics, typically no icon needed.
     val leadingIcon: @Composable (() -> Unit)? = if (hasMoods) {
+        { MoodsLeadingIcon(moods) }
+    } else {
+        null
+    }
         { MoodsLeadingIcon(moods) }
     } else null
 
@@ -84,7 +91,9 @@ fun EchoJournalChip(
                 )
             }
         }
-    } else null
+    } else {
+        null
+    }
 
     ElevatedAssistChip(
         onClick = {
@@ -217,7 +226,6 @@ private fun MoodsLeadingIcon(moods: List<Mood>) {
         }
     }
 }
-
 
 @LocalesPreview()
 @Composable

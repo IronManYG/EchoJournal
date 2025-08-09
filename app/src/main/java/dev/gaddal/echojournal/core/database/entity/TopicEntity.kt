@@ -2,8 +2,8 @@ package dev.gaddal.echojournal.core.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import androidx.room.Index // Import Index annotation
+import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "topics",

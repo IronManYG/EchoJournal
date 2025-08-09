@@ -79,7 +79,6 @@ fun EntryScreenRoot(
     onBackClick: () -> Unit,
     viewModel: EntryViewModel = koinViewModel(),
 ) {
-
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     ObserveAsEvents(viewModel.events) { event ->
@@ -410,10 +409,9 @@ fun EntryScreen(
         MoodBottomSheet(
             showBottomSheet = showBottomSheet,
             onDismiss = { showBottomSheet = false },
-            onAction = onAction,  // the same callback your VM uses
-            state = state         // pass state from VM
+            onAction = onAction, // the same callback your VM uses
+            state = state // pass state from VM
         )
-
     }
 }
 
@@ -432,4 +430,3 @@ fun EntryScreenPreview() {
         )
     }
 }
-

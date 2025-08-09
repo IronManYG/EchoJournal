@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# EchoJournal Detekt pre-commit hook
+# To enable: git config core.hooksPath .githooks
+
+if [ -f "./gradlew.bat" ]; then
+  ./gradlew.bat detekt -q
+  code=$?
+else
+  ./gradlew detekt -q
+  code=$?
+fi
+
+if [ $code -ne 0 ]; then
+  echo "Detekt reported issues. Commit aborted."
+  exit $code
+fi
+exit 0

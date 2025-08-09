@@ -166,3 +166,57 @@ This project was built as part of the **[Pl Mobile Dev Campus](https://pl-coding
 If you have any questions or suggestions, feel free to open an issue or reach out to the maintainer. Happy coding!
 
 
+## Contributing
+
+We welcome contributions! Please use the Gradle Wrapper and follow the project’s guidelines.
+
+- Use the Gradle Wrapper: `gradlew` / `gradlew.bat` (do not rely on a locally installed Gradle)
+- Java toolchain: let Gradle auto-detect. You can inspect available toolchains with:
+  - Windows PowerShell/CMD: `.\gradlew.bat javaToolchains`
+- Dependency versions are centralized in `gradle\libs.versions.toml` (Kotlin 2.0.20, Compose BoM 2025.02.00). Prefer using versions via the version catalog.
+- Read our contributor guidelines: see `.junie/guidelines.md` in this repo for build, testing, and style notes.
+
+### Local build health checks (Windows)
+Run these before opening a PR to ensure baseline build health:
+
+- Build (assemble + unit tests):
+  - `.\gradlew.bat :app:build`
+- Lint (Debug variant):
+  - `.\gradlew.bat :app:lintDebug`
+- Unit tests (Debug):
+  - `.\gradlew.bat :app:testDebugUnitTest`
+
+### Run a specific unit test
+- Example (single test method):
+  - `.\gradlew.bat :app:testDebugUnitTest --tests dev.gaddal.echojournal.ExampleUnitTest.addition_isCorrect`
+
+### Instrumentation tests (require device/emulator)
+- `.\gradlew.bat :app:connectedDebugAndroidTest`
+
+Notes
+- JVM unit tests do not require the Android SDK. If a test references `android.*`, move it to `androidTest` or use fakes/abstractions.
+
+## Static analysis – Detekt
+
+How to lint and auto-format Kotlin code with Detekt (ktlint-backed formatting is enabled):
+
+- All modules (auto-correct enabled by Gradle):
+  - .\gradlew.bat detekt
+- Just the app module:
+  - .\gradlew.bat :app:detekt
+- Force-enable auto-correct from CLI (equivalent to Gradle’s autoCorrect = true):
+  - .\gradlew.bat detekt --auto-correct
+- Create/update a baseline (to grandfather current issues):
+  - .\gradlew.bat detektBaseline
+- Generate a full default config (for reference/diff):
+  - .\gradlew.bat detektGenerateConfig
+
+Notes
+
+- Detekt runs as part of check: .\gradlew.bat check (root) or .\gradlew.bat :app:check (module).
+- Reports are written per module under build\reports\detekt\ (e.g., app\build\reports\detekt\).
+- The project config is at config\detekt\detekt.yml and builds upon Detekt’s defaults.
+- The detekt-formatting ruleset is applied, so formatting fixes are applied automatically.
+- Compose-specific rules are enabled via io.nlopez.compose.rules:detekt:0.4.13 to catch common Compose pitfalls.
+- Generic FunctionNaming is disabled (naming.FunctionNaming.active=false) in favor of Compose naming checks.
+- See docs\tasks.md for more tips and troubleshooting.

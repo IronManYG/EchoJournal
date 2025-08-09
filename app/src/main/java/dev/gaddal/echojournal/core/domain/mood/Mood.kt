@@ -116,7 +116,11 @@ sealed class Mood(
 
     companion object {
         val all: List<Mood> = listOf(
-            Stressed, Sad, Neutral, Peaceful, Excited
+            Stressed,
+            Sad,
+            Neutral,
+            Peaceful,
+            Excited
         )
     }
 }

@@ -73,7 +73,6 @@ fun EntryCard(
     val surfaceHeightDp = with(LocalDensity.current) { surfaceHeightPx.intValue.toDp() }
 
     Row(modifier = modifier.fillMaxWidth()) {
-
         // 2) Timeline Column (icon + optional vertical lines)
         Column(
             verticalArrangement = Arrangement.Center,

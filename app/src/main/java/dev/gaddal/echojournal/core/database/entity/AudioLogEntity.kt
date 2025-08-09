@@ -1,9 +1,16 @@
 package dev.gaddal.echojournal.core.database.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "audio_logs")
+@Entity(
+    tableName = "audio_logs",
+    indices = [
+        Index(value = ["createdAt"]),
+        Index(value = ["archived"])
+    ]
+)
 data class AudioLogEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

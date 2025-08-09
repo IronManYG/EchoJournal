@@ -1,5 +1,6 @@
 package dev.gaddal.echojournal.journal.entries
 
+import dev.gaddal.echojournal.core.domain.logs.filter.AudioLogSort
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
 
@@ -12,6 +13,11 @@ sealed interface EntriesAction {
     data object OnSettingsClick : EntriesAction
     data object OnCreateNewEntryTrigger : EntriesAction
     data class OnEntryClick(val id: Int) : EntriesAction
+
+    // Filtering parameters
+    data class OnQueryChanged(val query: String) : EntriesAction
+    data class OnDateRangeChanged(val fromDateMillis: Long?, val toDateMillis: Long?) : EntriesAction
+    data class OnSortOrderChanged(val sortOrder: AudioLogSort) : EntriesAction
 
     // Recording actions
     data object OnStartRecordingClick : EntriesAction

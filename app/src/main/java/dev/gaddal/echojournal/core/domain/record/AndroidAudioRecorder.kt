@@ -5,6 +5,7 @@ import android.media.MediaRecorder
 import android.os.Build
 import java.io.File
 import java.io.FileOutputStream
+import timber.log.Timber
 
 class AndroidAudioRecorder(
     private val context: Context,
@@ -13,9 +14,12 @@ class AndroidAudioRecorder(
     private var recorder: MediaRecorder? = null
 
     override fun start(outputFile: File, desiredQuality: RecordingQuality) {
+        Timber.tag("AndroidAudioRecorder").d("start: file=${outputFile.absolutePath} quality=$desiredQuality")
         val newRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MediaRecorder(context)
-        } else MediaRecorder()
+        } else {
+            MediaRecorder()
+        }
 
         newRecorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -30,22 +34,26 @@ class AndroidAudioRecorder(
 
             prepare()
             start()
+            Timber.tag("AndroidAudioRecorder").d("recording started")
         }
 
         recorder = newRecorder
     }
 
     override fun stop() {
+        Timber.tag("AndroidAudioRecorder").d("stop")
         recorder?.stop()
         recorder?.reset()
         recorder = null
     }
 
     override fun pause() {
+        Timber.tag("AndroidAudioRecorder").d("pause")
         recorder?.pause()
     }
 
     override fun resume() {
+        Timber.tag("AndroidAudioRecorder").d("resume")
         recorder?.resume()
     }
 
@@ -65,9 +73,7 @@ class AndroidAudioRecorder(
             recorder.setAudioChannels(chosenChannels)
         } catch (e: Exception) {
             // Could not apply the highest requested settings; let's fallback.
-
-            // Log or print the error for debugging
-            e.printStackTrace()
+            Timber.tag("AndroidAudioRecorder").e(e, "Failed to apply desired quality; attempting fallbacks")
 
             // 3) Fallback logic: Try stepping down the channels first
             try {
@@ -76,7 +82,7 @@ class AndroidAudioRecorder(
                 recorder.setAudioSamplingRate(chosenSampleRate)
                 recorder.setAudioChannels(chosenChannels)
             } catch (e2: Exception) {
-                e2.printStackTrace()
+                Timber.tag("AndroidAudioRecorder").e(e2, "Fallback to mono failed; trying LOW quality settings")
                 // 4) If it still fails, fallback to a known "safe" lower quality
                 chosenBitRate = RecordingQuality.LOW.bitRate
                 chosenSampleRate = RecordingQuality.LOW.sampleRate
@@ -89,7 +95,7 @@ class AndroidAudioRecorder(
                     recorder.setAudioChannels(chosenChannels)
                 } catch (e3: Exception) {
                     // If we get here, we have a very restricted device.
-                    e3.printStackTrace()
+                    Timber.tag("AndroidAudioRecorder").e(e3, "All fallback attempts failed; using system defaults where possible")
                     // You might choose to throw an error or keep going with
                     // default system settings only.
                 }

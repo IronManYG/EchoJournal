@@ -76,7 +76,7 @@ fun MoodBottomSheet(
                 style = MaterialTheme.typography.headlineMedium,
             )
 
-            //Moods
+            // Moods
             var chosenMood by remember { mutableStateOf(state.mood) }
             Row(
                 modifier = Modifier

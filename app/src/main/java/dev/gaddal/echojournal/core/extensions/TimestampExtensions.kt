@@ -37,7 +37,6 @@ fun LocalDate.formatDisplay(): UiText {
     }
 }
 
-
 /**
  * Returns a [LocalDate] object by converting this epoch millisecond [Long].
  * This uses the system's default time zone unless otherwise specified.

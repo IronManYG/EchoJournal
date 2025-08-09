@@ -84,5 +84,4 @@ class AudioRecordingTracker(
             _elapsedTime.value = Duration.ZERO
         }
     }
-
 }

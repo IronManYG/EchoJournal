@@ -1,0 +1,43 @@
+# Detekt configuration for EchoJournal
+# Build upon default config in Gradle. This file only overrides what we need.
+# Formatting ruleset (ktlint-backed) is enabled here and auto-correct is enabled via Gradle.
+
+# Disable style's MaxLineLength in favor of formatting's MaximumLineLength to avoid duplicate/conflicts
+style:
+  MaxLineLength:
+    active: false
+
+formatting:
+  active: true
+  android: true
+  autoCorrect: true
+  FinalNewline:
+    active: true
+  ImportOrdering:
+    active: true
+  Indentation:
+    active: true
+  MaximumLineLength:
+    active: true
+    maxLineLength: 140
+    ignoreBackTickedIdentifier: true
+  NoWildcardImports:
+    active: true
+  NoUnusedImports:
+    active: true
+  ParameterListWrapping:
+    active: true
+  SpacingBetweenDeclarationsWithAnnotations:
+    active: true
+  SpacingBetweenDeclarationsWithComments:
+    active: true
+
+
+# Compose ruleset (from io.nlopez.compose.rules)
+Compose:
+  active: true
+
+# Disable generic function naming in favor of Compose-specific naming checks
+naming:
+  FunctionNaming:
+    active: false

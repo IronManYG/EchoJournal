@@ -19,6 +19,8 @@ coroutines = "1.8.1"
 kotlinx-serialization = "1.6.3"
 navigationCommonKtx = "2.8.6"
 kotlinx-datetime = "0.6.1"
+detekt = "1.23.8"
+composeRules = "0.4.13"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +61,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 room = { id = "androidx.room", version.ref = "room" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 [bundles]
 koin-compose = ["koin-core", "koin-android", "koin-androidx-compose"]

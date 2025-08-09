@@ -11,5 +11,4 @@ interface LocalAudioLogTopicDataSource {
     suspend fun upsertAudioLogTopic(audioLogTopic: AudioLogTopic): Result<Pair<AudioLogId, TopicId>, DataError.Local>
 
     suspend fun deleteAudioLogTopic(audioLogId: Int, topicId: Int)
-
 }

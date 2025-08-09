@@ -6,6 +6,8 @@ import dev.gaddal.echojournal.core.domain.playback.AudioPlayer
 import dev.gaddal.echojournal.core.domain.record.AndroidAudioRecorder
 import dev.gaddal.echojournal.core.domain.record.AudioRecorder
 import dev.gaddal.echojournal.core.domain.record.AudioRecordingTracker
+import dev.gaddal.echojournal.core.domain.record.DefaultFileNameProvider
+import dev.gaddal.echojournal.core.domain.record.FileNameProvider
 import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
 import dev.gaddal.echojournal.journal.entries.EntriesViewModel
 import dev.gaddal.echojournal.journal.entry.EntryViewModel
@@ -23,7 +25,8 @@ val journalPresentationModule = module {
     single { AudioPlaybackTracker(get(), get()) }
 
     single { StoragePathProvider(androidContext()) }
+    singleOf(::DefaultFileNameProvider).bind<FileNameProvider>()
+
     viewModelOf(::EntriesViewModel)
     viewModelOf(::EntryViewModel)
 }
-

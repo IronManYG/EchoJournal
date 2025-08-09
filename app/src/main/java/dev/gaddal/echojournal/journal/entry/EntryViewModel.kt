@@ -17,15 +17,14 @@ import dev.gaddal.echojournal.core.domain.util.DataError
 import dev.gaddal.echojournal.core.domain.util.Result
 import dev.gaddal.echojournal.core.presentation.ui.StorageLocation
 import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
+import dev.gaddal.echojournal.core.presentation.ui.events.UiEventChannel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,16 +44,25 @@ class EntryViewModel(
     private val _state = MutableStateFlow(EntryState())
     val state = _state.asStateFlow()
 
-    private val eventChannel = Channel<EntryEvent>()
-    val events = eventChannel.receiveAsFlow()
+    private val uiEvents = UiEventChannel.buffered<EntryEvent>()
+    val events = uiEvents.flow
 
     init {
         observePlaybackTracker()
 
-        _state.update {
-            it.copy(
-                audioDuration = getAudioDurationInMs(getTempAudioFile()).milliseconds,
-            )
+        run {
+            val temp = getTempAudioFile()
+            val durationMs = if (temp.exists()) {
+                getAudioDurationInMs(temp)
+            } else {
+                Timber.tag("EntryViewModel").w("Temp audio file not found at ${temp.absolutePath}")
+                0L
+            }
+            _state.update {
+                it.copy(
+                    audioDuration = durationMs.milliseconds,
+                )
+            }
         }
 
         // Load topics from repository.
@@ -170,8 +178,7 @@ class EntryViewModel(
                                         // - Stop and report error
                                     }
                                 }
-                                eventChannel.send(EntryEvent.SaveEntrySuccess)
-
+                                uiEvents.emit(EntryEvent.SaveEntrySuccess)
                             } catch (topicUpsertException: Exception) { // More specific catch
                                 Timber.tag("EntryViewModel").e(
                                     topicUpsertException,
@@ -182,7 +189,6 @@ class EntryViewModel(
 //                                            eventChannel.send(EntryEvent.SaveEntryError("Error saving topics.")) // Send error event to UI
 //                                        }
                             }
-
                         }
 
                         is Result.Error -> {
@@ -209,7 +215,6 @@ class EntryViewModel(
                         }
                     }
                 }
-
             } catch (generalException: Exception) { // More specific catch for general exceptions
                 Timber.tag("EntryViewModel")
                     .e(
@@ -221,7 +226,6 @@ class EntryViewModel(
 //                        withContext(Dispatchers.Main) {
 //                            eventChannel.send(EntryEvent.SaveEntryError("General error during save.")) // Send error event to UI
 //                        }
-
             } finally {
                 // Ensure cleanup even if exceptions occur *before* repository call (less critical here, but good practice)
                 // Consider if you REALLY need cleanup here - files should be deleted in specific error cases already.
@@ -238,10 +242,13 @@ class EntryViewModel(
         }
     }
 
-
     private fun handlePlayAudio() {
-        val entryFilePath = getTempAudioFile().absolutePath
-        audioPlaybackTracker.playFile(File(entryFilePath))
+        val temp = getTempAudioFile()
+        if (!temp.exists()) {
+            Timber.tag("EntryViewModel").w("Attempted to play temp audio, but file missing at ${temp.absolutePath}")
+            return
+        }
+        audioPlaybackTracker.playFile(temp)
 
         // Update global state so UI knows *which* entry is playing
         _state.update { oldState ->
@@ -384,8 +391,23 @@ class EntryViewModel(
 
     private fun getTempAudioFile(): File {
         val path = storagePathProvider.getPath(StorageLocation.CACHE)
-        val fileName = "my_recording.mp4"
-        return File(path, fileName)
+        val cacheDir = File(path)
+
+        // Find the most recent MP4 file in cache (aligns with EntriesViewModel dynamic naming)
+        val latest = cacheDir.listFiles()
+            ?.asSequence()
+            ?.filter { it.isFile && it.extension.equals("mp4", ignoreCase = true) }
+            ?.maxByOrNull { it.lastModified() }
+
+        if (latest != null) {
+            Timber.tag("EntryViewModel").d("Resolved temp audio file: ${latest.absolutePath}")
+            return latest
+        }
+
+        // Fallback to the old hard-coded name if present
+        val fallback = File(path, "my_recording.mp4")
+        Timber.tag("EntryViewModel").w("No dynamic temp audio found. Falling back to: ${fallback.absolutePath}")
+        return fallback
     }
 
     private fun deleteFileByPath(filePath: String?): Boolean {
@@ -401,15 +423,23 @@ class EntryViewModel(
     }
 
     private fun getAudioDurationInMs(audioFile: File): Long {
+        if (!audioFile.exists()) {
+            Timber.tag("EntryViewModel").w("getAudioDurationInMs: file does not exist at ${audioFile.absolutePath}")
+            return 0L
+        }
         val retriever = MediaMetadataRetriever()
         return try {
             retriever.setDataSource(audioFile.absolutePath)
-            val durationString =
-                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            val durationString = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             durationString?.toLongOrNull() ?: 0L
+        } catch (e: IllegalArgumentException) {
+            Timber.tag("EntryViewModel").e(e, "Failed to retrieve duration for ${audioFile.absolutePath}")
+            0L
+        } catch (e: RuntimeException) {
+            Timber.tag("EntryViewModel").e(e, "Unexpected error retrieving duration for ${audioFile.absolutePath}")
+            0L
         } finally {
             retriever.release()
         }
     }
-
 }

@@ -9,4 +9,38 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.room) apply false
+
+    // Kotlin code style/linting
+    alias(libs.plugins.detekt) apply false
+}
+
+subprojects {
+    // Apply Detekt to all modules
+    plugins.apply("io.gitlab.arturbosch.detekt")
+
+    dependencies {
+        val detektVersion = rootProject.libs.versions.detekt.get()
+        // Enable ktlint-backed formatting rules inside Detekt
+        add("detektPlugins", "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+        // Jetpack Compose specific ruleset
+        val composeRulesVersion = rootProject.libs.versions.composeRules.get()
+        add("detektPlugins", "io.nlopez.compose.rules:detekt:$composeRulesVersion")
+    }
+
+    // Configure Detekt
+    extensions.configure(io.gitlab.arturbosch.detekt.extensions.DetektExtension::class.java) {
+        // point to the config file we’ll add below
+        config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+        buildUponDefaultConfig = true
+        allRules = false
+        parallel = true
+        // Use a per-module baseline to grandfather existing issues
+        baseline = file("$projectDir/detekt-baseline.xml")
+        autoCorrect = true
+    }
+
+    // Make `./gradlew check` run detekt (defer wiring until tasks are realized)
+    afterEvaluate {
+        tasks.findByName("check")?.dependsOn("detekt")
+    }
 }

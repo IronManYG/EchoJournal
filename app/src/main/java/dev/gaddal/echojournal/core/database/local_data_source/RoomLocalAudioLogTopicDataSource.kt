@@ -13,7 +13,9 @@ import dev.gaddal.echojournal.core.domain.util.Result
 class RoomLocalAudioLogTopicDataSource(
     private val audioLogTopicDao: AudioLogTopicDao
 ) : LocalAudioLogTopicDataSource {
-    override suspend fun upsertAudioLogTopic(audioLogTopic: AudioLogTopic): Result<Pair<AudioLogId, TopicId>, DataError.Local> {
+    override suspend fun upsertAudioLogTopic(
+        audioLogTopic: AudioLogTopic
+    ): Result<Pair<AudioLogId, TopicId>, DataError.Local> {
         return try {
             val entity = audioLogTopic.toAudioLogTopicEntity()
             audioLogTopicDao.upsertAudioLogTopic(entity)

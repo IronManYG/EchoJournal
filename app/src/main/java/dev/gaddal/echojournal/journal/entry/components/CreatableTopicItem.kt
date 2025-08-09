@@ -48,7 +48,6 @@ fun CreatableTopicItem(
     )
 }
 
-
 @LocalesPreview
 @Composable
 fun CreatableTopicItemPreview() {

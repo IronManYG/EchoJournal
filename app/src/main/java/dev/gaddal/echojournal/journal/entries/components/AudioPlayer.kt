@@ -59,8 +59,11 @@ fun AudioPlayer(
     val finalProgressTrackColor = mood?.progressTrackColor ?: progressTrackColor
 
     // 2) Compute progress fraction
-    val progressFraction = if (duration.inWholeMilliseconds == 0L) 0f
-    else currentPosition.inWholeMilliseconds / duration.inWholeMilliseconds.toFloat()
+    val progressFraction = if (duration.inWholeMilliseconds == 0L) {
+        0f
+    } else {
+        currentPosition.inWholeMilliseconds / duration.inWholeMilliseconds.toFloat()
+    }
 
     // 3) Determine which icon to show (and action to call) based on isPlaying/isPaused
     val icon = when {
