@@ -22,11 +22,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.extensions.formatAsMmSs
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -97,7 +99,8 @@ fun AudioPlayer(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier
+                        .size(24.dp),
                     tint = finalIconTint
                 )
             }
@@ -113,9 +116,9 @@ fun AudioPlayer(
 
         Text(
             text = buildString {
-                append(currentPosition.formatAsMmSs())
-                append("/")
-                append(duration.formatAsMmSs())
+                append(currentPosition.formatAsMmSs().asString())
+                append(stringResource(R.string.audio_duration_separator))
+                append(duration.formatAsMmSs().asString())
             },
             modifier = Modifier.padding(end = 4.dp),
             style = MaterialTheme.typography.bodySmall,
@@ -124,7 +127,7 @@ fun AudioPlayer(
     }
 }
 
-@Preview(showBackground = true)
+@LocalesPreview
 @Composable
 fun AudioPlayerPreview() {
     // For randomness

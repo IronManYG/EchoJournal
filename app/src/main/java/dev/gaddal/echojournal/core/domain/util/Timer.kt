@@ -1,5 +1,7 @@
 package dev.gaddal.echojournal.core.domain.util
 
+import dev.gaddal.echojournal.R
+import dev.gaddal.echojournal.core.presentation.ui.UiText
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,11 +24,19 @@ object Timer {
     }
 }
 
-fun Duration.formatted(): String {
+/**
+ * Converts a [Duration] to a formatted string resource.
+ *
+ * @return A [UiText] representing the formatted duration.
+ */
+fun Duration.formatted(): UiText {
     val totalSeconds = inWholeSeconds
-    val hours = String.format("%02d", totalSeconds / (60 * 60)) // Todo: improve this by add locale
-    val minutes = String.format("%02d", (totalSeconds % 3600) / 60)
-    val seconds = String.format("%02d", (totalSeconds % 60))
+    val hours = totalSeconds / (60 * 60)
+    val minutes = (totalSeconds % 3600) / 60
+    val seconds = totalSeconds % 60
 
-    return "$hours:$minutes:$seconds"
+    return UiText.StringResource(
+        R.string.duration_format_with_hours,
+        arrayOf(hours, minutes, seconds)
+    )
 }

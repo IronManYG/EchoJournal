@@ -28,9 +28,10 @@ import dev.gaddal.echojournal.core.presentation.designsystem.colors.Stressed35
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.Stressed80
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.Stressed95
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.StressedGradient
+import dev.gaddal.echojournal.core.presentation.ui.UiText
 
 sealed class Mood(
-    val title: String,
+    val title: UiText,
     val containerColor: Color,
     val iconTint: Color,
     val progressColor: Color,
@@ -44,7 +45,7 @@ sealed class Mood(
 ) {
 
     data object Sad : Mood(
-        title = "Sad",
+        title = UiText.StringResource(R.string.sad),
         containerColor = Sad25,
         iconTint = Sad80,
         progressColor = Sad80,
@@ -58,7 +59,7 @@ sealed class Mood(
     )
 
     data object Stressed : Mood(
-        title = "Stressed",
+        title = UiText.StringResource(R.string.stressed),
         containerColor = Stressed25,
         iconTint = Stressed80,
         progressColor = Stressed80,
@@ -72,7 +73,7 @@ sealed class Mood(
     )
 
     data object Neutral : Mood(
-        title = "Neutral",
+        title = UiText.StringResource(R.string.neutral),
         containerColor = Neutral25,
         iconTint = Neutral80,
         progressColor = Neutral80,
@@ -86,7 +87,7 @@ sealed class Mood(
     )
 
     data object Peaceful : Mood(
-        title = "Peaceful",
+        title = UiText.StringResource(R.string.peaceful),
         containerColor = Peaceful25,
         iconTint = Peaceful80,
         progressColor = Peaceful80,
@@ -100,7 +101,7 @@ sealed class Mood(
     )
 
     data object Excited : Mood(
-        title = "Excited",
+        title = UiText.StringResource(R.string.excited),
         containerColor = Excited25,
         iconTint = Excited80,
         progressColor = Excited80,

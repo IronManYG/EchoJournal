@@ -42,15 +42,16 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.presentation.designsystem.AiIcon
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
@@ -65,7 +66,9 @@ import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJour
 import dev.gaddal.echojournal.core.presentation.designsystem.components.GradientButton
 import dev.gaddal.echojournal.core.presentation.designsystem.components.GradientTintedIcon
 import dev.gaddal.echojournal.core.presentation.designsystem.components.GradientType
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 import dev.gaddal.echojournal.core.presentation.ui.ObserveAsEvents
+import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleLogs
 import dev.gaddal.echojournal.journal.entries.components.AudioPlayer
 import dev.gaddal.echojournal.journal.entry.components.MoodBottomSheet
 import dev.gaddal.echojournal.journal.entry.components.TopicSearcherEntry
@@ -120,7 +123,7 @@ fun EntryScreen(
         withGradient = false,
         topAppBar = {
             EchoJournalTopAppBar(
-                title = "New Entry",
+                title = stringResource(R.string.new_entry),
                 modifier = Modifier.fillMaxWidth(),
                 showBackButton = true,
                 showSettingsButton = false,
@@ -208,7 +211,7 @@ fun EntryScreen(
                             ) {
                                 if (state.title.text.isEmpty() && !isFocused) {
                                     Text(
-                                        text = "Add Title...", // hint
+                                        text = stringResource(R.string.add_title_hint), // hint
                                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                             alpha = 0.4f
                                         ),
@@ -283,7 +286,6 @@ fun EntryScreen(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 //
                 var isFocused by remember {
@@ -291,8 +293,12 @@ fun EntryScreen(
                 }
                 GradientTintedIcon(
                     imageVector = if (state.transcription.isNotEmpty()) AiIcon else Icons.Default.Edit,
-                    contentDescription = if (state.transcription.isNotEmpty()) "Transcription" else "Description",
-                    modifier = Modifier.size(16.dp),
+                    contentDescription = if (state.transcription.isNotEmpty()) stringResource(R.string.transcription) else stringResource(
+                        R.string.description
+                    ),
+                    modifier = Modifier
+                        .padding(end = 6.dp)
+                        .size(16.dp),
                     gradientType = GradientType.VERTICAL,
                     colors = state.mood?.gradientColors
                         ?: ButtonGradient, // Use mood gradient if available, otherwise use Button gradient
@@ -336,7 +342,7 @@ fun EntryScreen(
                             ) {
                                 if (state.description.text.isEmpty() && !isFocused) {
                                     Text(
-                                        text = "Add Description...", // hint
+                                        text = stringResource(R.string.add_description_hint), // hint
                                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                             alpha = 0.4f
                                         ),
@@ -367,7 +373,7 @@ fun EntryScreen(
                     )
                 ) {
                     Text(
-                        text = "Cancel",
+                        text = stringResource(R.string.cancel),
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelLarge,
@@ -393,7 +399,7 @@ fun EntryScreen(
                     disabledContentColor = MaterialTheme.colorScheme.outline
                 ) {
                     Text(
-                        text = "Save",
+                        text = stringResource(R.string.save),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelLarge,
                     )
@@ -409,18 +415,16 @@ fun EntryScreen(
     }
 }
 
-@Preview
+@LocalesPreview
 @Composable
-fun EntryScreenPreview(modifier: Modifier = Modifier) {
+fun EntryScreenPreview() {
     EchoJournalTheme {
         EntryScreen(
             state = EntryState(
                 mood = Mood.Peaceful,
-                title = rememberTextFieldState(initialText = "My Entry"),
-                description = rememberTextFieldState(
-                    initialText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tit amet, consecterur adipiscing"
-                ),
-                transcription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tit amet, consecterur adipiscing"
+                title = rememberTextFieldState(initialText = getLocalizedSampleLogs().random().title),
+                description = rememberTextFieldState(initialText = stringResource(R.string.demo_text)),
+                transcription = stringResource(R.string.demo_text),
             ),
             onAction = {}
         )

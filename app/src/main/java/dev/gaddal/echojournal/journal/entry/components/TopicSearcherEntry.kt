@@ -30,16 +30,19 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.presentation.designsystem.InterFontFamily
 import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJournalTopic
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
+import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleTopics
 import dev.gaddal.echojournal.journal.entry.EntryAction
 import dev.gaddal.echojournal.journal.entry.EntryState
 
@@ -84,7 +87,7 @@ fun TopicSearcherEntry(
             ) {
                 Icon(
                     imageVector = Icons.Default.Tag,
-                    contentDescription = "Tag",
+                    contentDescription = stringResource(R.string.tag),
                     modifier = Modifier.size(16.dp),
                     tint = MaterialTheme.colorScheme.outlineVariant
                 )
@@ -114,7 +117,7 @@ fun TopicSearcherEntry(
                             Box {
                                 if (state.topicQuery.text.isEmpty() && !isFocused) {
                                     Text(
-                                        text = "Topic",
+                                        text = stringResource(R.string.topic_hint),
                                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                             alpha = 0.4f
                                         ),
@@ -146,19 +149,19 @@ fun TopicSearcherEntry(
     }
 }
 
-@Preview(showBackground = true)
+@LocalesPreview
 @Composable
 fun TopicSearcherEntryPreview() {
     val sampleState = remember {
         mutableStateOf(EntryState())
     }
 
+    val topics = getLocalizedSampleTopics()
+
     val sampleTopics = remember {
-        mutableStateListOf(
-            Topic(1, "Kotlin", "#FFFFFF"),
-            Topic(2, "Compose", "#000000"),
-            Topic(3, "Android", "#808080")
-        )
+        mutableStateListOf<Topic>().apply {
+            addAll(topics)
+        }
     }
 
     val sampleSelectedTopics = remember {

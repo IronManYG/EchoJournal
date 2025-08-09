@@ -18,7 +18,7 @@ fun TopicsFilterSection(
     var isMenuOpen by remember { mutableStateOf(false) }
 
     EchoJournalChip(
-        topics = selectedTopics,
+        topics = selectedTopics.sortedBy { it.name },
         isDropdownOpen = isMenuOpen,
         selected = isMenuOpen,
         onChipClick = { isMenuOpen = !isMenuOpen },

@@ -18,6 +18,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
+import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
+import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleTopics
 import dev.gaddal.echojournal.journal.entries.components.TopicDropdownMenuItem
 
 /**
@@ -89,6 +92,28 @@ fun CreatableTopicDropdown(
                     }
                 }
             }
+        }
+    }
+}
+
+@LocalesPreview
+@Composable
+fun CreatableTopicDropdownPreview() {
+    val sampleTopics = getLocalizedSampleTopics()
+
+    val selectedTopics = listOf(sampleTopics[0])
+
+    EchoJournalTheme {
+        Box(modifier = Modifier.padding(40.dp)) {
+            CreatableTopicDropdown(
+                expanded = true,
+                allTopics = sampleTopics,
+                selectedTopics = selectedTopics,
+                onTopicClick = { },
+                searchQuery = sampleTopics.random().name,
+                onCreateClick = { },
+                modifier = Modifier
+            )
         }
     }
 }

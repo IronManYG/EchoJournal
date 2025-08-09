@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJournalChip
 
@@ -16,10 +17,11 @@ fun MoodsFilterSection(
     onClearFilter: () -> Unit
 ) {
     var isMenuOpen by remember { mutableStateOf(false) }
+    val currentContext = LocalContext.current
 
     // The chip shows the current selected moods
     EchoJournalChip(
-        moods = selectedMoods,
+        moods = selectedMoods.sortedBy { it.title.asString(context = currentContext) },
         isDropdownOpen = isMenuOpen,
         selected = isMenuOpen,
         onChipClick = { isMenuOpen = !isMenuOpen },

@@ -19,9 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
@@ -50,7 +52,7 @@ fun EchoJournalTopic(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            text = "#",
+            text = stringResource(R.string.hatch),
             color = finalHatchTagColor,
             style = MaterialTheme.typography.bodySmall
         )
@@ -69,7 +71,7 @@ fun EchoJournalTopic(
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = "Clear topic",
+                    contentDescription = stringResource(R.string.clear_topic),
                     tint = finalHatchTagColor
                 )
             }
@@ -86,33 +88,33 @@ fun EchoJournalTopicPreview() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             EchoJournalTopic(
-                topic = Topic(1, "Kotlin", "#FFFFFF"),
+                topic = Topic(1, stringResource(R.string.app_name), "#FFFFFF"),
                 onClearTopicClick = { /* Clear topic logic */ }
             )
 
             // Moods
             EchoJournalTopic(
-                topic = Topic(2, "Sad", "#000000"),
+                topic = Topic(2, stringResource(R.string.sad), "#000000"),
                 mood = Mood.Sad
             )
 
             EchoJournalTopic(
-                topic = Topic(2, "Stressed", "#000000"),
+                topic = Topic(2, stringResource(R.string.stressed), "#000000"),
                 mood = Mood.Stressed
             )
 
             EchoJournalTopic(
-                topic = Topic(2, "Sad", "#000000"),
+                topic = Topic(2, stringResource(R.string.neutral), "#000000"),
                 mood = Mood.Neutral
             )
 
             EchoJournalTopic(
-                topic = Topic(2, "Peaceful", "#000000"),
+                topic = Topic(2, stringResource(R.string.peaceful), "#000000"),
                 mood = Mood.Peaceful
             )
 
             EchoJournalTopic(
-                topic = Topic(2, "Excited", "#000000"),
+                topic = Topic(2, stringResource(R.string.excited), "#000000"),
                 mood = Mood.Excited
             )
         }

@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,8 +39,9 @@ import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 import dev.gaddal.echojournal.core.presentation.designsystem.colors.NeutralVariant90
 import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJournalTopic
 import dev.gaddal.echojournal.core.presentation.designsystem.components.ExpandableText
-import dev.gaddal.echojournal.core.sample.SampleData.sampleAudioLogs
-import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
+import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleLogs
+import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleTopics
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -136,7 +136,8 @@ fun EntryCard(
                         style = MaterialTheme.typography.headlineSmall
                     )
                     Text(
-                        text = if (as24Hour) audioLog.createdAt.to24HourTimeString() else audioLog.createdAt.to12HourTimeString(),
+                        text = if (as24Hour) audioLog.createdAt.to24HourTimeString()
+                            .asString() else audioLog.createdAt.to12HourTimeString().asString(),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -178,7 +179,7 @@ fun EntryCard(
     }
 }
 
-@Preview(showBackground = true)
+@LocalesPreview
 @Composable
 fun EntryCardPreview() {
     // For randomness
@@ -196,8 +197,8 @@ fun EntryCardPreview() {
     EchoJournalTheme {
         val (pos, dur) = randomPositionDuration()
         EntryCard(
-            audioLog = sampleAudioLogs.first(),
-            topics = sampleTopics,
+            audioLog = getLocalizedSampleLogs().first(),
+            topics = getLocalizedSampleTopics(),
             isPlaying = false,
             isPaused = false,
             currentPosition = pos,

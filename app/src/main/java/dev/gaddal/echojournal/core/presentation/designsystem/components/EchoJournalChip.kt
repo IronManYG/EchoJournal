@@ -22,19 +22,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
+import dev.gaddal.echojournal.core.presentation.ui.UiText
 import dev.gaddal.echojournal.core.sample.SampleData.sampleTopics
 
 @Composable
 fun EchoJournalChip(
+    modifier: Modifier = Modifier,
     moods: List<Mood>? = null,
     topics: List<Topic>? = null,
-    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     selected: Boolean = false,
     onClearFilter: (() -> Unit)? = null,
@@ -47,28 +51,30 @@ fun EchoJournalChip(
 
     // Build the label text based on moods or topics
     val labelText = when {
-        hasMoods -> buildMoodsLabel(moods!!)
-        hasTopics -> buildTopicsLabel(topics!!)
+        hasMoods -> buildMoodsLabel(moods).asString()
+        hasTopics -> buildTopicsLabel(topics).asString()
         else -> {
             // Fallback when no moods/topics are selected.
             // Could also differentiate between "All Moods" / "All Topics"
             // if you know which type it is meant to represent.
             if (moods != null) {
-                "All Moods"
+                stringResource(R.string.all_moods)
             } else if (topics != null) {
-                "All Topics"
+                stringResource(R.string.all_topics)
             } else {
-                "All Items"
+                stringResource(R.string.all_items)
             }
         }
     }
 
     // Leading icon(s) if moods are present. For topics, typically no icon needed.
     val leadingIcon: @Composable (() -> Unit)? = if (hasMoods) {
-        { MoodsLeadingIcon(moods!!) }
+        { MoodsLeadingIcon(moods) }
     } else {
         null
     }
+        { MoodsLeadingIcon(moods) }
+    } else null
 
     // If we have an active filter (moods/topics selected), show a trailing X to clear
     val activeFilter = hasMoods || hasTopics
@@ -136,15 +142,24 @@ fun EchoJournalChip(
  *
  * Sorted alphabetically by mood name (or any property you wish).
  */
-private fun buildMoodsLabel(moods: List<Mood>): String {
-    // Map your Mood objects to a string name to sort them.
-    // For example, using the simple name of the mood class or a custom property.
-    val moodNames = moods.map { it::class.simpleName.orEmpty() }.sorted()
-    return when (moodNames.size) {
-        0 -> "All Moods"
-        1 -> moodNames.first()
-        2 -> "${moodNames[0]}, ${moodNames[1]}"
-        else -> "${moodNames[0]}, ${moodNames[1]} +${moodNames.size - 2}"
+@Composable
+private fun buildMoodsLabel(moods: List<Mood>): UiText {
+    return when (moods.size) {
+        0 -> UiText.StringResource(R.string.all_moods)
+        1 -> moods.first().title
+        2 -> UiText.StringResource(
+            R.string.two_moods_format,
+            arrayOf(moods[0].title.asString(), moods[1].title.asString())
+        )
+
+        else -> UiText.StringResource(
+            R.string.multiple_moods_format,
+            arrayOf(
+                moods[0].title.asString(),
+                moods[1].title.asString(),
+                moods.size - 2
+            )
+        )
     }
 }
 
@@ -154,13 +169,23 @@ private fun buildMoodsLabel(moods: List<Mood>): String {
  * - If 2 topics: "Topic1, Topic2"
  * - If 3+ topics: "Topic1, Topic2 +X"
  */
-private fun buildTopicsLabel(topics: List<Topic>): String {
-    val sortedTopics = topics.map { it.name }.sorted()
-    return when (sortedTopics.size) {
-        0 -> "All Topics"
-        1 -> sortedTopics.first()
-        2 -> "${sortedTopics[0]}, ${sortedTopics[1]}"
-        else -> "${sortedTopics[0]}, ${sortedTopics[1]} +${sortedTopics.size - 2}"
+private fun buildTopicsLabel(topics: List<Topic>): UiText {
+    return when (topics.size) {
+        0 -> UiText.StringResource(R.string.all_topics)
+        1 -> UiText.StringResource(
+            R.string.single_topic_format,
+            arrayOf(topics[0].name)
+        )
+
+        2 -> UiText.StringResource(
+            R.string.two_topics_format,
+            arrayOf(topics[0].name, topics[1].name)
+        )
+
+        else -> UiText.StringResource(
+            R.string.multiple_topics_format,
+            arrayOf(topics[0].name, topics[1].name, topics.size - 2)
+        )
     }
 }
 
@@ -202,10 +227,11 @@ private fun MoodsLeadingIcon(moods: List<Mood>) {
     }
 }
 
-@Preview(showBackground = true)
+@LocalesPreview()
 @Composable
 fun EchoJournalChipPreview() {
     EchoJournalTheme {
+        val currentContext = LocalContext.current
         Column(
             modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -215,17 +241,17 @@ fun EchoJournalChipPreview() {
                 onClearFilter = { /* Clear filter logic */ }
             )
             EchoJournalChip(
-                topics = sampleTopics.subList(0, 2),
+                topics = sampleTopics.subList(0, 2).sortedBy { it.name },
                 selected = false,
                 onClearFilter = { /* Clear filter logic */ }
             )
             EchoJournalChip(
-                topics = sampleTopics.subList(0, 2),
+                topics = sampleTopics.subList(0, 2).sortedBy { it.name },
                 selected = true,
                 onClearFilter = { /* Clear filter logic */ }
             )
             EchoJournalChip(
-                topics = sampleTopics.subList(0, 4),
+                topics = sampleTopics.subList(0, 4).sortedBy { it.name },
                 selected = false,
                 onClearFilter = { /* Clear filter logic */ }
             )
@@ -234,17 +260,29 @@ fun EchoJournalChipPreview() {
                 onClearFilter = { /* Clear filter logic */ }
             )
             EchoJournalChip(
-                moods = listOf(Mood.Stressed, Mood.Sad),
+                moods = listOf(
+                    Mood.Stressed,
+                    Mood.Sad
+                ).sortedBy { it.title.asString(context = currentContext) },
                 selected = false,
                 onClearFilter = { /* Clear filter logic */ }
             )
             EchoJournalChip(
-                moods = listOf(Mood.Stressed, Mood.Sad),
+                moods = listOf(
+                    Mood.Stressed,
+                    Mood.Sad
+                ).sortedBy { it.title.asString(context = currentContext) },
                 selected = true,
                 onClearFilter = { /* Clear filter logic */ }
             )
             EchoJournalChip(
-                moods = listOf(Mood.Stressed, Mood.Sad, Mood.Peaceful, Mood.Excited, Mood.Neutral),
+                moods = listOf(
+                    Mood.Stressed,
+                    Mood.Sad,
+                    Mood.Peaceful,
+                    Mood.Excited,
+                    Mood.Neutral
+                ).sortedBy { it.title.asString(context = currentContext) },
                 selected = false,
                 onClearFilter = { /* Clear filter logic */ }
             )

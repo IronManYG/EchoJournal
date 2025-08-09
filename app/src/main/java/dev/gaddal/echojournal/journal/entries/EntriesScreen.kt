@@ -18,13 +18,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.gaddal.echojournal.R
 import dev.gaddal.echojournal.core.presentation.designsystem.EchoJournalTheme
 import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJournalFAB
 import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJournalScaffold
 import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJournalTopAppBar
+import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 import dev.gaddal.echojournal.core.presentation.ui.ObserveAsEvents
 import dev.gaddal.echojournal.journal.entries.components.EmptyList
 import dev.gaddal.echojournal.journal.entries.components.EntryList
@@ -81,7 +83,7 @@ fun EntriesScreen(
         modifier = Modifier,
         topAppBar = {
             EchoJournalTopAppBar(
-                title = "Your EchoJournal",
+                title = stringResource(id = R.string.your_echo_journal),
                 modifier = Modifier.fillMaxWidth(),
                 showBackButton = false,
                 showSettingsButton = true,
@@ -161,7 +163,7 @@ fun EntriesScreen(
     }
 }
 
-@Preview
+@LocalesPreview
 @Composable
 fun EntriesScreenPreview() {
     EchoJournalTheme {
