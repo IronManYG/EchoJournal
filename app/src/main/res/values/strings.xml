@@ -77,4 +77,7 @@
     <string name="save">Save</string>
     <string name="add_new_entry">Add new entry</string>
     <string name="entry_details_template">Entry details %1$d</string>
+    <string name="cannot_start_recording_storage_not_writable">Cannot start recording: storage not writable</string>
+    <string name="cannot_start_recording_insufficient_storage_space">Cannot start recording: insufficient storage space</string>
+    <string name="cannot_start_recording_unknown_issue">Cannot start recording: unknown storage issue</string>
 </resources>

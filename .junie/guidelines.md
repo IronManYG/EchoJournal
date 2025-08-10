@@ -120,3 +120,12 @@ Update – Room schemas (2025-08-09)
   - .\gradlew.bat :app:regenerateRoomSchemas
 - Notes:
   - Prefer the plugin-provided copyRoomSchemas task; avoid wiring custom tasks directly to KSP.
+
+
+
+Update – UI Text Rule (2025-08-11)
+
+- Always use string resources (UiText.StringResource) for any user-visible text coming from ViewModels and UI.
+- Do not use UiText.DynamicString for UI-facing messages. For dynamic content, define parameterized string resources (e.g., "%1$s").
+- Exceptions: debug logs, telemetry, or strictly non-user-facing diagnostics may use raw strings.
+- Example: EntriesViewModel now emits UiText.StringResource for microphone-permission and storage-preflight errors.

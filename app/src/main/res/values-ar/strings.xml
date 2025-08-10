@@ -64,4 +64,7 @@
     <string name="save">حفظ</string>
     <string name="add_new_entry">إضافة إدخال جديد</string>
     <string name="entry_details_template">تفاصيل الإدخال %1$d</string>
+    <string name="cannot_start_recording_storage_not_writable">تعذر بدء التسجيل: التخزين غير قابل للكتابة</string>
+    <string name="cannot_start_recording_insufficient_storage_space">تعذر بدء التسجيل: مساحة التخزين غير كافية</string>
+    <string name="cannot_start_recording_unknown_issue">تعذر بدء التسجيل: مشكلة غير معروفة في التخزين</string>
 </resources>

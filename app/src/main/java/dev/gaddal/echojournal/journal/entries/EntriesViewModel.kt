@@ -13,8 +13,10 @@ import dev.gaddal.echojournal.core.domain.record.FileNameProvider
 import dev.gaddal.echojournal.core.domain.util.Result
 import dev.gaddal.echojournal.core.presentation.ui.StorageLocation
 import dev.gaddal.echojournal.core.presentation.ui.StoragePathProvider
+import dev.gaddal.echojournal.core.presentation.ui.UiText
 import dev.gaddal.echojournal.core.presentation.ui.asUiText
 import dev.gaddal.echojournal.core.presentation.ui.events.UiEventChannel
+import dev.gaddal.echojournal.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -172,7 +174,14 @@ class EntriesViewModel(
 
             // 1) Start
             EntriesAction.OnStartRecordingClick -> {
-                if (!_state.value.hasRecordPermission) return
+                // Permission preflight
+                if (!_state.value.hasRecordPermission) {
+                    Timber.tag("EntriesViewModel").w("Recording denied: missing microphone permission")
+                    viewModelScope.launch {
+                        uiEvents.emit(EntriesEvent.Error(UiText.StringResource(R.string.microphone_permission_required_title)))
+                    }
+                    return
+                }
 
                 // Mutual exclusivity: stop playback if currently playing
                 if (_state.value.isPlayingAudio) {
@@ -188,6 +197,33 @@ class EntriesViewModel(
                             audioDuration = Duration.ZERO
                         )
                     }
+                }
+
+                // Storage preflight: ensure we can write and have some free space
+                val path = storagePathProvider.getPath(StorageLocation.CACHE)
+                val dir = File(path)
+                if (!dir.exists()) {
+                    dir.mkdirs()
+                }
+                val canWrite = dir.canWrite()
+                val minBytesRequired = 1_000_000L // ~1MB
+                val hasSpace = dir.usableSpace > minBytesRequired
+                if (!canWrite || !hasSpace) {
+                    val reason = when {
+                        !canWrite -> "Storage not writable"
+                        !hasSpace -> "Insufficient storage space"
+                        else -> "Unknown storage issue"
+                    }
+                    Timber.tag("EntriesViewModel").w("Recording preflight failed: $reason at $path (usable=${dir.usableSpace})")
+                    val msgResId = when {
+                        !canWrite -> R.string.cannot_start_recording_storage_not_writable
+                        !hasSpace -> R.string.cannot_start_recording_insufficient_storage_space
+                        else -> R.string.cannot_start_recording_unknown_issue
+                    }
+                    viewModelScope.launch {
+                        uiEvents.emit(EntriesEvent.Error(UiText.StringResource(msgResId)))
+                    }
+                    return
                 }
 
                 // Create a file in the cache directory using FileNameProvider
