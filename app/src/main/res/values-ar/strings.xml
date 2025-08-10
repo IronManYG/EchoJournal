@@ -35,6 +35,7 @@
     <string name="show_less">عرض أقل</string>
     <string name="demo_text">هذا نص تجريبي يستخدم للعرض فقط. يمكن استبداله بأي محتوى آخر حسب الحاجة. هذا النص لا يحمل أي معنى، وإنما يستخدم لملء الفراغ وإظهار كيفية عمل النصوص في التطبيق.</string>
     <string name="recording_paused">تم إيقاف التسجيل مؤقتًا</string>
+    <string name="resume_recording">استئناف التسجيل</string>
     <string name="recording_in_progress">جاري تسجيل ذكرياتك…</string>
     <string name="cancel_recording">إلغاء</string>
     <string name="pause_recording">إيقاف مؤقت</string>
@@ -61,4 +62,5 @@
     <string name="description">الوصف</string>
     <string name="add_description_hint">أضف وصفًا…</string>
     <string name="save">حفظ</string>
+    <string name="add_new_entry">إضافة إدخال جديد</string>
 </resources>

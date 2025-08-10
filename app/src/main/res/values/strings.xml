@@ -48,6 +48,7 @@
     <string name="show_less">Show Less</string>
     <string name="demo_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin in nisl vitae justo viverra bibendum vitae vel nulla.</string>
     <string name="recording_paused">Recording paused</string>
+    <string name="resume_recording">Resume recording</string>
     <string name="recording_in_progress">Recording your memories…</string>
     <string name="cancel_recording">Cancel</string>
     <string name="pause_recording">Pause</string>
@@ -74,4 +75,5 @@
     <string name="description">Description</string>
     <string name="add_description_hint">Add Description…</string>
     <string name="save">Save</string>
+    <string name="add_new_entry">Add new entry</string>
 </resources>

@@ -73,8 +73,6 @@ fun EchoJournalChip(
     } else {
         null
     }
-        { MoodsLeadingIcon(moods) }
-    } else null
 
     // If we have an active filter (moods/topics selected), show a trailing X to clear
     val activeFilter = hasMoods || hasTopics

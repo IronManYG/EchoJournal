@@ -67,9 +67,9 @@ fun RecordBottomSheet(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { granted ->
             val showRationale = (
-                !granted && activity != null &&
-                    activity.shouldShowRecordAudioPermissionRationale()
-                )
+                    !granted && activity != null &&
+                            activity.shouldShowRecordAudioPermissionRationale()
+                    )
             onAction(
                 EntriesAction.SubmitAudioPermissionInfo(
                     acceptedAudioPermission = granted,
@@ -175,7 +175,7 @@ fun RecordBottomSheet(
                 EchoJournalFAB(
                     modifier = Modifier.weight(1f),
                     icon = if (state.isPaused) Icons.Default.Mic else Icons.Default.Check,
-                    contentDescription = if (!state.isRecording && !state.isPaused) "Start recording" else if (state.isPaused) "Resume recording" else "Finish and create entry",
+                    contentDescription = stringResource(if (!state.isRecording && !state.isPaused) string.start_recording else if (state.isPaused) string.resume_recording else string.finish_recording),
                     isLargeVariant = true,
                     rippleEnabled = true,
                     onClick = {
