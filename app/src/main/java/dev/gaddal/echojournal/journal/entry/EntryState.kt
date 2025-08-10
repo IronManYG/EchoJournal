@@ -3,6 +3,7 @@ package dev.gaddal.echojournal.journal.entry
 import androidx.compose.foundation.text.input.TextFieldState
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
+import dev.gaddal.echojournal.core.presentation.ui.UiText
 import kotlin.time.Duration
 
 data class EntryState(
@@ -16,6 +17,10 @@ data class EntryState(
     val topicQuery: TextFieldState = TextFieldState(),
     val description: TextFieldState = TextFieldState(),
     val transcription: String = "",
+
+    // UI placeholders
+    val isLoading: Boolean = true,
+    val error: UiText? = null,
 
     // Playback flags (global audio player)
     val isPlayingAudio: Boolean = false,

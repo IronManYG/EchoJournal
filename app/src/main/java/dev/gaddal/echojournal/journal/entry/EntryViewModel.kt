@@ -72,7 +72,9 @@ class EntryViewModel(
                 _state.update {
                     it.copy(
                         allTopics = topics,
-                        filteredTopics = topics
+                        filteredTopics = topics,
+                        isLoading = false,
+                        error = null
                     )
                 }
             }

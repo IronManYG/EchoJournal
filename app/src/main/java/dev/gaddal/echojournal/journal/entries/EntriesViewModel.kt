@@ -50,7 +50,11 @@ class EntriesViewModel(
         audioLogRepository.getAudioLogsWithTopics()
             .onEach { audioLogsWithTopics ->
                 _state.update {
-                    it.copy(entriesWithTopics = audioLogsWithTopics)
+                    it.copy(
+                        entriesWithTopics = audioLogsWithTopics,
+                        isLoading = false,
+                        error = null
+                    )
                 }
                 filterEntries() // Re-filter after loading
             }
@@ -60,7 +64,11 @@ class EntriesViewModel(
         topicRepository.getTopics()
             .onEach { topics ->
                 _state.update {
-                    it.copy(allTopics = topics)
+                    it.copy(
+                        allTopics = topics,
+                        isLoading = false,
+                        error = null
+                    )
                 }
                 filterEntries() // Re-filter after loading
             }

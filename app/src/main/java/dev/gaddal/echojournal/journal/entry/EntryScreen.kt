@@ -66,6 +66,8 @@ import dev.gaddal.echojournal.core.presentation.designsystem.components.EchoJour
 import dev.gaddal.echojournal.core.presentation.designsystem.components.GradientButton
 import dev.gaddal.echojournal.core.presentation.designsystem.components.GradientTintedIcon
 import dev.gaddal.echojournal.core.presentation.designsystem.components.GradientType
+import dev.gaddal.echojournal.core.presentation.designsystem.components.LoadingPlaceholder
+import dev.gaddal.echojournal.core.presentation.designsystem.components.ErrorPlaceholder
 import dev.gaddal.echojournal.core.presentation.ui.LocalesPreview
 import dev.gaddal.echojournal.core.presentation.ui.ObserveAsEvents
 import dev.gaddal.echojournal.core.sample.SampleData.getLocalizedSampleLogs
@@ -134,284 +136,296 @@ fun EntryScreen(
             )
         },
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(vertical = 8.dp, horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Mood & title
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                //
-                var isFocused by remember {
-                    mutableStateOf(true)
-                }
+        when {
+            state.isLoading -> LoadingPlaceholder(modifier = Modifier.padding(innerPadding))
+            state.error != null -> ErrorPlaceholder(
+                message = state.error,
+                modifier = Modifier.padding(innerPadding)
+            )
 
-                if (state.mood != null) {
-                    Image(
-                        imageVector = ImageVector.vectorResource(id = state.mood.iconRes),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .clickable {
-                                showBottomSheet = true
-                            }
-                            .size(32.dp),
-                    )
-                } else {
-                    Surface(
-                        shape = CircleShape,
-                        color = Secondary95,
+            else -> {
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    // Mood & title
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(
-                            onClick = {
-                                showBottomSheet = true
-                            },
-                            modifier = Modifier.size(32.dp),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
+                        //
+                        var isFocused by remember {
+                            mutableStateOf(true)
+                        }
+
+                        if (state.mood != null) {
+                            Image(
+                                imageVector = ImageVector.vectorResource(id = state.mood.iconRes),
                                 contentDescription = null,
-                                modifier = Modifier.size(20.dp),
-                                tint = Secondary70
+                                modifier = Modifier
+                                    .clickable {
+                                        showBottomSheet = true
+                                    }
+                                    .size(32.dp),
+                            )
+                        } else {
+                            Surface(
+                                shape = CircleShape,
+                                color = Secondary95,
+                            ) {
+                                IconButton(
+                                    onClick = {
+                                        showBottomSheet = true
+                                    },
+                                    modifier = Modifier.size(32.dp),
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp),
+                                        tint = Secondary70
+                                    )
+                                }
+                            }
+                        }
+                        BasicTextField(
+                            state = state.title,
+                            textStyle = TextStyle(
+                                color = MaterialTheme.colorScheme.onBackground,
+                                fontFamily = InterFontFamily,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 26.sp,
+                                lineHeight = 32.sp
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text
+                            ),
+                            lineLimits = TextFieldLineLimits.SingleLine,
+                            cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
+                            modifier = Modifier
+                                .onFocusChanged {
+                                    isFocused = it.isFocused
+                                },
+                            decorator = { innerBox ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                    ) {
+                                        if (state.title.text.isEmpty() && !isFocused) {
+                                            Text(
+                                                text = stringResource(R.string.add_title_hint), // hint
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                                    alpha = 0.4f
+                                                ),
+                                                modifier = Modifier.fillMaxWidth(),
+                                                style = MaterialTheme.typography.headlineLarge,
+                                            )
+                                        }
+                                    }
+                                }
+                                innerBox()
+                            }
+                        )
+                    }
+
+                    // Audio player & AI transcript button
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        AudioPlayer(
+                            modifier = Modifier.weight(1f),
+                            isPlaying = state.isPlayingAudio,
+                            isPaused = state.isPausedAudio,
+                            currentPosition = state.audioPosition,
+                            duration = state.audioDuration,
+                            onPlay = { onAction(EntryAction.PlayAudio) },
+                            onResume = { onAction(EntryAction.ResumeAudio) },
+                            onPause = { onAction(EntryAction.PauseAudio) },
+                            onStop = { onAction(EntryAction.StopAudio) },
+                            onSeek = { ms -> onAction(EntryAction.SeekTo(ms)) },
+                            mood = state.mood
+                        )
+
+                        Surface(
+                            shape = CircleShape,
+                            shadowElevation = 12.dp,
+                        ) {
+                            IconButton(
+                                onClick = { },
+                                modifier = Modifier.size(32.dp),
+                            ) {
+                                Icon(
+                                    imageVector = AiIcon,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(24.dp),
+                                    tint = if (state.mood != null) state.mood.iconTint else Primary50
+                                )
+                            }
+                        }
+                    }
+
+                    // Topic
+                    TopicSearcherEntry(
+                        state = state,
+                        onAction = onAction,
+                        allTopics = state.filteredTopics,
+                        selectedTopics = state.selectedTopics,
+                        onTopicClick = { topic ->
+                            onAction(EntryAction.OnTopicSelected(topic))
+                        },
+                        onCreateClick = {
+                            onAction(EntryAction.OnCreateTopic)
+                        },
+                        onClearTopicClick = { topic ->
+                            onAction(EntryAction.OnTopicSelected(topic))
+                        },
+                    )
+
+                    // Description or transcription
+                    Row(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                    ) {
+                        //
+                        var isFocused by remember {
+                            mutableStateOf(true)
+                        }
+                        GradientTintedIcon(
+                            imageVector = if (state.transcription.isNotEmpty()) AiIcon else Icons.Default.Edit,
+                            contentDescription = if (state.transcription.isNotEmpty()) stringResource(
+                                R.string.transcription
+                            ) else stringResource(
+                                R.string.description
+                            ),
+                            modifier = Modifier
+                                .padding(end = 6.dp)
+                                .size(16.dp),
+                            gradientType = GradientType.VERTICAL,
+                            colors = state.mood?.gradientColors
+                                ?: ButtonGradient, // Use mood gradient if available, otherwise use Button gradient
+                            solidColor = if (!(state.mood != null && state.transcription.isNotEmpty())) MaterialTheme.colorScheme.outlineVariant else null, // Apply solid color otherwise
+                            isWithinScaffold = true
+                        )
+                        if (state.transcription.isNotEmpty()) {
+                            Text(
+                                text = state.transcription,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        BasicTextField(
+                            state = state.description,
+                            textStyle = TextStyle(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontFamily = InterFontFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 14.sp,
+                                lineHeight = 20.sp
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text
+                            ),
+                            lineLimits = TextFieldLineLimits.MultiLine(),
+                            cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
+                            modifier = Modifier
+                                .onFocusChanged {
+                                    isFocused = it.isFocused
+                                },
+                            decorator = { innerBox ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                    ) {
+                                        if (state.description.text.isEmpty() && !isFocused) {
+                                            Text(
+                                                text = stringResource(R.string.add_description_hint), // hint
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                                    alpha = 0.4f
+                                                ),
+                                                modifier = Modifier.fillMaxWidth(),
+                                                style = MaterialTheme.typography.bodyMedium,
+                                            )
+                                        }
+                                    }
+                                }
+                                innerBox()
+                            }
+                        )
+                    }
+
+                    // Cancel & Save
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Button(
+                            onClick = {
+                                onAction(EntryAction.OnCancelChooseMoodClick)
+                                onAction(EntryAction.OnBackClick)
+                            },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.inverseOnSurface,
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.cancel),
+                                color = MaterialTheme.colorScheme.primary,
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.labelLarge,
+                            )
+                        }
+
+                        GradientButton(
+                            onClick = {
+                                onAction(EntryAction.OnSaveNewEntryClick)
+                            },
+                            modifier = Modifier.weight(2f),
+                            enabled = state.mood != null && state.title.text.isNotEmpty(),
+                            enabledBrush = Brush.linearGradient(
+                                colors = ButtonGradient,
+                            ),
+                            pressedBrush = Brush.linearGradient(
+                                colors = ButtonPressedGradient,
+                            ),
+                            disabledBrush = Brush.linearGradient(
+                                colors = listOf(Color(0xFFE1E2EC), Color(0xFFE1E2EC))
+                            ),
+                            enabledContentColor = MaterialTheme.colorScheme.onPrimary,
+                            disabledContentColor = MaterialTheme.colorScheme.outline
+                        ) {
+                            Text(
+                                text = stringResource(R.string.save),
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.labelLarge,
                             )
                         }
                     }
                 }
-                BasicTextField(
-                    state = state.title,
-                    textStyle = TextStyle(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        fontFamily = InterFontFamily,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 26.sp,
-                        lineHeight = 32.sp
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text
-                    ),
-                    lineLimits = TextFieldLineLimits.SingleLine,
-                    cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
-                    modifier = Modifier
-                        .onFocusChanged {
-                            isFocused = it.isFocused
-                        },
-                    decorator = { innerBox ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                            ) {
-                                if (state.title.text.isEmpty() && !isFocused) {
-                                    Text(
-                                        text = stringResource(R.string.add_title_hint), // hint
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                            alpha = 0.4f
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        style = MaterialTheme.typography.headlineLarge,
-                                    )
-                                }
-                            }
-                        }
-                        innerBox()
-                    }
+                MoodBottomSheet(
+                    showBottomSheet = showBottomSheet,
+                    onDismiss = { showBottomSheet = false },
+                    onAction = onAction, // the same callback your VM uses
+                    state = state // pass state from VM
                 )
-            }
-
-            // Audio player & AI transcript button
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                AudioPlayer(
-                    modifier = Modifier.weight(1f),
-                    isPlaying = state.isPlayingAudio,
-                    isPaused = state.isPausedAudio,
-                    currentPosition = state.audioPosition,
-                    duration = state.audioDuration,
-                    onPlay = { onAction(EntryAction.PlayAudio) },
-                    onResume = { onAction(EntryAction.ResumeAudio) },
-                    onPause = { onAction(EntryAction.PauseAudio) },
-                    onStop = { onAction(EntryAction.StopAudio) },
-                    onSeek = { ms -> onAction(EntryAction.SeekTo(ms)) },
-                    mood = state.mood
-                )
-
-                Surface(
-                    shape = CircleShape,
-                    shadowElevation = 12.dp,
-                ) {
-                    IconButton(
-                        onClick = { },
-                        modifier = Modifier.size(32.dp),
-                    ) {
-                        Icon(
-                            imageVector = AiIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                            tint = if (state.mood != null) state.mood.iconTint else Primary50
-                        )
-                    }
-                }
-            }
-
-            // Topic
-            TopicSearcherEntry(
-                state = state,
-                onAction = onAction,
-                allTopics = state.filteredTopics,
-                selectedTopics = state.selectedTopics,
-                onTopicClick = { topic ->
-                    onAction(EntryAction.OnTopicSelected(topic))
-                },
-                onCreateClick = {
-                    onAction(EntryAction.OnCreateTopic)
-                },
-                onClearTopicClick = { topic ->
-                    onAction(EntryAction.OnTopicSelected(topic))
-                },
-            )
-
-            // Description or transcription
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-            ) {
-                //
-                var isFocused by remember {
-                    mutableStateOf(true)
-                }
-                GradientTintedIcon(
-                    imageVector = if (state.transcription.isNotEmpty()) AiIcon else Icons.Default.Edit,
-                    contentDescription = if (state.transcription.isNotEmpty()) stringResource(R.string.transcription) else stringResource(
-                        R.string.description
-                    ),
-                    modifier = Modifier
-                        .padding(end = 6.dp)
-                        .size(16.dp),
-                    gradientType = GradientType.VERTICAL,
-                    colors = state.mood?.gradientColors
-                        ?: ButtonGradient, // Use mood gradient if available, otherwise use Button gradient
-                    solidColor = if (!(state.mood != null && state.transcription.isNotEmpty())) MaterialTheme.colorScheme.outlineVariant else null, // Apply solid color otherwise
-                    isWithinScaffold = true
-                )
-                if (state.transcription.isNotEmpty()) {
-                    Text(
-                        text = state.transcription,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                BasicTextField(
-                    state = state.description,
-                    textStyle = TextStyle(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontFamily = InterFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text
-                    ),
-                    lineLimits = TextFieldLineLimits.MultiLine(),
-                    cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurfaceVariant),
-                    modifier = Modifier
-                        .onFocusChanged {
-                            isFocused = it.isFocused
-                        },
-                    decorator = { innerBox ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                            ) {
-                                if (state.description.text.isEmpty() && !isFocused) {
-                                    Text(
-                                        text = stringResource(R.string.add_description_hint), // hint
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                            alpha = 0.4f
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        style = MaterialTheme.typography.bodyMedium,
-                                    )
-                                }
-                            }
-                        }
-                        innerBox()
-                    }
-                )
-            }
-
-            // Cancel & Save
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Button(
-                    onClick = {
-                        onAction(EntryAction.OnCancelChooseMoodClick)
-                        onAction(EntryAction.OnBackClick)
-                    },
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.inverseOnSurface,
-                    )
-                ) {
-                    Text(
-                        text = stringResource(R.string.cancel),
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.labelLarge,
-                    )
-                }
-
-                GradientButton(
-                    onClick = {
-                        onAction(EntryAction.OnSaveNewEntryClick)
-                    },
-                    modifier = Modifier.weight(2f),
-                    enabled = state.mood != null && state.title.text.isNotEmpty(),
-                    enabledBrush = Brush.linearGradient(
-                        colors = ButtonGradient,
-                    ),
-                    pressedBrush = Brush.linearGradient(
-                        colors = ButtonPressedGradient,
-                    ),
-                    disabledBrush = Brush.linearGradient(
-                        colors = listOf(Color(0xFFE1E2EC), Color(0xFFE1E2EC))
-                    ),
-                    enabledContentColor = MaterialTheme.colorScheme.onPrimary,
-                    disabledContentColor = MaterialTheme.colorScheme.outline
-                ) {
-                    Text(
-                        text = stringResource(R.string.save),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.labelLarge,
-                    )
-                }
             }
         }
-        MoodBottomSheet(
-            showBottomSheet = showBottomSheet,
-            onDismiss = { showBottomSheet = false },
-            onAction = onAction, // the same callback your VM uses
-            state = state // pass state from VM
-        )
     }
 }
 

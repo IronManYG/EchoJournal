@@ -4,6 +4,7 @@ import dev.gaddal.echojournal.core.domain.logs.audio_log.AudioLogWithTopics
 import dev.gaddal.echojournal.core.domain.logs.filter.AudioLogSort
 import dev.gaddal.echojournal.core.domain.logs.topic.Topic
 import dev.gaddal.echojournal.core.domain.mood.Mood
+import dev.gaddal.echojournal.core.presentation.ui.UiText
 import kotlin.time.Duration
 
 data class EntriesState(
@@ -19,6 +20,10 @@ data class EntriesState(
     val fromDateMillis: Long? = null,
     val toDateMillis: Long? = null,
     val sortOrder: AudioLogSort = AudioLogSort.DateAscending,
+
+    // UI placeholders
+    val isLoading: Boolean = true,
+    val error: UiText? = null,
 
     // Permission flags
     val hasRecordPermission: Boolean = false,
