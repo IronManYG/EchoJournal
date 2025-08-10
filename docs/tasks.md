@@ -117,3 +117,8 @@ Documentation & developer experience
 - [ ] 48. Expand README with a short architecture diagram (layers: presentation, domain, data; trackers; Room) and how features are organized.
 - [ ] 49. Add a brief "How to add a new feature" guide: create ViewModel with State/Action/Event, wire Koin, update navigation, write unit tests.
 - [ ] 50. Add codeowners or review guidelines (optional) for keeping MVI and design system conventions consistent.
+
+
+### Localization
+
+- [x] 51. Document localization guidelines in README (Arabic support, UiText, canonical mood codes, localized date/time, @LocalesPreview usage).

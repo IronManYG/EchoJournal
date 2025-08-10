@@ -63,4 +63,5 @@
     <string name="add_description_hint">أضف وصفًا…</string>
     <string name="save">حفظ</string>
     <string name="add_new_entry">إضافة إدخال جديد</string>
+    <string name="entry_details_template">تفاصيل الإدخال %1$d</string>
 </resources>

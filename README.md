@@ -19,6 +19,7 @@
 - [Tech Stack & Libraries](#tech-stack--libraries)
 - [Architecture](#architecture)
 - [Getting Started](#getting-started)
+- [Localization (i18n)](#localization-i18n)
 - [Mockups & Design](#mockups--design)
 - [Future Considerations](#future-considerations)
 - [Acknowledgment](#acknowledgment)
@@ -220,3 +221,34 @@ Notes
 - Compose-specific rules are enabled via io.nlopez.compose.rules:detekt:0.4.13 to catch common Compose pitfalls.
 - Generic FunctionNaming is disabled (naming.FunctionNaming.active=false) in favor of Compose naming checks.
 - See docs\tasks.md for more tips and troubleshooting.
+
+
+## Localization (i18n)
+
+EchoJournal supports multiple locales with proper string resources and localized date/time formatting.
+
+- Supported languages: English (default) and Arabic (ar).
+- UI strings: All UI text is sourced from resources (R.string.*). Avoid hardcoded strings in Composables and ViewModels.
+- UiText abstraction: Use dev.gaddal.echojournal.core.presentation.ui.UiText to pass text from ViewModels to UI. It supports:
+  - DynamicString("...") for dynamic text
+  - StringResource(R.string.some_key, arrayOf(args...)) for localized resources
+- Mood localization: We persist a canonical mood code in data ("sad", "stressed", "neutral", "peaceful", "excited"). UI converts codes to the themed Mood model via toMoodOrDefault(), so display strings/icons are localized automatically.
+- Date/time formatting: Use TimestampExtensions:
+  - LocalDate.formatDisplay() => Today/Yesterday or date_format with placeholders
+  - Long.to24HourTimeString() and Long.to12HourTimeString() => localized patterns using time_24_hour_format and time_12_hour_format_(am|pm)
+  - Arabic strings adjust date placeholder order and AM/PM markers accordingly
+- Compose previews: Many components use @LocalesPreview to render both English and Arabic in previews. Apply it to new components to validate layouts in RTL/LTR.
+- RTL considerations: Compose handles layout direction automatically for Arabic. Ensure paddings/margins work in both directions; prefer start/end over left/right when applicable.
+
+Adding a new locale
+1. Create a resource folder: app/src/main/res/values-<lang> (e.g., values-es for Spanish).
+2. Copy keys from values/strings.xml and translate. Keep placeholder ordering appropriate for the language (e.g., date_format might reorder %1$d, %2$d, %3$d).
+3. If you introduce new strings in code, add them first to values/strings.xml and then provide translations.
+4. Avoid hardcoded text. In ViewModels, expose UiText and format on the UI side with asString().
+5. Verify previews using @LocalesPreview and run lint/tests.
+
+Useful commands (Windows)
+- Build: .\gradlew.bat :app:build
+- Lint: .\gradlew.bat :app:lintDebug
+- Unit tests (Debug): .\gradlew.bat :app:testDebugUnitTest
+- Run a specific test: .\gradlew.bat :app:testDebugUnitTest --tests dev.gaddal.echojournal.ExampleUnitTest.addition_isCorrect

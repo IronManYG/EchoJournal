@@ -76,4 +76,5 @@
     <string name="add_description_hint">Add Description…</string>
     <string name="save">Save</string>
     <string name="add_new_entry">Add new entry</string>
+    <string name="entry_details_template">Entry details %1$d</string>
 </resources>

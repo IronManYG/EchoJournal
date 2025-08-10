@@ -132,12 +132,13 @@ class EntryViewModel(
                 val audioLog = AudioLog(
                     id = -1,
                     title = _state.value.title.text.toString(),
+                    // Store canonical mood code (locale-independent) for robust localization
                     mood = when (_state.value.mood) {
-                        Mood.Sad -> "Sad"
-                        Mood.Stressed -> "Stressed"
-                        Mood.Neutral -> "Neutral"
-                        Mood.Peaceful -> "Peaceful"
-                        Mood.Excited -> "Excited"
+                        Mood.Sad -> "sad"
+                        Mood.Stressed -> "stressed"
+                        Mood.Neutral -> "neutral"
+                        Mood.Peaceful -> "peaceful"
+                        Mood.Excited -> "excited"
                         null -> "" // Handle null case
                     },
                     audioFilePath = filePath,
