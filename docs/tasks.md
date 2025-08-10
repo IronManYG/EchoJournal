@@ -71,7 +71,7 @@ Navigation
 
 UI/Compose & design system
 - [x] 22. Add accessibility checks: content descriptions for interactive elements, minimum touch targets, and color contrast validations in design components.
-- [ ] 23. Expand Compose previews for EntryCard, EntryList, and the recording bottom sheet across different states (empty, loading, recording, playing) to aid design reviews.
+- [x] 23. Expand Compose previews for EntryCard, EntryList, and the recording bottom sheet across different states (empty, loading, recording, playing) to aid design reviews.
 - [ ] 24. Introduce UI state placeholders for loading/empty/error in EntriesScreen and Entry screen; show appropriate UI instead of silently updating lists.
 - [ ] 25. Extract duplicate gradient/color usages into the design system if found; confirm dynamic theming readiness or plan for light/dark theme toggle.
 - [x] 26. Ensure no Compose code references Android framework classes in unit tests; factor such dependencies behind interfaces.

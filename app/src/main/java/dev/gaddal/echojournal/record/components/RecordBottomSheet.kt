@@ -278,3 +278,59 @@ fun RecordBottomSheetPreview() {
         )
     }
 }
+
+
+@LocalesPreview
+@Composable
+fun RecordBottomSheetRecordingPreview() {
+    EchoJournalTheme {
+        RecordBottomSheet(
+            showBottomSheet = true,
+            onDismiss = { },
+            onAction = { },
+            state = EntriesState(
+                hasRecordPermission = true,
+                isRecording = true,
+                isPaused = false,
+                elapsedTime = kotlin.time.Duration.ZERO
+            )
+        )
+    }
+}
+
+@LocalesPreview
+@Composable
+fun RecordBottomSheetPausedPreview() {
+    EchoJournalTheme {
+        RecordBottomSheet(
+            showBottomSheet = true,
+            onDismiss = { },
+            onAction = { },
+            state = EntriesState(
+                hasRecordPermission = true,
+                isRecording = false,
+                isPaused = true,
+                elapsedTime = kotlin.time.Duration.ZERO
+            )
+        )
+    }
+}
+
+@LocalesPreview
+@Composable
+fun RecordBottomSheetRationalePreview() {
+    EchoJournalTheme {
+        RecordBottomSheet(
+            showBottomSheet = false,
+            onDismiss = { },
+            onAction = { },
+            state = EntriesState(
+                hasRecordPermission = false,
+                showRecordRationale = true,
+                isRecording = false,
+                isPaused = false,
+                elapsedTime = kotlin.time.Duration.ZERO
+            )
+        )
+    }
+}

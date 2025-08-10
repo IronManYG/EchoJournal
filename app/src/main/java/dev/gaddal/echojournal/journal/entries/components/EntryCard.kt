@@ -211,3 +211,48 @@ fun EntryCardPreview() {
         )
     }
 }
+
+
+@LocalesPreview
+@Composable
+fun EntryCardPlayingPreview() {
+    EchoJournalTheme {
+        val pos = 15_000.milliseconds
+        val dur = 90_000.milliseconds
+        EntryCard(
+            audioLog = getLocalizedSampleLogs().first(),
+            topics = getLocalizedSampleTopics(),
+            isPlaying = true,
+            isPaused = false,
+            currentPosition = pos,
+            duration = dur,
+            onPlay = {},
+            onPause = {},
+            onResume = {},
+            onStop = {},
+            onSeek = {}
+        )
+    }
+}
+
+@LocalesPreview
+@Composable
+fun EntryCardPausedPreview() {
+    EchoJournalTheme {
+        val pos = 42_000.milliseconds
+        val dur = 120_000.milliseconds
+        EntryCard(
+            audioLog = getLocalizedSampleLogs().first(),
+            topics = getLocalizedSampleTopics(),
+            isPlaying = false,
+            isPaused = true,
+            currentPosition = pos,
+            duration = dur,
+            onPlay = {},
+            onPause = {},
+            onResume = {},
+            onStop = {},
+            onSeek = {}
+        )
+    }
+}

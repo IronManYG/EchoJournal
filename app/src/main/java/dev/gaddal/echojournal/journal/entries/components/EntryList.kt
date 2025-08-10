@@ -123,3 +123,68 @@ fun EntryListPreview() {
         )
     }
 }
+
+
+@LocalesPreview
+@Composable
+fun EntryListEmptyPreview() {
+    EchoJournalTheme {
+        EntryList(
+            entries = emptyList(),
+            nowPlayingLogId = null,
+            isPlaying = false,
+            isPaused = false,
+            currentPosition = Duration.ZERO,
+            duration = 0.milliseconds,
+            onPlay = {},
+            onPause = {},
+            onResume = {},
+            onStop = {},
+            onSeek = {}
+        )
+    }
+}
+
+@LocalesPreview
+@Composable
+fun EntryListPlayingPreview() {
+    EchoJournalTheme {
+        val entries = getLocalizedSampleLogsWithTopics()
+        val nowPlayingId = entries.firstOrNull()?.audioLog?.id
+        EntryList(
+            entries = entries,
+            nowPlayingLogId = nowPlayingId,
+            isPlaying = true,
+            isPaused = false,
+            currentPosition = 30_000.milliseconds,
+            duration = 120_000.milliseconds,
+            onPlay = {},
+            onPause = {},
+            onResume = {},
+            onStop = {},
+            onSeek = {}
+        )
+    }
+}
+
+@LocalesPreview
+@Composable
+fun EntryListPausedPreview() {
+    EchoJournalTheme {
+        val entries = getLocalizedSampleLogsWithTopics()
+        val nowPlayingId = entries.firstOrNull()?.audioLog?.id
+        EntryList(
+            entries = entries,
+            nowPlayingLogId = nowPlayingId,
+            isPlaying = false,
+            isPaused = true,
+            currentPosition = 45_000.milliseconds,
+            duration = 120_000.milliseconds,
+            onPlay = {},
+            onPause = {},
+            onResume = {},
+            onStop = {},
+            onSeek = {}
+        )
+    }
+}
