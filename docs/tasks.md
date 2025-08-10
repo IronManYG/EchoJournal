@@ -74,7 +74,7 @@ UI/Compose & design system
 - [ ] 23. Expand Compose previews for EntryCard, EntryList, and the recording bottom sheet across different states (empty, loading, recording, playing) to aid design reviews.
 - [ ] 24. Introduce UI state placeholders for loading/empty/error in EntriesScreen and Entry screen; show appropriate UI instead of silently updating lists.
 - [ ] 25. Extract duplicate gradient/color usages into the design system if found; confirm dynamic theming readiness or plan for light/dark theme toggle.
-- [ ] 26. Ensure no Compose code references Android framework classes in unit tests; factor such dependencies behind interfaces.
+- [x] 26. Ensure no Compose code references Android framework classes in unit tests; factor such dependencies behind interfaces.
 
 Audio recording/playback robustness
 - [x] 27. Specify and document the audio file naming strategy (avoid hard-coded "my_recording.mp4"); inject a FileNameProvider with timestamp/UUID.
